@@ -16,68 +16,76 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 
 <!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-	  <div class="container">
-		<div class="navbar-header">
-		  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-		</div>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+        </div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		  <ul class="nav navbar-nav">
-				  <li><a href="index.html">Home</a></li>
-				  <li><a href="#">Projects</a></li>
-				  <li><a href="#publications">Publications</a></li> 
-				  <li><a href="#">CV</a></li> 
-		  </ul>
-		</div>
-	  </div>
-	</nav>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="#about-me">About Me</a></li>
+                  <li><a href="#research">Research</a></li> 
+                  <li><a href="#projects">Projects</a></li>
+                  <li><a href="#">CV</a></li> 
+          </ul>
+        </div>
+      </div>
+    </nav>
   
   <!-- Page Content -->
-    <div class="container">
+    <div class="container" style="font-family: 'Montserrat', sans-serif;">
 
         <div class="row">
 
             <!-- Entries Column -->
             <div class="col-md-8" style="height: 200vh;">
+
+                <!-- Taken from https://www.dofactory.com/html/img/class
+                <style>
+                  .image {border:4px solid #1b6b6f; padding:15px;}
+                </style> -->
                 
                 <!-- Main Image -->
-                <!-- <img class="img-responsive" src="20200917_173532_4096_0131.jpg" alt="The big ol' Sun" width="800" height="500"><br> -->
-                <!-- <img class="img-responsive" src="surf-surfing.gif" alt="A surfing Pikachu" width="800" height="500"><br> -->
-                <img class="img-responsive" src="assets/brot_trip.jpg" alt="Mandelbrot set" width="800" height="500"><br>
+                <!-- <img class="img-responsive" src="assets/20200917_173532_4096_0131.jpg" alt="The big ol' Sun" width="800" height="500"><br> -->
+                <!-- <img class="img-responsive" src="assets/surf-surfing.gif" alt="A surfing Pikachu" width="800" height="500"><br> -->
+                <img class="img-responsive" src="assets/brot_trip.jpg" alt="Mandelbrot set" width="800" height="200"><br>
                 
-                <div style="margin-top:3%; text-align:justify;">                
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing <a href="#">elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					
-					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-					
-					<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                <h1 id="about-me">About Me</h1>
+                <div style="margin-top:3%; text-align:justify;">       
+                    <p>Lorem ipsum, num num num num...</p>
+
+                    <p>Hi there! I'm a dad, a graduate student in plasma physics, and ...</p>
+                    
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
                 </div>
 
-                <video width="320" height="240" controls>
-                  <source src="assets/FPC_this_one_dum.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video>
+                
             </div> 
 
             <!-- Contact Info on the Sidebar -->
-            <div class="col-md-4" style="font-family: 'Oswald', sans-serif;">
-                <div style="font-size: 32px">
+            <div class="col-md-4" >
+                <div style="font-family: 'Oswald', sans-serif; font-size: 42px">
                     <b>Greg Riggs</b>
                 </div><br>
                 <p><em>gariggs@mix.wvu.edu</em><br>
-                <p> <b> Department of Physics & Astronomy<br>
+                <p> <b> Dept. of Physics & Astronomy<br>
                     West Virginia University<br> 
                     <br>
                     <img class="img-responsive" src="assets/wvu.jpg" alt="School logo" width="100" height="100"><br>
@@ -96,20 +104,105 @@
               <dd><a href="#">LinkedIn</a></dd>
             </div>
             
-            
+        </div>
+         
+        <div class = "row">
+
             <!-- Publications -->
-            <div class="col-md-8" style="height: 100vh;">    
-                <h2 id="publications">Publications</h2>
+            <div class="col" style="height: 200vh;">    
+                <h1 id="research">Research</h1>
                 
-                <strong>Peer-reviewed</strong><br/>
+                <strong style="font-size: 20px">Peer-reviewed publications</strong><br/>
+
+                <ol reversed>
+                    <li line-height="" class="paper" words="Isoelectronic line ratios, 2022 (T. Lane)"><a href="https://www.sciencedirect.com/science/article/abs/pii/S1574181822000428">Establishing an isoelectronic line ratio temperature diagnostic for soft X-ray absorption spectroscopy</a> (2022)
+                    <br>T. Lane, M. Koepke, P. Kozlowski, <span style="color:red;"> G. Riggs</span>, T. Steinberger, I. Golovkin
+                    </li>
+                <!-- </ul> -->
+                <!-- <ul> -->
+                    <li class="paper" words="Bispectral analysis, 2021 (G. Riggs)"><a href="https://www.cambridge.org/core/journals/journal-of-plasma-physics/article/bispectral-analysis-of-broadband-turbulence-and-geodesic-acoustic-modes-in-the-t10-tokamak/74149BB41FD1636721ADCC69F7E2120C">Bispectral analysis of broadband turbulence and geodesic acoustic modes in the T-10 tokamak</a> (2021)
+                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami, M. Koepke, A. Melnikov, L. Eliseev, S. Lysenko, P. Khabanov, M. Drabinskij, N. Kharchev, A. Kozachek, M. Ufimtsev and HIBP Team 
+                    </li>
+                </ol>
+
+                <!-- <br> -->
+
+                <strong style="font-size: 20px">Conference presentations</strong><br/>
+                <ol reversed>
+
+                    <!-- <li class="poster" words="APS DPP 2020"><a href="...">...</a> (...)
+                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami,  
+                    </li> -->
+
+                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP22/Session/BP11.36">Preliminary identification and characterization of nonlinear wave-wave, wave-beam, and wave-particle interactions in beam-driven tokamak plasma</a> (DPP 2022)
+                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
+                    </li>
+
+                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP22/Session/NO07.12">TJ-II observations of nonlinear wave-wave coupling in play during Alfven-Eigenmode:Turbulence:Zonal-Flow interactions</a> (DPP 2022)
+                    <br> M. Koepke, F. Papoušek, M. Ochando, C. Hidalgo, B. van Milligen, <span style="color:red;"> G. Riggs</span>
+                    </li>
+
+                    <li class="poster" words="SSAP 2022"> Constraining magnitudes of nonzero temperature and density gradients using absorption spectra of radiatively heated target-foil plasma  (SSAP 2022)
+                    <br> <span style="color:red;"> G. Riggs</span>, T. Lane, P. Kozlowski, M. Koepke
+                    </li> 
+                    
+                    <li class="poster" words="APS DPP 202021"><a href="https://meetings.aps.org/Meeting/DPP21/Session/NP11.114">Constraining magnitudes of nonzero temperature and density gradients using absorption spectra of radiatively heated target-foil plasma</a> (DPP 2021)
+                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, T. Lane, P. Kozlowski 
+                    </li>
+
+                    <li class="poster" words="SSAP 2021"> Spectroscopic method to obtain n, T applied to soft x-ray absorption spectra in radiatively heated Z-pinch plasmas  (Stewardship Science Academic Programs Symposium [SSAP] 2021)
+                    <br> <span style="color:red;"> G. Riggs</span>, T. Lane, P. Kozlowski, M. Koepke
+                    </li>                    
+
+                    <li class="poster" words="APS DPP 2019"><a href="https://meetings.aps.org/Meeting/DPP19/Session/NO4.7">Bispectral analysis of broadband and quasi-coherent oscillations (geodesic-acoustic modes) to interpret wave-wave interactions in the T-10 Tokamak</a> (DPP 2019)
+                    <br> M. Koepke, S. Nogami,<span style="color:red;"> G. Riggs</span>, A. Melnikov, L. Eliseev, S. Lysenko, P. Khabanov, M. Drabinskij, N. Kharchev, A. Kozachek, M. Ufimtsev
+                    </li>
+
+                    <li class="poster" words="APS DPP 2018"><a href="https://meetings.aps.org/Meeting/DPP18/Session/TP11.60">Interpretation of bi-coherence in space and lab plasma-wave dynamics</a> (DPP 2018)
+                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami, M. Koepke, N. Crocker, G. Howes, S. Savin, V. Budaev, L. Zelenyi
+                    </li>
+
+                    <li class="poster" words="APS DPP 2018"><a href="https://meetings.aps.org/Meeting/DPP18/Session/JM10.7">Alfvén Eigenmode (AE) interactions in Tokamaks: DIII-D Frontier Science Experiments connecting the physics of nonlinear waves and processes in space plasmas</a> (APS Division of Plasma Physics Conference [DPP] 2018)
+                    <br> M. Koepke, S. Nogami, <span style="color:red;"> G. Riggs</span>, G. Howes, N. Crocker, T. Carter, W. Heidbrink, M. Van Zeeland 
+                    </li>
+                </ol>
+
+                <!-- <br> -->
+
+                <strong style="font-size: 20px">Master's Thesis</strong><br/>
                 <ul>
-                <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a> Names of the authors</li>
+                <li class="paper" words="add, your, keywords, here"><a href="https://researchrepository.wvu.edu/etd/7655/">Interpretations of Bicoherence in Space & Lab Plasma Dynamics</a> (2020) </li>
                 </ul>
-            
-                <strong>Technical Reports</strong><br/>
+
+                <!-- <br> -->
+
+                <strong style="font-size: 20px">Technical Reports</strong><br/>
                 <ul>
                 <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a>. Details of the report</li>
                 </ul>
+
+
+            </div>
+
+
+            <!-- Projects -->
+            <div class="col" style="height: 100vh;">    
+                <h1 id="projects">Projects</h1>
+                
+                Peer-reviewed<br/>
+                <ul>
+                    <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a> Names of the authors</li>
+                </ul>
+            
+                Technical Reports<br/>
+                <ul>
+                    <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a>. Details of the report</li>
+                </ul>
+
+                <video width="320" height="240" controls>
+                  <source src="assets/FPC_this_one_dum.mp4" type="video/mp4">
+                </video>
+
             </div>
 
             
