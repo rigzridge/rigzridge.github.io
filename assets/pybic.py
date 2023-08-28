@@ -1686,6 +1686,7 @@ def TestSignal(whatsig):
         # get n freqs
 
         # 
+        print('Not an option yet!!!')
 
     elif dum == 'line':
         inData,t,_ = SignalGen(fS,tend,fx=f1,Ay=1,fy=f2,Afy=10,Az=1,Ff=1/20)
@@ -1822,7 +1823,7 @@ def ApplySTFT(sig,samprate=1,subint=512,step=256,nfreq=256,t0=0,detrend=False,er
     return spec,afft,freq_vec,time_vec,err,Ntoss
 
 
-def ApplyCWT(sig,samprate=1,sigma,limFreq=2,alphExp=0):
+def ApplyCWT(sig,samprate,sigma,limFreq=2,alphExp=0):
 # ------------------
 # Wavelet static method
 # ------------------
