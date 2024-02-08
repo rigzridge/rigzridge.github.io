@@ -150,17 +150,31 @@
             <!-- PUBLICATIONS -->
             <div class="col" style="height: 250vh;">    
                 <h1 id="research">Research</h1>
+
+                <!-- TALKS -->
+                <strong style="font-size: 20px">Talks</strong><br/>
+                <ol reversed>
+                    <li line-height="" class="talk" words="Invited PPPL, 2023 (G. Riggs)"><a href="https://theory.pppl.gov/news/seminars.php?scid=11&n=ep-seminars">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak </a> 
+                        [<a href="https://mediacentral.princeton.edu/id/1_wm9xyn5s">video</a>]
+                        [<a href="https://theory.pppl.gov/news/seminars/GRiggs_PPPL_EPSeminar.pdf">slides</a>]
+                    <br> <em> Princeton Plasma Physics Laboratory Energetic Particle Seminars (Nov. 29, 2023) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai 
+
+                    </li>
+
+                </ol>
                 
+                <!-- PAPERS -->
                 <strong style="font-size: 20px">Peer-reviewed publications</strong><br/>
 
                 <ol reversed>
-                    <li line-height="" class="paper" words="Bicoherence analysis software, 2023 (G. Riggs)"><a href="#">BicAn: An integrated, open-source framework for polyspectral analysis </a>
-                    <br> <em> Computing in Science and Engineering (2023) [in preparation] </em>
+                    <li line-height="" class="paper" words="Bicoherence analysis software, 2024 (G. Riggs)"><a href="#">BicAn: An integrated, open-source framework for polyspectral analysis </a>
+                    <br> <em> Computing in Science and Engineering (2024) [in preparation] </em>
                     <br><span style="color:red;"> G. Riggs</span>, M. Koepke 
                     </li>
 
-                    <li line-height="" class="paper" words="Time-resolved coupling, 2023 (G. Riggs)"><a href="#">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak (invited) </a>
-                    <br> <em> Physics of Plasmas (2023) [in preparation] </em>
+                    <li line-height="" class="paper" words="Time-resolved coupling, 2024 (G. Riggs)"><a href="#">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled Alfven eigenmodes on the DIII-D tokamak (invited) </a>
+                    <br> <em> Physics of Plasmas (2024) [submitted] </em>
                     <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
                     </li>
 
@@ -193,7 +207,7 @@
                     <br> <span style="color:red;"> G. Riggs</span>, S. Nogami,  
                     </li> -->
                     
-                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP23/Session/PP11.72">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
+                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP23/Session/PP11.73">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
                     <br> <em> 65th Annual Meeting of the APS Division of Plasma Physics (2023) </em>
                     <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
                     </li>
@@ -406,13 +420,62 @@
                     <li>Robot</li>
                 </ul> -->
 
-                <!-- EMBED YOUTUBE VIDEO!!! -->
+                <!-- EMBED YOUTUBE VIDEO!!! Ganked from Greg Howes' website -->
                 <!-- <iframe width="560" height="315"
                   src="https://www.youtube.com/embed/BhbIxL3pm7M"
                   title="YouTube video player" frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write;
                   encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe> -->
+
+                <strong style="font-size: 20px">Music</strong><br/>
+                <ul>
+                    <li>
+                        <!-- <a href="https://soundcloud.com/chillosophic"> Soundcloud </a> -->
+                        Soundcloud
+                    </li>
+                    <li>Monophonic MIDIs</li>
+                    <!-- Ganked from https://cifkao.github.io/html-midi-player/ -->
+
+                    <!-- This player uses standard MIDI look -->
+                    <br/>
+                    Grace -- Lamb of God
+                    <br/>
+                    <midi-player
+                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid"
+                      sound-font visualizer="#myPianoRollVisualizer">
+                    </midi-player>
+
+                    <midi-visualizer type="piano-roll" id="myPianoRollVisualizer" 
+                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid">
+                    </midi-visualizer>
+
+                    <!-- This player uses staff look -->
+                    <!-- <br/>
+                    Grace -- Lamb of God
+                    <br/>
+                    <midi-player
+                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid"
+                      sound-font visualizer="#myStaffVisualizer">
+                    </midi-player>
+
+                    <midi-visualizer type="staff" id="myStaffVisualizer" 
+                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid">
+                    </midi-visualizer> -->
+                </ul>
+            
+
+                <!-- <midi-player
+                  src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid"
+                  sound-font visualizer="#myStaffVisualizer">
+                </midi-player>
+
+                <midi-visualizer type="staff" id="myStaffVisualizer" 
+                  src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid">
+                </midi-visualizer> -->
+
+                <!-- Also need this script too! -->
+                <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
 
             </div>
 
