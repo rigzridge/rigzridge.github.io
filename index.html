@@ -18,6 +18,14 @@
   <link href='https://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Below from https://katex.org/docs/browser -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.css" integrity="sha384-7lU0muIg/i1plk7MgygDUp3/bNRA65orrBub4/OSWHECgwEsY83HaS1x3bljA/XV" crossorigin="anonymous">
+  <!-- The loading of KaTeX is deferred to speed up page rendering -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.js" integrity="sha384-RdymN7NRJ+XoyeRY4185zXaxq9QWOOx3O7beyyrRK4KQZrPlCDQQpCu95FoCGPAE" crossorigin="anonymous"></script>
+  <!-- To automatically render math in text elements, include the auto-render extension: -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
 </head>
 <body>
 
@@ -41,8 +49,9 @@
                   <li><a href="#about-me">About Me</a></li>
                   <li><a href="#research">Research</a></li> 
                   <li><a href="#projects">Projects</a></li>
-<!--                   <li><a href="assets/GRiggs_CV_Apr26_2024.pdf" target="_blank">CV</a></li>  -->
-                  <li><a href="assets/GRiggs_CV_PhD.pdf" target="_blank">CV</a></li> 
+                  <!-- <li><a href="assets/GRiggs_CV_13Apr_2024.pdf" target="_blank">CV</a></li>  -->
+                  <!-- <li><a href="assets/GRiggs_CV_PhD.pdf" target="_blank">CV</a></li>  -->
+                  <li><a href="assets/GRiggs_CV_postdoc.pdf" target="_blank">CV</a></li> 
           </ul>
         </div>
       </div>
@@ -54,7 +63,7 @@
         <div class="row">
 
             <!-- Entries Column -->
-            <div class="col-md-8" style="height: 200vh;">
+            <div class="col-md-8" style="height: 250vh;">
 
                 <!-- Taken from https://www.dofactory.com/html/img/class
                 <style>
@@ -66,37 +75,99 @@
                 <!-- <img class="img-responsive" src="assets/surf-surfing.gif" alt="A surfing Pikachu" width="800" height="500"><br> -->
                 <img class="img-responsive" src="assets/brot_trip.jpg" alt="Mandelbrot set" width="800" height="200"><br>
                 <div><p>Everybody likes the <a href="https://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbrot set</a>, right?*</p></div>
+
+                <script>
+                    // Finally found help @ https://stackoverflow.com/questions/53032574/how-to-enable-katex-in-html
+                    $(document).ready(function () { // this need jquery
+                      renderMathInElement(document.body, {
+                        // ...options...
+                        thrownOnError: false
+                        delimiters: [
+                          { left: "$$", right: "$$", display: true },
+                          { left: "$", right: "$", display: false },
+                          { left: "\\[", right: "\\]", display: true }
+                        ]
+                      });
+                    });
+                </script>
+                
                 
                 <h1 id="about-me">About Me</h1>
                 <div style="margin-top:3%; text-align:justify;">       
                     <p>
-                        Hi there! I'm a dad, a graduate student in plasma physics, and generally a fan of learning something new! If you're reading this, I'm probably somewhere between chasing around a toddler and writing my dissertation, so it's likely the website is still lacking that "polished" feel.
+                        Hi there! I'm a dad, a postdoctoral researcher in plasma physics, and generally a fan of learning something new! If you're reading this, I'm probably somewhere between chasing around a toddler and writing a paper, so it's likely the website is still lacking that "polished" feel.
                     </p>
 
                     <p>
                         <!-- My research interests include nonlinear wave-wave and wave-particle interactions, higher-order spectral analysis, and fusion science. -->
-                        Broadly speaking, my work investigates energy transfer in <a href="https://en.wikipedia.org/wiki/Magnetic_confinement_fusion">toroidally-confined plasmas</a>. More explicitly, my research characterizes nonlinear interactions between magnetic field instabilities and populations of energetic ions in <a href="https://en.wikipedia.org/wiki/Tokamak">tokamaks</a> and/or <a href="https://en.wikipedia.org/wiki/Stellarator">stellarators</a>. 
+                        Broadly speaking, my work investigates energy transfer in plasmas. 
+                    </p>
+
+                    <p>
+                        For my dissertation, my research focused on <a href="https://en.wikipedia.org/wiki/Magnetic_confinement_fusion">toroidally-confined plasmas</a>. More explicitly, I characterized nonlinear interactions between magnetic field instabilities and populations of energetic ions in <a href="https://en.wikipedia.org/wiki/Tokamak">tokamaks</a> and/or <a href="https://en.wikipedia.org/wiki/Stellarator">stellarators</a>. 
                         <!-- My background is physics, mathematics, and signal processing, but not in that order. -->
 
-                        Recently, I have applied wavelet-based bispectral analysis to document wave-wave coupling on sub-millisecond time scales, which may enhance active feedback controls of potentially catastrophic disruptions in <a href="https://en.wikipedia.org/wiki/ITER">forthcoming fusion reactors</a>.
+                        Notably, I used wavelet-based bispectral analysis to document wave-wave coupling on sub-millisecond time scales, which could enhance active feedback controls of potentially catastrophic disruptions in <a href="https://en.wikipedia.org/wiki/ITER">forthcoming fusion reactors</a>.
                     </p>
 
                     <p>
                         <!-- In the past, I have  -->
                         <!-- In addition to these interests, my hobbies include  -->
+                        Nowadays, I'm poring over mountains of spacecraft data from <a href="https://en.wikipedia.org/wiki/THEMIS">THEMIS</a> and <a href="https://en.wikipedia.org/wiki/Arase_(satellite)">Arase</a> to assess the latitudinal dependence of ultra-low frequency (ULF) wave power in the <a href="https://en.wikipedia.org/wiki/Van_Allen_radiation_belt">outer radiation belt</a>. 
+                        This is important because ULF waves are crucial drivers of radial diffusion in energetic electron populations, but most investigations consider only particles with nearly-perpendicular pitch angles (i.e., "trapped" at the magnetic equator).
                     </p>
 
                     <p></p>
                     
                     <p>With any luck, I'll be able to post/link/upload enough of my work so that this can function as a back-up of sorts... How does it seem like I'm doing?</p>
 
-                    <strong style="font-size: 20px">Latest</strong><br/>
-                    <p>Last year, I attended the <a href="http://www.sherwoodtheory.org/sw2023/index.php">Sherwood Fusion Theory Conference</a> in Knoxville, TN, and the <a href="https://engage.aps.org/dpp/meetings/annual-meeting">APS Division of Plasma Physics Conference</a> in Denver, CO.
+                    <strong style="font-size: 20px">Highlights</strong><br/>
+                    <br>
+                    <p>2023: I attended the <a href="http://www.sherwoodtheory.org/sw2023/index.php">Sherwood Fusion Theory Conference</a> in Knoxville, TN, and the <a href="https://engage.aps.org/dpp/meetings/annual-meeting">APS Division of Plasma Physics Conference</a> in Denver, CO.
+
                     <br>
                     <br>
 
                     <!-- Our soon-to-be published <a href="https://doi.org/10.1063/5.0195036">article</a> in <em>Physics of Plasmas</em> was chosen as an Editor's Pick! -->
-                    Check out our <a href="https://doi.org/10.1063/5.0195036">Featured Article</a> in <em>Physics of Plasmas</em>!
+                    2024: We received a <a href="https://doi.org/10.1063/5.0195036">Featured Article</a> in <em>Physics of Plasmas</em> and I successfully defended my dissertation!
+
+                    <br>
+                    <br>
+
+                    2025: I talked at the ITPA Energetic Particle Topical Group meeting in Seville, Spain, and attended the <a href="https://gemworkshop.org/">GEM/CEDAR Workshop</a> in Des Moines, IA. Also, the power series for an infinite exponential is
+
+
+                    <br>
+<!--                     $$
+                    \mathcal{G}_{0j} = f_j
+                    $$
+
+                    $$
+                    \mathcal{G}_{i+1,j+1}
+                    =
+                    \frac{1}{i+1}
+                    \sum_{k=1}^{j+1}
+                    \sum_{m=0}^{j-k+1}
+                    \sum_{n=0}^{i-m+1}
+                    ({n+m})
+                    g_{k}
+                    \mathcal{G}_{n,m}
+                     \mathcal{G}_{i-m-n+1,j-k-m+1}  
+                    $$ -->
+
+                    $$
+                    \Lambda(\alpha,z) \equiv
+                    \text{\huge{$\Omega$}}_{k=0}^\infty e^{\alpha^k z}
+                    =
+                    e^{z e^{\alpha z e^{\alpha^2 z e^{{.^{.^.}}}}} } = \sum_{i=0}^\infty L_i(\alpha) z^i,
+                    $$
+
+                    $$
+                    L_{i+1}(\alpha)
+                    =
+                    \frac{1}{i+1}\sum_{n=0}^{i} (n+1) \alpha^n L_{n}(\alpha) L_{i-n}(\alpha)
+                    $$
+
 
                     </p>
                 </div>
@@ -114,7 +185,8 @@
                     <p><em><a href="mailto:gariggs@mix.wvu.edu">gariggs@mix.wvu.edu</a>  </em><br>
                 </div>
                 <div >
-                    <img class="img-responsive" src="assets/dpp_2021_poster_pic.jpg" alt="School logo" width="190" height="100"><br>
+                    <!-- <img class="img-responsive" src="assets/dpp_2021_poster_pic.jpg" alt="School logo" width="190" height="100"><br> -->
+                    <img class="img-responsive" src="assets/itpa_talk.JPG" alt="Talk pic" width="190" height="100"><br>
                 </div>
                 <p> <b> Dept. of Physics & Astronomy<br>
                     West Virginia University<br> 
@@ -150,19 +222,42 @@
         <div class = "col">
 
             <!-- PUBLICATIONS -->
-            <div class="col" style="height: 250vh;">    
+            <div class="col" style="height: 350vh;">    
                 <h1 id="research">Research</h1>
 
                 <!-- TALKS -->
                 <strong style="font-size: 20px">Talks</strong><br/>
                 <ol reversed>
+
+                    <li line-height="" class="talk" words="GEM/CEDAR (G. Riggs)">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion
+                    <br> <em> GEM/CEDAR Workshop (Jun. 25, 2025) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris
+
+                    </li>
+                    
+                    <li line-height="" class="talk" words="ITPA EP group, 2025 (G. Riggs)">Instantaneous difference-frequency locking observed in coupled eigenmodes on the DIII-D tokamak
+                    <br> <em> ITPA EP Topical Group Meeting (Mar. 21, 2024) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai
+
+                    </li>
+
+                    <li line-height="" class="talk" words="ITPA EP group, 2024 (G. Riggs)">Time-resolved bispectral signatures of TAE mode-mode coupling observed in the DIII-D tokamak
+                    <br> <em> ITPA EP Topical Group Meeting (Oct. 2, 2024) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai
+
+                    </li>
+
+                    <li line-height="" class="talk" words="KINETIC Workshop, 2024 (G. Riggs)">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak
+                    <br> <em> KINETIC Center Workshop (Aug. 22, 2024) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai 
+
+                    </li>
+
                     <li line-height="" class="talk" words="Invited PPPL, 2023 (G. Riggs)"><a href="https://theory.pppl.gov/news/seminars.php?scid=11&n=ep-seminars">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak </a> 
                         [<a href="https://mediacentral.princeton.edu/id/1_wm9xyn5s">video</a>]
                         [<a href="https://theory.pppl.gov/news/seminars/GRiggs_PPPL_EPSeminar.pdf">slides</a>]
                     <br> <em> Princeton Plasma Physics Laboratory Energetic Particle Seminars (Nov. 29, 2023) </em>
                     <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai 
-
-                    </li>
 
                     </li>
 
@@ -173,16 +268,41 @@
                     </li>
 
                 </ol>
+
+                <!-- PAPERS -->
+                <strong style="font-size: 20px">Manuscripts submitted/in preparation</strong><br/>
+                <ol reversed>
+                    <li line-height="" class="paper" words="ULF wave power (G. Riggs)">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion
+                    <br> In preparation for submission to <em> Journal of Geophysical Research: Space Physics </em>
+                    <br><span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris 
+                    </li>
+
+                    <li line-height="" class="paper" words="Frequency locking (G. Riggs)">Instantaneous difference-frequency locking observed in coupled eigenmodes on the DIII-D tokamak 
+                    <br> In preparation for submission to <em> Physical Review Letters </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
+                    </li>
+
+                    <li line-height="" class="paper" words="ion cyclotron instabilities (W. Heidbrink)">Dependence of ion-cyclotron range of frequencies instabilities on species mix and fast-ion distribution (Part 2: Time evolution) 
+                    <br> Submitted to <em> Nuclear Fusion </em>
+                    <br>W. Heidbrink, G. DeGrandchamp, J. Lestz, K. Thome, S. Vincena, N. Crocker, X. Du, R. Pinsker, <span style="color:red;"> G. Riggs</span>, S. Tang, M. Van Zeeland
+                    </li>
+
+                    <li line-height="" class="paper" words="power series of infinite exponential (G. Riggs)">Formal power series expansion for infinite exponential of analytic function 
+                    <br> Submitted to <em> The American Mathematical Monthly (2025) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, T. Matheny 
+                    </li>
+
+                    <li line-height="" class="paper" words="Bicoherence analysis software, 2025 (G. Riggs)">BicAn: An integrated, open-source framework for polyspectral analysis
+                    <!-- <br> <em> Computing in Science and Engineering (2024) </em> -->
+                    <br> Submitted to <em> Computer Physics Communications (2025) </em>
+                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, T. Matheny 
+                    </li>
+                </ol>
                 
                 <!-- PAPERS -->
                 <strong style="font-size: 20px">Peer-reviewed publications</strong><br/>
 
                 <ol reversed>
-                    <li line-height="" class="paper" words="Bicoherence analysis software, 2024 (G. Riggs)"><a href="#">BicAn: An integrated, open-source framework for polyspectral analysis </a>
-                    <br> <em> Computing in Science and Engineering (2024) [in preparation] </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke 
-                    </li>
-
                     <li line-height="" class="paper" words="Time-resolved coupling, 2024 (G. Riggs)"><a href="https://doi.org/10.1063/5.0195036">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled Alfven eigenmodes on the DIII-D tokamak </a>
                     <br> <em> Physics of Plasmas (2024) </em> 
                     <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
@@ -216,8 +336,13 @@
                     <!-- <li class="poster" words="APS DPP 2020"><a href="...">...</a> (...)
                     <br> <span style="color:red;"> G. Riggs</span>, S. Nogami,  
                     </li> -->
+
+                    <li class="poster" words="APS DPP 2023"><a href="#">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion</a> 
+                    <br> <em> GEM/CEDAR Workshop (June 2025) </em>
+                    <br> <span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris 
+                    </li>
                     
-                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP23/Session/PP11.73">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
+                    <li class="poster" words="APS DPP 2023"><a href="https://meetings.aps.org/Meeting/DPP23/Session/PP11.73">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
                     <br> <em> 65th Annual Meeting of the APS Division of Plasma Physics (2023) </em>
                     <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
                     </li>
@@ -298,7 +423,7 @@
                 <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a>. Details of the report</li>
                 </ul> -->
                 <ul>
-                    Research Trust Fund Seehra Research Award (April 2021)**<br/>
+                    Research Trust Fund Seehra Research Award (April 2021 & April 2024)**<br/>
                     <!-- WVU Department of Physics & Astronomy<br/>
                     Apr 2021<br/> -->
                     <!-- Dr. Mohindar S. Seehra Research Award (April 2023)<br/> -->
@@ -313,7 +438,7 @@
 
 
             <!-- Projects -->
-            <div class="col" style="height: 500vh;">    
+            <div class="col" style="height: 400vh;">    
                 <h1 id="projects">Projects</h1>
 
                 <strong style="font-size: 20px">Bispectral analysis</strong><br/>
@@ -441,6 +566,8 @@
                   encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe> -->
 
+                <!-- <iframe src="https://www.desmos.com/calculator/0arssi0x7g?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe> -->
+
                 <strong style="font-size: 20px">Music</strong><br/>
                 <ul>
                     <li>
@@ -511,9 +638,194 @@
     <a style="color:#b5bec9;font-size:0.8em; float:right;" href="https://github.com/mavroudisv/plain-academic">Plain Academic</a> 
 
     <!-- <div id="footer">
-        <p id="legal">Copyright &copy; 2023 All Rights Reserved | Designed by Greg Riggs</p>
+        <p id="legal">Copyright &copy; 2024 All Rights Reserved | Designed by Greg Riggs and...</p>
     </div> -->
     
+
+
+    <!-- Online calculat template! -->
+    <!-- <head>  -->
+    <!-- <title>JavaScript Calculator</title>  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
+        integrity="sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">        
+    </script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
+        integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+    </script> 
+    
+    <!-- For styling -->
+    <style> 
+        table { 
+            border: 1px solid black; 
+            margin-left: auto; 
+            margin-right: auto; 
+        } 
+
+        input[type="button"] { 
+            width: 100%; 
+            padding: 20px 40px; 
+            background-color: green; 
+            color: white; 
+            font-size: 24px; 
+            font-weight: bold; 
+            border: none; 
+            border-radius: 5px; 
+        } 
+
+        input[type="text"] { 
+            padding: 20px 30px; 
+            font-size: 24px; 
+            font-weight: bold; 
+            border: none; 
+            border-radius: 5px; 
+            border: 2px solid black; 
+        } 
+    </style> 
+<!-- </head>  -->
+    
+<!-- <body>  -->
+    
+    <!-- Use Table to Create Calculator Structure Design -->
+    <table id="calcu"> 
+        <tr> 
+            <td colspan="3"><input type="text" id="result"></td> 
+            <td><input type="button" value="c" onclick="clr()" /> </td> 
+        </tr> 
+        <tr> 
+            <td><input type="button" value="1" onclick="dis('1')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="2" onclick="dis('2')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="3" onclick="dis('3')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="/" onclick="dis('/')"
+                        onkeydown="myFunction(event)"> </td> 
+        </tr> 
+        <tr> 
+            <td><input type="button" value="4" onclick="dis('4')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="5" onclick="dis('5')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="6" onclick="dis('6')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="*" onclick="dis('*')"
+                        onkeydown="myFunction(event)"> </td> 
+        </tr> 
+        <tr> 
+            <td><input type="button" value="7" onclick="dis('7')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="8" onclick="dis('8')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="9" onclick="dis('9')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="-" onclick="dis('-')"
+                        onkeydown="myFunction(event)"> </td> 
+        </tr> 
+        <tr> 
+            <td><input type="button" value="0" onclick="dis('0')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="." onclick="dis('.')"
+                        onkeydown="myFunction(event)"> </td> 
+            
+            <!-- solve function call function solve to evaluate value -->
+            <td><input type="button" value="=" onclick="solve()"> </td> 
+
+            <td><input type="button" value="+" onclick="dis('+')"
+                        onkeydown="myFunction(event)"> </td> 
+        </tr> 
+    </table> 
+
+    <script> 
+        
+        // Function that display value 
+        function dis(val) { 
+            document.getElementById("result").value += val 
+        } 
+
+        // Function that display value 
+        function addMatrixVal(val) { 
+            document.getElementById("A11").value = val 
+        } 
+
+        function myFunction(event) { 
+            if (event.key == '0' || event.key == '1' 
+                || event.key == '2' || event.key == '3' 
+                || event.key == '4' || event.key == '5' 
+                || event.key == '6' || event.key == '7' 
+                || event.key == '8' || event.key == '9' 
+                || event.key == '+' || event.key == '-' 
+                || event.key == '*' || event.key == '/') 
+                document.getElementById("result").value += event.key; 
+        } 
+
+        var cal = document.getElementById("calcu"); 
+        cal.onkeyup = function (event) { 
+            if (event.keyCode === 13) { 
+                console.log("Enter"); 
+                let x = document.getElementById("result").value 
+                console.log(x); 
+                solve(); 
+            } 
+        } 
+
+        // Function that evaluates the digit and return result 
+        function solve() { 
+            let x = document.getElementById("result").value 
+            let y = math.evaluate(x) 
+            document.getElementById("result").value = y 
+        } 
+
+        // Function that clears the display 
+        function clr() { 
+            document.getElementById("result").value = "" 
+        } 
+    </script> 
+<!-- </body>  -->
+
+    <!-- Use Table to Create Calculator Structure Design -->
+<!--     <table id="calcu"> 
+        <tr> 
+            <td colspan="7"><input type="text" id="sprite"></td> 
+            <td><input type="button" value="c" onclick="clr()" /> </td> 
+        </tr> 
+        <tr> 
+            <td><input type="button" id="A00" value="A00" onclick="addMatrixValue('1')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('2')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('3')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('/')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('2')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('3')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value=" " onclick="dis('/')"
+                        onkeydown="myFunction(event)"> </td> 
+        <tr> 
+            <td><input type="button" value="1" onclick="dis('1')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="2" onclick="dis('2')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="3" onclick="dis('3')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="/" onclick="dis('/')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="2" onclick="dis('2')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="3" onclick="dis('3')"
+                        onkeydown="myFunction(event)"> </td> 
+            <td><input type="button" value="/" onclick="dis('/')"
+                        onkeydown="myFunction(event)"> </td> 
+        </tr> 
+    </table>  -->
+
+
 </body>
 
 </html>
