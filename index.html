@@ -625,6 +625,159 @@
 
             </div>
 
+            <!-- <div ></div> -->
+            <div id="derp" class="col"> 
+                <h1 id="output" style="text-align: center;">[Canvas sprite creator]</h1>
+            </div>
+
+               <!-- Online calculat template! -->
+                <!-- <head>  -->
+                <!-- <title>JavaScript Calculator</title>  -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
+                    integrity="sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
+                    crossorigin="anonymous"
+                    referrerpolicy="no-referrer">        
+                </script> 
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
+                    integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
+                    crossorigin="anonymous"
+                    referrerpolicy="no-referrer">
+                </script> 
+                
+                <!-- For styling -->
+                <style> 
+                    table { 
+                        border: 2px solid black; 
+                        margin-left: auto; 
+                        margin-right: auto; 
+                    } 
+
+                    input[type="button"] { 
+                        width: 100%; 
+                        padding: 20px 40px; 
+                        background-color: #F54927; 
+                        /*background-color: green; */
+                        color: white; 
+                        font-size: 24px; 
+                        font-weight: bold; 
+                        border: 1px solid black; 
+                        border-radius: 1px; 
+                    } 
+
+                    input[type="text"] { 
+                        padding: 20px 30px; 
+                        font-size: 24px; 
+                        font-weight: bold; 
+                        border: 1px solid black;
+                        border-radius: 1px; 
+                        border: 1px solid black; 
+                    } 
+                </style> 
+                
+                <!-- Use Table to Create Calculator Structure Design -->
+                <table id="calcu"> 
+<!--                     <tr> 
+                        <td colspan="7"><input type="text" id="result"></td> 
+                        <td colspav="2"><input type="button" value="Calculate!" onclick="clr()" /> </td> 
+                    </tr>  -->
+                    <tr> 
+                        <td><input type="button" id="M00" value="0" onclick="toggleColor('M00')"> </td> 
+                        <td><input type="button" id="M01" value="0" onclick="toggleColor('M01')"> </td> 
+                        <td><input type="button" id="M02" value="0" onclick="toggleColor('M02')"> </td> 
+                        <td><input type="button" id="M03" value="0" onclick="toggleColor('M03')"> </td> 
+                        <td><input type="button" id="M04" value="0" onclick="toggleColor('M04')"> </td> 
+                        <td><input type="button" id="M05" value="0" onclick="toggleColor('M05')"> </td> 
+                        <td><input type="button" id="M06" value="0" onclick="toggleColor('M06')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M10" value="0" onclick="toggleColor('M10')"> </td> 
+                        <td><input type="button" id="M11" value="0" onclick="toggleColor('M11')"> </td> 
+                        <td><input type="button" id="M12" value="0" onclick="toggleColor('M12')"> </td> 
+                        <td><input type="button" id="M13" value="0" onclick="toggleColor('M13')"> </td> 
+                        <td><input type="button" id="M14" value="0" onclick="toggleColor('M14')"> </td> 
+                        <td><input type="button" id="M15" value="0" onclick="toggleColor('M15')"> </td> 
+                        <td><input type="button" id="M16" value="0" onclick="toggleColor('M16')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M20" value="0" onclick="toggleColor('M20')"> </td> 
+                        <td><input type="button" id="M21" value="0" onclick="toggleColor('M21')"> </td> 
+                        <td><input type="button" id="M22" value="0" onclick="toggleColor('M22')"> </td> 
+                        <td><input type="button" id="M23" value="0" onclick="toggleColor('M23')"> </td> 
+                        <td><input type="button" id="M24" value="0" onclick="toggleColor('M24')"> </td> 
+                        <td><input type="button" id="M25" value="0" onclick="toggleColor('M25')"> </td> 
+                        <td><input type="button" id="M26" value="0" onclick="toggleColor('M26')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M30" value="0" onclick="toggleColor('M30')"> </td> 
+                        <td><input type="button" id="M31" value="0" onclick="toggleColor('M31')"> </td> 
+                        <td><input type="button" id="M32" value="0" onclick="toggleColor('M32')"> </td> 
+                        <td><input type="button" id="M33" value="0" onclick="toggleColor('M33')"> </td> 
+                        <td><input type="button" id="M34" value="0" onclick="toggleColor('M34')"> </td> 
+                        <td><input type="button" id="M35" value="0" onclick="toggleColor('M35')"> </td> 
+                        <td><input type="button" id="M36" value="0" onclick="toggleColor('M36')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M40" value="0" onclick="toggleColor('M40')"> </td> 
+                        <td><input type="button" id="M41" value="0" onclick="toggleColor('M41')"> </td> 
+                        <td><input type="button" id="M42" value="0" onclick="toggleColor('M42')"> </td> 
+                        <td><input type="button" id="M43" value="0" onclick="toggleColor('M43')"> </td> 
+                        <td><input type="button" id="M44" value="0" onclick="toggleColor('M44')"> </td> 
+                        <td><input type="button" id="M45" value="0" onclick="toggleColor('M45')"> </td> 
+                        <td><input type="button" id="M46" value="0" onclick="toggleColor('M46')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M50" value="0" onclick="toggleColor('M50')"> </td> 
+                        <td><input type="button" id="M51" value="0" onclick="toggleColor('M51')"> </td> 
+                        <td><input type="button" id="M52" value="0" onclick="toggleColor('M52')"> </td> 
+                        <td><input type="button" id="M53" value="0" onclick="toggleColor('M53')"> </td> 
+                        <td><input type="button" id="M54" value="0" onclick="toggleColor('M54')"> </td> 
+                        <td><input type="button" id="M55" value="0" onclick="toggleColor('M55')"> </td> 
+                        <td><input type="button" id="M56" value="0" onclick="toggleColor('M56')"> </td> 
+                    </tr> 
+                    <tr> 
+                        <td><input type="button" id="M60" value="0" onclick="toggleColor('M60')"> </td> 
+                        <td><input type="button" id="M61" value="0" onclick="toggleColor('M61')"> </td> 
+                        <td><input type="button" id="M62" value="0" onclick="toggleColor('M62')"> </td> 
+                        <td><input type="button" id="M63" value="0" onclick="toggleColor('M63')"> </td> 
+                        <td><input type="button" id="M64" value="0" onclick="toggleColor('M64')"> </td> 
+                        <td><input type="button" id="M65" value="0" onclick="toggleColor('M65')"> </td> 
+                        <td><input type="button" id="M66" value="0" onclick="toggleColor('M66')"> </td> 
+                    </tr> 
+
+                </table> 
+
+                <script> 
+
+                    // Function to change color
+                    function toggleColor(val) {
+                        const button = document.getElementById(val)
+                        if (button.value == '0') {
+                            button.style.backgroundColor = 'blue';
+                            button.value = '1';
+                        }
+                        else {
+                            button.style.backgroundColor = '#F54927';
+                            button.value = '0';
+                        }
+                        let d0 = '0b' + document.getElementById("M06").value + document.getElementById("M05").value + document.getElementById("M04").value + document.getElementById("M03").value + document.getElementById("M02").value + document.getElementById("M01").value + document.getElementById("M00").value
+                        let d1 = '0b' + document.getElementById("M16").value + document.getElementById("M15").value + document.getElementById("M14").value + document.getElementById("M13").value + document.getElementById("M12").value + document.getElementById("M11").value + document.getElementById("M10").value
+                        let d2 = '0b' + document.getElementById("M26").value + document.getElementById("M25").value + document.getElementById("M24").value + document.getElementById("M23").value + document.getElementById("M22").value + document.getElementById("M21").value + document.getElementById("M20").value
+                        let d3 = '0b' + document.getElementById("M36").value + document.getElementById("M35").value + document.getElementById("M34").value + document.getElementById("M33").value + document.getElementById("M32").value + document.getElementById("M31").value + document.getElementById("M30").value
+                        let d4 = '0b' + document.getElementById("M46").value + document.getElementById("M45").value + document.getElementById("M44").value + document.getElementById("M43").value + document.getElementById("M42").value + document.getElementById("M41").value + document.getElementById("M40").value
+                        let d5 = '0b' + document.getElementById("M56").value + document.getElementById("M55").value + document.getElementById("M54").value + document.getElementById("M53").value + document.getElementById("M52").value + document.getElementById("M51").value + document.getElementById("M50").value
+                        let d6 = '0b' + document.getElementById("M66").value + document.getElementById("M65").value + document.getElementById("M64").value + document.getElementById("M63").value + document.getElementById("M62").value + document.getElementById("M61").value + document.getElementById("M60").value
+                        // document.getElementById("result").value = math.evaluate(d0) + 33
+                        disp_unicode(math.evaluate(d0)+33,math.evaluate(d1)+33,math.evaluate(d2)+33,math.evaluate(d3)+33,math.evaluate(d4)+33,math.evaluate(d5)+33,math.evaluate(d6)+33)
+                    }
+
+                    function disp_unicode(v1,v2,v3,v4,v5,v6,v7) {
+                        document.getElementById("output").innerHTML = `Code = &#${v1}&#${v2}&#${v3}&#${v4}&#${v5}&#${v6}&#${v7}; <br>` ;
+                    }
+
+                </script> 
+
+            <br>
+
             <div>
                 <em>
                 <p>*This is taken from <a href="https://deepdreamgenerator.com/ddream/3r5k4hwtarp">my Deep Dream page</a>, the
@@ -636,7 +789,6 @@
             
         </div>
 
-
     </div>
     <!-- /.container -->
     
@@ -646,190 +798,6 @@
     <!-- <div id="footer">
         <p id="legal">Copyright &copy; 2024 All Rights Reserved | Designed by Greg Riggs and...</p>
     </div> -->
-    
-
-
-    <!-- Online calculat template! -->
-    <!-- <head>  -->
-    <!-- <title>JavaScript Calculator</title>  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
-        integrity="sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer">        
-    </script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
-        integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer">
-    </script> 
-    
-    <!-- For styling -->
-    <style> 
-        table { 
-            border: 1px solid black; 
-            margin-left: auto; 
-            margin-right: auto; 
-        } 
-
-        input[type="button"] { 
-            width: 100%; 
-            padding: 20px 40px; 
-            background-color: green; 
-            color: white; 
-            font-size: 24px; 
-            font-weight: bold; 
-            border: none; 
-            border-radius: 5px; 
-        } 
-
-        input[type="text"] { 
-            padding: 20px 30px; 
-            font-size: 24px; 
-            font-weight: bold; 
-            border: none; 
-            border-radius: 5px; 
-            border: 2px solid black; 
-        } 
-    </style> 
-<!-- </head>  -->
-    
-<!-- <body>  -->
-    
-    <!-- Use Table to Create Calculator Structure Design -->
-    <table id="calcu"> 
-        <tr> 
-            <td colspan="3"><input type="text" id="result"></td> 
-            <td><input type="button" value="c" onclick="clr()" /> </td> 
-        </tr> 
-        <tr> 
-            <td><input type="button" value="1" onclick="dis('1')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="2" onclick="dis('2')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="3" onclick="dis('3')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="/" onclick="dis('/')"
-                        onkeydown="myFunction(event)"> </td> 
-        </tr> 
-        <tr> 
-            <td><input type="button" value="4" onclick="dis('4')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="5" onclick="dis('5')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="6" onclick="dis('6')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="*" onclick="dis('*')"
-                        onkeydown="myFunction(event)"> </td> 
-        </tr> 
-        <tr> 
-            <td><input type="button" value="7" onclick="dis('7')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="8" onclick="dis('8')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="9" onclick="dis('9')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="-" onclick="dis('-')"
-                        onkeydown="myFunction(event)"> </td> 
-        </tr> 
-        <tr> 
-            <td><input type="button" value="0" onclick="dis('0')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="." onclick="dis('.')"
-                        onkeydown="myFunction(event)"> </td> 
-            
-            <!-- solve function call function solve to evaluate value -->
-            <td><input type="button" value="=" onclick="solve()"> </td> 
-
-            <td><input type="button" value="+" onclick="dis('+')"
-                        onkeydown="myFunction(event)"> </td> 
-        </tr> 
-    </table> 
-
-    <script> 
-        
-        // Function that display value 
-        function dis(val) { 
-            document.getElementById("result").value += val 
-        } 
-
-        // Function that display value 
-        function addMatrixVal(val) { 
-            document.getElementById("A11").value = val 
-        } 
-
-        function myFunction(event) { 
-            if (event.key == '0' || event.key == '1' 
-                || event.key == '2' || event.key == '3' 
-                || event.key == '4' || event.key == '5' 
-                || event.key == '6' || event.key == '7' 
-                || event.key == '8' || event.key == '9' 
-                || event.key == '+' || event.key == '-' 
-                || event.key == '*' || event.key == '/') 
-                document.getElementById("result").value += event.key; 
-        } 
-
-        var cal = document.getElementById("calcu"); 
-        cal.onkeyup = function (event) { 
-            if (event.keyCode === 13) { 
-                console.log("Enter"); 
-                let x = document.getElementById("result").value 
-                console.log(x); 
-                solve(); 
-            } 
-        } 
-
-        // Function that evaluates the digit and return result 
-        function solve() { 
-            let x = document.getElementById("result").value 
-            let y = math.evaluate(x) 
-            document.getElementById("result").value = y 
-        } 
-
-        // Function that clears the display 
-        function clr() { 
-            document.getElementById("result").value = "" 
-        } 
-    </script> 
-<!-- </body>  -->
-
-    <!-- Use Table to Create Calculator Structure Design -->
-<!--     <table id="calcu"> 
-        <tr> 
-            <td colspan="7"><input type="text" id="sprite"></td> 
-            <td><input type="button" value="c" onclick="clr()" /> </td> 
-        </tr> 
-        <tr> 
-            <td><input type="button" id="A00" value="A00" onclick="addMatrixValue('1')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('2')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('3')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('/')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('2')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('3')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value=" " onclick="dis('/')"
-                        onkeydown="myFunction(event)"> </td> 
-        <tr> 
-            <td><input type="button" value="1" onclick="dis('1')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="2" onclick="dis('2')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="3" onclick="dis('3')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="/" onclick="dis('/')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="2" onclick="dis('2')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="3" onclick="dis('3')"
-                        onkeydown="myFunction(event)"> </td> 
-            <td><input type="button" value="/" onclick="dis('/')"
-                        onkeydown="myFunction(event)"> </td> 
-        </tr> 
-    </table>  -->
 
 
 </body>
