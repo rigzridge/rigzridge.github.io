@@ -9,7 +9,7 @@
 
 <html lang="en">
 <head>
-  <title>Greg Riggs</title>
+  <title>Greg Riggs' Homepage!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -27,7 +27,16 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
 </head>
+
 <body>
+
+<!-- <py-script>
+    print("Hello from PyScript!")
+    # You can also import libraries
+    import numpy as np
+    arr = np.array([1, 2, 3])
+    print(arr)
+</py-script> -->
 
 
 <!-- Navigation -->
@@ -46,13 +55,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
                   <li><a href="index.html">Home</a></li>
-                  <li><a href="#about-me">About Me</a></li>
-                  <li><a href="#research">Research</a></li> 
-                  <li><a href="#projects">Projects</a></li>
-                  <li><a href="#sprite-creator">Sprite Creator</a></li>
-                  <!-- <li><a href="assets/GRiggs_CV_13Apr_2024.pdf" target="_blank">CV</a></li>  -->
-                  <!-- <li><a href="assets/GRiggs_CV_PhD.pdf" target="_blank">CV</a></li>  -->
-                  <li><a href="assets/GRiggs_CV_postdoc.pdf" target="_blank">CV</a></li> 
+                  <li><a href="research.html">Research</a></li>
+                  <li><a href="projects.html">Projects</a></li>
+                  <li><a href="canvas.html">Sprite Creator</a></li>
+                  <li><a href="assets/GRiggs_CV_postdoc_2026.pdf" target="_blank">CV</a></li> 
           </ul>
         </div>
       </div>
@@ -64,7 +70,7 @@
         <div class="row">
 
             <!-- Entries Column -->
-            <div class="col-md-8" style="height: 250vh;">
+            <div class="col-md-8" >
 
                 <!-- Taken from https://www.dofactory.com/html/img/class
                 <style>
@@ -96,12 +102,12 @@
                 <h1 id="about-me">About Me</h1>
                 <div style="margin-top:3%; text-align:justify;">       
                     <p>
-                        Hi there! I'm a dad, a postdoctoral researcher in plasma physics, and generally a fan of learning something new! As you're reading this, I'm probably somewhere between chasing around a little dude and writing a paper, so it's likely the website is still lacking that "polished" feel.
+                        Hi there! I'm a dad, a postdoctoral fellow in plasma physics, and generally a fan of learning something new! As you're reading this, I'm probably somewhere between building LEGOs with a little dude and writing a paper, so it's likely the website is still lacking that "polished" feel.
                     </p>
 
                     <p>
                         <!-- My research interests include nonlinear wave-wave and wave-particle interactions, higher-order spectral analysis, and fusion science. -->
-                        Broadly speaking, my work investigates energy transfer in plasmas. 
+                        But, broadly speaking, my work investigates energy transfer in plasmas. 
                     </p>
 
                     <p>
@@ -109,7 +115,7 @@
                         I characterized nonlinear interactions between magnetic field instabilities and populations of energetic ions in <a href="https://en.wikipedia.org/wiki/Tokamak">tokamaks</a> and <a href="https://en.wikipedia.org/wiki/Stellarator">stellarators</a>. 
                         <!-- My background is physics, mathematics, and signal processing, but not in that order. -->
 
-                        Notably, I used wavelet-based bispectral analysis to document wave-wave coupling on sub-millisecond time scales, which could enhance active feedback controls of potentially catastrophic disruptions in <a href="https://en.wikipedia.org/wiki/ITER">forthcoming fusion reactors</a>.
+                        Notably, I used wavelet-based bispectral analysis to document wave-wave coupling on sub-millisecond time scales, which might enhance active feedback controls of potentially catastrophic disruptions in <a href="https://en.wikipedia.org/wiki/ITER">forthcoming fusion reactors</a>.
                     </p>
 
                     <p>
@@ -125,7 +131,14 @@
 
                     <strong style="font-size: 20px">Highlights</strong><br/>
                     <br>
-                    <p>2023: I attended the <a href="http://www.sherwoodtheory.org/sw2023/index.php">Sherwood Fusion Theory Conference</a> in Knoxville, TN, and the <a href="https://engage.aps.org/dpp/meetings/annual-meeting">APS Division of Plasma Physics Conference</a> in Denver, CO.
+                    <p>
+
+                    2026: Our <a href="https://doi.org/10.1016/j.cpc.2026.110097">paper</a> for the open-source <a href="https://github.com/rigzridge/pybic"><em>PyBic</em> Python module</a> was published, along with an <a href="https://doi.org/10.1088/1741-4326/ae424a">article in <em>Nuclear Fusion</em></a> which uses <em>PyBic</em> to identify transient, nonlinear frequency locking between coupled toroidal Alfv&eacute;n eigenmodes (TAE) in the <a href="https://www.ga.com/magnetic-fusion/diii-d">DIII-D tokamak</a>. 
+
+                    <br>
+                    <br>
+
+                    2025: I talked at the <a href="https://www.iter.org/scientists/itpea">ITPEA</a> Energetic Particle Topical Group meeting in the stunning city of Seville, Spain! Also, I presented at the <a href="https://gemworkshop.org/">GEM/CEDAR Workshop</a> (Des Moines, IA), <a href="https://meetings-archive.aps.org/dpp/2025">APS Division of Plasma Physics Conference</a> (Long Beach, CA), and the <a href="https://www.agu.org/annual-meeting">AGU Annual Meeting</a> (New Orleans, LA). 
 
                     <br>
                     <br>
@@ -136,7 +149,12 @@
                     <br>
                     <br>
 
-                    2025: I talked at the ITPA Energetic Particle Topical Group meeting in Seville, Spain, and attended the <a href="https://gemworkshop.org/">GEM/CEDAR Workshop</a> in Des Moines, IA. Also, the power series for an infinite exponential is
+                    2023: I won a student poster award at the <a href="http://www.sherwoodtheory.org/sw2023/index.php">Sherwood Fusion Theory Conference</a> in Knoxville, TN and presented at <a href="https://meetings-archive.aps.org/dpp/2023">APS DPP</a> in Denver, CO.
+
+                    <br>
+                    <br>
+
+                    I'm also deeply interested in the generating functions associated with infinite exponentials, e.g.,
 
 
                     <br>
@@ -167,7 +185,7 @@
                     $$
                     L_{i+1}(\alpha)
                     =
-                    \frac{1}{i+1}\sum_{n=0}^{i} (n+1) \alpha^n L_{n}(\alpha) L_{i-n}(\alpha)
+                    \frac{1}{i+1}\sum_{n=0}^{i} (n+1) \alpha^n L_{n}(\alpha) L_{i-n}(\alpha).
                     $$
 
 
@@ -184,19 +202,22 @@
                 </div>
 
                 <div style="font-size: 16px">
-                    <p><em><a href="mailto:gariggs@mix.wvu.edu">gariggs@mix.wvu.edu</a>  </em><br>
+                    <!-- <p><em><a href="mailto:gariggs@mix.wvu.edu">gariggs@mix.wvu.edu</a>  </em><br> -->
+                    <p><em><a href="mailto:riggsg@umich.edu">riggsg@umich.edu</a>  </em><br>
                 </div>
                 <div >
                     <!-- <img class="img-responsive" src="assets/dpp_2021_poster_pic.jpg" alt="School logo" width="190" height="100"><br> -->
                     <img class="img-responsive" src="assets/itpa_talk.JPG" alt="Talk pic" width="190" height="100"><br>
                 </div>
-                <p> <b> Dept. of Physics & Astronomy<br>
-                    West Virginia University<br> 
+                <p> <b> Dept. of Climate & Space <br>Sciences & Engineering<br>
+                    <em>University of Michigan</em><br> 
                     <br>
+                    <img class="img-responsive" src="assets/umichlogo.png" alt="School logo" width="100" height="100">
+                    <br>
+<!--                     <b> Dept. of Physics & Astronomy<br>
+                    West Virginia University<br> 
+                    <br> -->
                     <img class="img-responsive" src="assets/wvu.jpg" alt="School logo" width="100" height="100"><br>
-                    <!-- Street<br>
-                    City <br>
-                    Country<br> -->
                     </b>
                 </p>
             </div>            
@@ -220,572 +241,13 @@
             </div> -->
             
         </div>
-         
-        <div class = "col">
 
-            <!-- PUBLICATIONS -->
-            <div class="col" style="height: 375vh;">    
-                <h1 id="research">Research</h1>
-
-                <strong style="font-size: 20px">Dissertation</strong><br/>
-                <ul>
-                    <li class="paper" words="phd-thesis"><a href="https://researchrepository.wvu.edu/etd/12674/">Experimental Verification and Time-resolved Bispectral Analysis of Nonlinear Coupling in the Toroidicity-induced Alfven Eigenmode Spectrum</a> (2024) </li>
-                </ul>
-
-                <!-- TALKS -->
-                <strong style="font-size: 20px">Talks</strong><br/>
-                <ol reversed>
-
-                    <li line-height="" class="talk" words="GEM/CEDAR (G. Riggs)">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion
-                    <br> <em> GEM/CEDAR Workshop (Jun. 25, 2025) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris
-
-                    </li>
-                    
-                    <li line-height="" class="talk" words="ITPA EP group, 2025 (G. Riggs)">Instantaneous difference-frequency locking observed in coupled eigenmodes on the DIII-D tokamak
-                    <br> <em> ITPA EP Topical Group Meeting (Mar. 21, 2025) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai
-
-                    </li>
-
-                    <li line-height="" class="talk" words="ITPA EP group, 2024 (G. Riggs)">Time-resolved bispectral signatures of TAE mode-mode coupling observed in the DIII-D tokamak
-                    <br> <em> ITPA EP Topical Group Meeting (Oct. 2, 2024) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai
-
-                    </li>
-
-                    <li line-height="" class="talk" words="KINETIC Workshop, 2024 (G. Riggs)">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak
-                    <br> <em> KINETIC Center Workshop (Aug. 22, 2024) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai 
-
-                    </li>
-
-                    <li line-height="" class="talk" words="Invited PPPL, 2023 (G. Riggs)"><a href="https://theory.pppl.gov/news/seminars.php?scid=11&n=ep-seminars">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak </a> 
-                        [<a href="https://mediacentral.princeton.edu/id/1_wm9xyn5s">video</a>]
-                        [<a href="https://theory.pppl.gov/news/seminars/GRiggs_PPPL_EPSeminar.pdf">slides</a>]
-                    <br> <em> Princeton Plasma Physics Laboratory Energetic Particle Seminars (Nov. 29, 2023) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong, Y. Ghai 
-
-                    </li>
-
-                    <li line-height="" class="talk" words="Invited DIII-D EP, 2023 (G. Riggs)">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak
-                    <br> <em> DIII-D Energetic Particle Group (Oct. 11, 2023) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong
-
-                    </li>
-
-                </ol>
-
-                <!-- PAPERS -->
-                <strong style="font-size: 20px">Manuscripts submitted/in preparation</strong><br/>
-                <ol reversed>
-                    <li line-height="" class="paper" words="ULF wave power (G. Riggs)">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion
-                    <br> In preparation for submission to <em> Journal of Geophysical Research: Space Physics </em>
-                    <br><span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris 
-                    </li>
-
-                    <li line-height="" class="paper" words="Frequency locking (G. Riggs)">Instantaneous difference-frequency locking observed in coupled eigenmodes on the DIII-D tokamak 
-                    <br> In preparation for submission to <em> Physical Review Letters </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
-                    </li>
-
-                    <li line-height="" class="paper" words="ion cyclotron instabilities (W. Heidbrink)">Dependence of ion-cyclotron range of frequencies instabilities on species mix and fast-ion distribution (Part 2: Time evolution) 
-                    <br> Submitted to <em> Nuclear Fusion (2025) </em>
-                    <br>W. Heidbrink, G. DeGrandchamp, J. Lestz, K. Thome, S. Vincena, N. Crocker, X. Du, R. Pinsker, <span style="color:red;"> G. Riggs</span>, S. Tang, M. Van Zeeland
-                    </li>
-
-                    <li line-height="" class="paper" words="power series of infinite exponential (G. Riggs)">Formal power series expansion for infinite exponential of analytic function 
-                    <br> Submitted to <em> The American Mathematical Monthly (2025) </em>
-                    <br><span style="color:red;"> G. Riggs</span>
-                    </li>
-
-                    <li line-height="" class="paper" words="Bicoherence analysis software, 2025 (G. Riggs)">BicAn: An integrated, open-source framework for polyspectral analysis
-                    <!-- <br> <em> Computing in Science and Engineering (2024) </em> -->
-                    <br> Submitted to <em> Computer Physics Communications (2025) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, T. Matheny 
-                    </li>
-                </ol>
-                
-                <!-- PAPERS -->
-                <strong style="font-size: 20px">Peer-reviewed publications</strong><br/>
-
-                <ol reversed>
-                    <li line-height="" class="paper" words="Time-resolved coupling, 2024 (G. Riggs)"><a href="https://doi.org/10.1063/5.0195036">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled Alfven eigenmodes on the DIII-D tokamak </a>
-                    <br> <em> Physics of Plasmas (2024) </em> 
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
-                    </li>
-
-                    <li line-height="" class="paper" words="Gradient effects, 2023 (G. Riggs)"><a href="https://www.mdpi.com/2218-2004/11/7/104">Role of simple spatial gradient in reinforcing the accuracy of temperature determination of HED plasma via spectral line-area ratios</a>
-                    <br> <em> Atoms (2023) </em>
-                    <br><span style="color:red;"> G. Riggs</span>, M. Koepke, T. Lane, T. Steinberger, P. Kozlowski, I. Golovkin
-                    </li>
-
-                    <li line-height="" class="paper" words="Isoelectronic line ratios, 2022 (T. Lane)"><a href="https://www.sciencedirect.com/science/article/abs/pii/S1574181822000428">Establishing an isoelectronic line ratio temperature diagnostic for soft X-ray absorption spectroscopy</a>
-                    <br> <em> High Energy Density Physics (2022) </em>
-                    <br>T. Lane, M. Koepke, P. Kozlowski, <span style="color:red;"> G. Riggs</span>, T. Steinberger, I. Golovkin
-                    </li>
-
-                <!-- </ul> -->
-                <!-- <ul> -->
-                    <li class="paper" words="Bispectral analysis, 2021 (G. Riggs)"><a href="https://www.cambridge.org/core/journals/journal-of-plasma-physics/article/bispectral-analysis-of-broadband-turbulence-and-geodesic-acoustic-modes-in-the-t10-tokamak/74149BB41FD1636721ADCC69F7E2120C">Bispectral analysis of broadband turbulence and geodesic acoustic modes in the T-10 tokamak</a> 
-                    <br> <em> Journal of Plasma Physics (2021) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami, M. Koepke, A. Melnikov, L. Eliseev, S. Lysenko, P. Khabanov, M. Drabinskij, N. Kharchev, A. Kozachek, M. Ufimtsev and HIBP Team 
-                    </li>
-
-                </ol>
-
-                <!-- <br> -->
-
-                <!-- POSTERS -->
-                <strong style="font-size: 20px">Conference presentations</strong><br/>
-                <ol reversed>
-
-                    <!-- <li class="poster" words="APS DPP 2020"><a href="...">...</a> (...)
-                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami,  
-                    </li> -->
-
-                    <li class="poster" words="APS DPP 2023"><a href="#">Statistical ULF wave latitude distribution: A key to understanding off-equatorial radiation belt electron radial diffusion</a> 
-                    <br> <em> GEM/CEDAR Workshop (June 2025) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, W. Tu, T. Sarris 
-                    </li>
-                    
-                    <li class="poster" words="APS DPP 2023"><a href="https://meetings.aps.org/Meeting/DPP23/Session/PP11.72">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
-                    <br> <em> 65th Annual Meeting of the APS Division of Plasma Physics (2023) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
-                    </li>
-
-                    <li class="poster" words="Sherwood 2023"><a href="http://www.sherwoodtheory.org/sw2023/abstract.php?view=97">Time-resolved biphase signatures of quadratic nonlinearity observed in coupled eigenmodes on the DIII-D tokamak</a> 
-                    <br> <em> Sherwood Fusion Theory Conference (2023) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
-                    </li>
-
-                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP22/Session/BP11.36">Preliminary identification and characterization of nonlinear wave-wave, wave-beam, and wave-particle interactions in beam-driven tokamak plasma</a> 
-                    <br> <em> 64th Annual Meeting of the APS Division of Plasma Physics (2022) </em>
-                    [<a href="assets/DPP_2022_poster_final_version (2).pdf" target="_blank">slides</a>]
-                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, W. Heidbrink, M. Van Zeeland, D. Spong 
-                    </li>
-
-                    <li class="poster" words="APS DPP 2022"><a href="https://meetings.aps.org/Meeting/DPP22/Session/NO07.12">TJ-II observations of nonlinear wave-wave coupling in play during Alfven-Eigenmode:Turbulence:Zonal-Flow interactions</a>
-                    <br> <em> 64th Annual Meeting of the APS Division of Plasma Physics (2022) </em>
-                    <br> M. Koepke, F. Papoušek, M. Ochando, C. Hidalgo, B. van Milligen, <span style="color:red;"> G. Riggs</span>
-                    </li>
-
-                    <li class="poster" words="SSAP 2022"> Constraining magnitudes of nonzero temperature and density gradients using absorption spectra of radiatively heated target-foil plasma 
-                    <br> <em> Stewardship Science Academic Programs Symposium (2022) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, T. Lane, P. Kozlowski, M. Koepke
-                    </li> 
-                    
-                    <li class="poster" words="APS DPP 2021"><a href="https://meetings.aps.org/Meeting/DPP21/Session/NP11.114">Constraining magnitudes of nonzero temperature and density gradients using absorption spectra of radiatively heated target-foil plasma</a> 
-                    <br> <em> 63rd Annual Meeting of the APS Division of Plasma Physics (2021) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, M. Koepke, T. Lane, P. Kozlowski 
-                    </li>
-
-                    <li class="poster" words="SSAP 2021"> Spectroscopic method to obtain n, T applied to soft x-ray absorption spectra in radiatively heated Z-pinch plasmas
-                    <br> <em> Stewardship Science Academic Programs Symposium (2021) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, T. Lane, P. Kozlowski, M. Koepke
-                    </li>                    
-
-                    <li class="poster" words="APS DPP 2019"><a href="https://meetings.aps.org/Meeting/DPP19/Session/NO4.7">Bispectral analysis of broadband and quasi-coherent oscillations (geodesic-acoustic modes) to interpret wave-wave interactions in the T-10 Tokamak</a>
-                    <br> <em> 61st Annual Meeting of the APS Division of Plasma Physics (2019) </em>
-                    <br> M. Koepke, S. Nogami,<span style="color:red;"> G. Riggs</span>, A. Melnikov, L. Eliseev, S. Lysenko, P. Khabanov, M. Drabinskij, N. Kharchev, A. Kozachek, M. Ufimtsev
-                    </li>
-
-                    <li class="poster" words="APS DPP 2018"><a href="https://meetings.aps.org/Meeting/DPP18/Session/TP11.60">Interpretation of bi-coherence in space and lab plasma-wave dynamics</a>
-                    <br> <em> 60th Annual Meeting of the APS Division of Plasma Physics (2018) </em>
-                    <br> <span style="color:red;"> G. Riggs</span>, S. Nogami, M. Koepke, N. Crocker, G. Howes, S. Savin, V. Budaev, L. Zelenyi
-                    </li>
-
-                    <li class="poster" words="APS DPP 2018"><a href="https://meetings.aps.org/Meeting/DPP18/Session/JM10.7">Alfvén Eigenmode (AE) interactions in Tokamaks: DIII-D Frontier Science Experiments connecting the physics of nonlinear waves and processes in space plasmas</a>
-                    <br> <em> 60th Annual Meeting of the APS Division of Plasma Physics (2018) </em>
-                    <br> M. Koepke, S. Nogami, <span style="color:red;"> G. Riggs</span>, G. Howes, N. Crocker, T. Carter, W. Heidbrink, M. Van Zeeland 
-                    </li>
-                </ol>
-
-                <!-- <br> -->
-
-                <strong style="font-size: 20px">Master's Thesis</strong><br/>
-                <ul>
-                    <li class="paper" words="bicoherence"><a href="https://researchrepository.wvu.edu/etd/7655/">Interpretations of Bicoherence in Space & Lab Plasma Dynamics</a> (2020) </li>
-                </ul>
-
-                <!-- <br> -->
-
-                <strong style="font-size: 20px">Technical Reports</strong><br/>
-                <ul>
-                    <!-- target _blank opens in a new tab! -->
-                    <li class="paper" words="bispectrum, tutorial"><a href="assets/bispec_tech_report_wavelet.pdf" target="_blank">Bispectral Analysis: Theory & Implementation</a> (2021) 
-                        <br/>
-                        <!-- Details of the report -->
-                    </li>
-
-                    <li class="paper" words="bispectrum, 4D"><a href="#" target="_blank">Extension of Bicoherence Analysis to Multivariate Domains with Application to AstroGK Data</a> (2023) 
-                        <br/>
-                        <!-- Details of the report -->
-                    </li>
-                    
-                </ul>
-
-                <strong style="font-size: 20px">Honors & Awards</strong><br/>
-                <!-- <ul>
-                <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a>. Details of the report</li>
-                </ul> -->
-                <ul>
-                    Research Trust Fund Seehra Research Award (April 2021 & April 2024)**<br/>
-                    <!-- WVU Department of Physics & Astronomy<br/>
-                    Apr 2021<br/> -->
-                    <!-- Dr. Mohindar S. Seehra Research Award (April 2023)<br/> -->
-                    Oleg D. and Valentina P. Jefimenko Physics Fellowship (April 2023)**<br/>
-                    Sherwood Fusion Theory Student Poster Award (May 2023)<br/>
-                    <a href="https://www.iter.org/org/team/fst/itpa/ep">ITPA EP topical group </a> expert member (March 2024)<br/>
-                    Featured Article in <em>Physics of Plasmas</em> (April 2024)<br/>
-                </ul>
-
-
-            </div>
-
-
-            <!-- Projects -->
-            <div class="col" style="height: 400vh;">    
-                <h1 id="projects">Projects</h1>
-
-                <strong style="font-size: 20px">Bispectral analysis</strong><br/>
-                <ul>
-                    <li>
-                        <em> <a href="https://github.com/rigzridge/oobic">BicAn</a> </em> <br/>
-                        Matlab object that makes time-resolved detection of phase-coherency a snap! See technical report (above) for more information.
-                    </li>
-
-                    <li> <em> <a href="https://github.com/rigzridge/pybic">PyBic</a> </em> <br/>
-                        Implementation of bicoherence analyzer in Python.</li>
-                </ul>
-                
-                <!-- Peer-reviewed<br/>
-                <ul>
-                    <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a> Names of the authors</li>
-                </ul>
-            
-                Technical Reports<br/>
-                <ul>
-                    <li class="paper" words="add, your, keywords, here"><a href="#">Full title</a>. Details of the report</li>
-                </ul> -->
-
-                <strong style="font-size: 20px">Simulations</strong><br/>
-                <ul>
-                    <li>
-                        Visualization of field-particle correlation in 1D-1V Vlasov-Poisson plasma
-                        (final project for a course in space physics; see <a href="https://www.cambridge.org/core/journals/journal-of-plasma-physics/article/abs/diagnosing-collisionless-energy-transfer-using-fieldparticle-correlations-vlasovpoisson-plasmas/12921EF6C25C03AC133C892D5A2E4B89">Greg Howes' work</a> for more context).<br/>
-                        <video width="320" height="240" controls>
-                          <source src="assets/FPC_this_one_dum.mp4" type="video/mp4">
-                        </video>
-                    </li>
-
-                    <br>
-
-                    <li>
-                        Surface waves on various membranes:
-                        <br/>
-                        <video width="320" height="240" controls>
-                          <source src="assets/water_drop2.mp4" type="video/mp4">
-                        </video> 
-                        
-                        <video width="320" height="240" controls>
-                          <source src="assets/torus_wave.mp4" type="video/mp4">
-                        </video> 
-
-                        <video width="320" height="240" controls>
-                          <source src="assets/menger_wave1.mp4" type="video/mp4">
-                        </video> 
-                        <!-- <br/> Torus<br/> -->
-                        <br/> || ... Sphere ... || ... Torus ... || ... Level 1 <a href="https://en.wikipedia.org/wiki/Menger_sponge">Menger sponge </a> ... || <br/> <br/> 
-                    </li>
-
-                    <li>
-                        Calculation of field due to different antennas
-                        (part of final project for a second course in E&M):
-                        <br/>
-                        <video width="320" height="240" controls>
-                          <source src="assets/stik_harms.mp4" type="video/mp4">
-                        </video> 
-
-                        <video width="320" height="240" controls>
-                          <source src="assets/ring_harms.mp4" type="video/mp4">
-                        </video> 
-
-                        <video width="320" height="240" controls>
-                          <source src="assets/booster_thang1_fade.mp4" type="video/mp4">
-                        </video> <br/> || ... Linear ... || ... Ring ... || ... Tapered helix ... || <br/>
-                    </li>
-
-                    <br>
-
-                    <li>
-                        Frequency modulation in driven van der Pol oscillator
-                        <br/>
-                        <video width="320" height="240" controls>
-                          <source src="assets/recurplots_vdpol.mp4" type="video/mp4">
-                        </video>
-                    </li>
-
-                    <br>
-
-                    <li>
-                        Benchmarking non-oscillatory scheme for 2.5D ideal MHD code with the Orzag-Tang vortex
-                        (final project for a course in <a href="https://en.wikipedia.org/wiki/Magnetohydrodynamics">MHD</a>).
-                        <video width="320" height="240" controls>
-                          <source src="assets/GRiggs_MHD_movie.mp4" type="video/mp4">
-                        </video>
-                    </li>
-
-                </ul>
-
-                <strong style="font-size: 20px">Code stuff</strong><br/>
-                <ul>
-                    <li>RailSim</li>
-                    <li>
-                        <a href="assets/phar_fo_guide_new.pdf" target="_blank"> Pharaoh's Fortune </a>
-                    </li>
-
-                    <!-- <li>Pretty Hard Day</li>
-                    <li>Integral generator</li>
-                    <li>GradSchoolEssentials</li> -->
-                </ul>
-
-                <strong style="font-size: 20px">Electronics</strong><br/>
-                <ul>
-                    <li>
-                        <a href="assets/kennyguide3.pdf" target="_blank"> K.E.N.N.Y. </a>
-                    </li>
-                    <li>Arduino ornaments</li>
-                    <li>Canvas</li>
-                </ul>
-
-                <!-- <strong style="font-size: 20px">Stop motion</strong><br/>
-                <ul>
-                    <li>Halloween</li>
-                    <li>Robot</li>
-                </ul> -->
-
-                <!-- EMBED YOUTUBE VIDEO!!! Ganked from Greg Howes' website -->
-                <!-- <iframe width="560" height="315"
-                  src="https://www.youtube.com/embed/BhbIxL3pm7M"
-                  title="YouTube video player" frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write;
-                  encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe> -->
-
-                <!-- <iframe src="https://www.desmos.com/calculator/0arssi0x7g?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe> -->
-
-                <strong style="font-size: 20px">Music</strong><br/>
-                <ul>
-                    <li>
-                        <a href="https://soundcloud.com/chillosophic"> Soundcloud </a>
-                        <!-- Soundcloud -->
-                    </li>
-                    <li>Monophonic MIDIs:</li>
-                    <!-- Ganked from https://cifkao.github.io/html-midi-player/ -->
-
-                    <!-- This player uses standard MIDI look -->
-                    <br/>
-                    Grace -- Lamb of God
-                    <br/>
-                    <midi-player
-                      src="https://raw.githubusercontent.com/rigzridge/rigzridge.github.io/main/assets/grace.mid"
-                      sound-font visualizer="#myPianoRollVisualizer">
-                    </midi-player>
-
-                    <midi-visualizer type="piano-roll" id="myPianoRollVisualizer" 
-                      src="https://raw.githubusercontent.com/rigzridge/rigzridge.github.io/main/assets/grace.mid">
-                    </midi-visualizer>
-
-                    <!-- This player uses staff look -->
-                    <!-- <br/>
-                    Grace -- Lamb of God
-                    <br/>
-                    <midi-player
-                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid"
-                      sound-font visualizer="#myStaffVisualizer">
-                    </midi-player>
-
-                    <midi-visualizer type="staff" id="myStaffVisualizer" 
-                      src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid">
-                    </midi-visualizer> -->
-                </ul>
-            
-
-                <!-- <midi-player
-                  src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid"
-                  sound-font visualizer="#myStaffVisualizer">
-                </midi-player>
-
-                <midi-visualizer type="staff" id="myStaffVisualizer" 
-                  src="https://raw.githubusercontent.com/rigzridge/gradschoolessentials/main/grace.mid">
-                </midi-visualizer> -->
-
-                <!-- Also need this script too! -->
-                <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
-
-            </div>
-
-            <!-- <div ></div> -->
-            <div id="derp" class="col"> 
-                <h1 id="sprite-creator" style="text-align: center;">[Canvas sprite creator]</h1>
-            </div>
-
-               <!-- Online calculat template! -->
-                <!-- <head>  -->
-                <!-- <title>JavaScript Calculator</title>  -->
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.js"
-                    integrity="sha512-BbVEDjbqdN3Eow8+empLMrJlxXRj5nEitiCAK5A1pUr66+jLVejo3PmjIaucRnjlB0P9R3rBUs3g5jXc8ti+fQ=="
-                    crossorigin="anonymous"
-                    referrerpolicy="no-referrer">        
-                </script> 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
-                    integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
-                    crossorigin="anonymous"
-                    referrerpolicy="no-referrer">
-                </script> 
-                
-                <!-- For styling -->
-                <style> 
-                    table { 
-                        border: 2px solid black; 
-                        margin-left: auto; 
-                        margin-right: auto; 
-                    } 
-
-                    input[type="button"] { 
-                        width: 100%; 
-                        padding: 20px 40px; 
-                        background-color: #F54927; 
-                        /*background-color: green; */
-                        color: white; 
-                        font-size: 24px; 
-                        font-weight: bold; 
-                        border: 1px solid black; 
-                        border-radius: 1px; 
-                    } 
-
-                    input[type="text"] { 
-                        padding: 20px 30px; 
-                        font-size: 24px; 
-                        font-weight: bold; 
-                        border: 1px solid black;
-                        border-radius: 1px; 
-                        border: 1px solid black; 
-                    } 
-                </style> 
-                
-                <!-- Use Table to Create Calculator Structure Design -->
-                <table id="calcu"> 
-<!--                     <tr> 
-                        <td colspan="7"><input type="text" id="result"></td> 
-                        <td colspav="2"><input type="button" value="Calculate!" onclick="clr()" /> </td> 
-                    </tr>  -->
-                    <tr> 
-                        <td><input type="button" id="M00" value="0" onclick="toggleColor('M00')"> </td> 
-                        <td><input type="button" id="M01" value="0" onclick="toggleColor('M01')"> </td> 
-                        <td><input type="button" id="M02" value="0" onclick="toggleColor('M02')"> </td> 
-                        <td><input type="button" id="M03" value="0" onclick="toggleColor('M03')"> </td> 
-                        <td><input type="button" id="M04" value="0" onclick="toggleColor('M04')"> </td> 
-                        <td><input type="button" id="M05" value="0" onclick="toggleColor('M05')"> </td> 
-                        <td><input type="button" id="M06" value="0" onclick="toggleColor('M06')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M10" value="0" onclick="toggleColor('M10')"> </td> 
-                        <td><input type="button" id="M11" value="0" onclick="toggleColor('M11')"> </td> 
-                        <td><input type="button" id="M12" value="0" onclick="toggleColor('M12')"> </td> 
-                        <td><input type="button" id="M13" value="0" onclick="toggleColor('M13')"> </td> 
-                        <td><input type="button" id="M14" value="0" onclick="toggleColor('M14')"> </td> 
-                        <td><input type="button" id="M15" value="0" onclick="toggleColor('M15')"> </td> 
-                        <td><input type="button" id="M16" value="0" onclick="toggleColor('M16')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M20" value="0" onclick="toggleColor('M20')"> </td> 
-                        <td><input type="button" id="M21" value="0" onclick="toggleColor('M21')"> </td> 
-                        <td><input type="button" id="M22" value="0" onclick="toggleColor('M22')"> </td> 
-                        <td><input type="button" id="M23" value="0" onclick="toggleColor('M23')"> </td> 
-                        <td><input type="button" id="M24" value="0" onclick="toggleColor('M24')"> </td> 
-                        <td><input type="button" id="M25" value="0" onclick="toggleColor('M25')"> </td> 
-                        <td><input type="button" id="M26" value="0" onclick="toggleColor('M26')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M30" value="0" onclick="toggleColor('M30')"> </td> 
-                        <td><input type="button" id="M31" value="0" onclick="toggleColor('M31')"> </td> 
-                        <td><input type="button" id="M32" value="0" onclick="toggleColor('M32')"> </td> 
-                        <td><input type="button" id="M33" value="0" onclick="toggleColor('M33')"> </td> 
-                        <td><input type="button" id="M34" value="0" onclick="toggleColor('M34')"> </td> 
-                        <td><input type="button" id="M35" value="0" onclick="toggleColor('M35')"> </td> 
-                        <td><input type="button" id="M36" value="0" onclick="toggleColor('M36')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M40" value="0" onclick="toggleColor('M40')"> </td> 
-                        <td><input type="button" id="M41" value="0" onclick="toggleColor('M41')"> </td> 
-                        <td><input type="button" id="M42" value="0" onclick="toggleColor('M42')"> </td> 
-                        <td><input type="button" id="M43" value="0" onclick="toggleColor('M43')"> </td> 
-                        <td><input type="button" id="M44" value="0" onclick="toggleColor('M44')"> </td> 
-                        <td><input type="button" id="M45" value="0" onclick="toggleColor('M45')"> </td> 
-                        <td><input type="button" id="M46" value="0" onclick="toggleColor('M46')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M50" value="0" onclick="toggleColor('M50')"> </td> 
-                        <td><input type="button" id="M51" value="0" onclick="toggleColor('M51')"> </td> 
-                        <td><input type="button" id="M52" value="0" onclick="toggleColor('M52')"> </td> 
-                        <td><input type="button" id="M53" value="0" onclick="toggleColor('M53')"> </td> 
-                        <td><input type="button" id="M54" value="0" onclick="toggleColor('M54')"> </td> 
-                        <td><input type="button" id="M55" value="0" onclick="toggleColor('M55')"> </td> 
-                        <td><input type="button" id="M56" value="0" onclick="toggleColor('M56')"> </td> 
-                    </tr> 
-                    <tr> 
-                        <td><input type="button" id="M60" value="0" onclick="toggleColor('M60')"> </td> 
-                        <td><input type="button" id="M61" value="0" onclick="toggleColor('M61')"> </td> 
-                        <td><input type="button" id="M62" value="0" onclick="toggleColor('M62')"> </td> 
-                        <td><input type="button" id="M63" value="0" onclick="toggleColor('M63')"> </td> 
-                        <td><input type="button" id="M64" value="0" onclick="toggleColor('M64')"> </td> 
-                        <td><input type="button" id="M65" value="0" onclick="toggleColor('M65')"> </td> 
-                        <td><input type="button" id="M66" value="0" onclick="toggleColor('M66')"> </td> 
-                    </tr> 
-
-                </table> 
-
-                <script> 
-
-                    // Function to change color
-                    function toggleColor(val) {
-                        const button = document.getElementById(val)
-                        if (button.value == '0') {
-                            button.style.backgroundColor = 'blue';
-                            button.value = '1';
-                        }
-                        else {
-                            button.style.backgroundColor = '#F54927';
-                            button.value = '0';
-                        }
-                        let d0 = '0b' + document.getElementById("M06").value + document.getElementById("M05").value + document.getElementById("M04").value + document.getElementById("M03").value + document.getElementById("M02").value + document.getElementById("M01").value + document.getElementById("M00").value
-                        let d1 = '0b' + document.getElementById("M16").value + document.getElementById("M15").value + document.getElementById("M14").value + document.getElementById("M13").value + document.getElementById("M12").value + document.getElementById("M11").value + document.getElementById("M10").value
-                        let d2 = '0b' + document.getElementById("M26").value + document.getElementById("M25").value + document.getElementById("M24").value + document.getElementById("M23").value + document.getElementById("M22").value + document.getElementById("M21").value + document.getElementById("M20").value
-                        let d3 = '0b' + document.getElementById("M36").value + document.getElementById("M35").value + document.getElementById("M34").value + document.getElementById("M33").value + document.getElementById("M32").value + document.getElementById("M31").value + document.getElementById("M30").value
-                        let d4 = '0b' + document.getElementById("M46").value + document.getElementById("M45").value + document.getElementById("M44").value + document.getElementById("M43").value + document.getElementById("M42").value + document.getElementById("M41").value + document.getElementById("M40").value
-                        let d5 = '0b' + document.getElementById("M56").value + document.getElementById("M55").value + document.getElementById("M54").value + document.getElementById("M53").value + document.getElementById("M52").value + document.getElementById("M51").value + document.getElementById("M50").value
-                        let d6 = '0b' + document.getElementById("M66").value + document.getElementById("M65").value + document.getElementById("M64").value + document.getElementById("M63").value + document.getElementById("M62").value + document.getElementById("M61").value + document.getElementById("M60").value
-                        // document.getElementById("result").value = math.evaluate(d0) + 33
-                        disp_unicode(math.evaluate(d0)+33,math.evaluate(d1)+33,math.evaluate(d2)+33,math.evaluate(d3)+33,math.evaluate(d4)+33,math.evaluate(d5)+33,math.evaluate(d6)+33)
-                    }
-
-                    function disp_unicode(v1,v2,v3,v4,v5,v6,v7) {
-                        document.getElementById("sprite-creator").innerHTML = `Code = &#${v1}&#${v2}&#${v3}&#${v4}&#${v5}&#${v6}&#${v7}; <br>` ;
-                    }
-
-                </script> 
-
-            <br>
-
-            <div>
-                <em>
-                <p>*This is taken from <a href="https://deepdreamgenerator.com/ddream/3r5k4hwtarp">my Deep Dream page</a>, the
-                    source image can be found <a href="https://en.wikipedia.org/wiki/File:Mandel_zoom_07_satellite.jpg">here</a>. </p>
-                <p>**See <a href="https://physics.wvu.edu/students/graduate-students/scholarships-and-awards">here</a> for a more complete description of department scholarships and awards.<br/></p>
-                </em>
-            </div>
+        <div>
+            <em>
+            <p>*This is taken from <a href="https://deepdreamgenerator.com/ddream/3r5k4hwtarp">my Deep Dream page</a>, the
+                source image can be found <a href="https://en.wikipedia.org/wiki/File:Mandel_zoom_07_satellite.jpg">here</a>. </p>
+            </em>
+        </div>
 
             
         </div>

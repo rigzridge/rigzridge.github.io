@@ -9,7 +9,7 @@
 
 <html lang="en">
 <head>
-  <title>GRiggs_research</title>
+  <title>GRiggsProjects</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -20,6 +20,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
 </head>
 
+<!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="research.html">Research</a></li>
+                  <li><a href="projects.html">Projects</a></li>
+                  <li><a href="canvas.html">Sprite Creator</a></li>
+                  <li><a href="assets/GRiggs_CV_postdoc_2026.pdf" target="_blank">CV</a></li> 
+          </ul>
+        </div>
+      </div>
+    </nav>
+
 <body>
     <div class="container" style="font-family: 'Montserrat', sans-serif;">
 
@@ -29,15 +54,18 @@
         <div class="col">    
             <h1 id="projects">Projects</h1>
 
-            <strong style="font-size: 20px">Bispectral analysis</strong><br/>
+            <strong style="font-size: 20px">Polyspectral analysis</strong><br/>
             <ul>
-                <li>
-                    <em> <a href="https://github.com/rigzridge/oobic">BicAn</a> </em> <br/>
-                    Matlab object that makes time-resolved detection of phase-coherency a snap! See technical report (above) for more information.
-                </li>
 
                 <li> <em> <a href="https://github.com/rigzridge/pybic">PyBic</a> </em> <br/>
-                    Implementation of bicoherence analyzer in Python.</li>
+                    Integrated, open-source platform for signal processing, analysis of time-resolved phase coherence, <em>n</em>-dimensional polyspectrum estimation, and general data visualization! The <em>PyBic</em> module supplies the <em>Bicoherence Analyzer</em> object (i.e., <em>BicAn</em>) to simplify things substantially.
+                </li>
+
+                <li>
+                    <em> <a href="https://github.com/rigzridge/oobic">OOBic</a> </em> <br/>
+                    Original object-oriented Matlab implementation of <em>BicAn</em>!
+                </li>
+
             </ul>
             
             <!-- Peer-reviewed<br/>
