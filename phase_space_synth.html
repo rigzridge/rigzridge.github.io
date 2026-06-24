@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phase Space Synth!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="synthstyle.css">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; text-align: center; background: #121212; color: #fff; margin: 0; padding: 20px; }
+        canvas { background: #1e1e1e; 
+            border: 2px solid #bb007f; 
+            cursor: crosshair; 
+            touch-action: none; 
+            border-radius: 4px; 
+            display: block; 
+            margin: 0 auto; }
+        .spectrogram-label { margin-top: 15px; 
+            font-weight: bold; 
+            color: #00aaaa; }
+        #fourierCanvas { border: 2px solid #bb007f; 
+            background: #000; 
+            cursor: default; }
+        #specCanvas { border: 2px solid #00aaaa; 
+            background: #000; 
+            cursor: default; }
+        .controls { margin: 15px; }
+        button { padding: 10px 15px; 
+            font-size: 15px; 
+            cursor: pointer; 
+            margin: 0 4px; 
+            background: #333; 
+            color: white; 
+            border: 1px solid #555; 
+            border-radius: 4px; }
+        button:hover { background: darkcyan; }
+        .keyboard { display: flex; 
+            justify-content: center; 
+            gap: 5px; 
+            margin-top: 20px; }
+        .key { width: 40px; 
+            height: 120px; 
+            background: navajowhite; 
+            color: darkcyan; 
+            border-radius: 0 0 4px 4px; 
+            transition: all 0.07s ease;
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: center; 
+            padding-bottom: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            user-select: none; }
+        .key.active { background: #cc007f; color: white;}
+        .key:active { background: #cc007f; color: white;}
+        .black_key { width: 40px; 
+            height: 100px; 
+            background: darkcyan; 
+            color: navajowhite; 
+            border-radius: 0 0 4px 4px; 
+            transition: all 0.07s ease;
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: center; 
+            padding-bottom: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            user-select: none; }
+        .black_key.active { background: #bb007f; color: white; }
+        .black_key:active { background: #bb007f; color: white; }
+    </style>
+
+    <!-- Below from https://katex.org/docs/browser -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.css" integrity="sha384-7lU0muIg/i1plk7MgygDUp3/bNRA65orrBub4/OSWHECgwEsY83HaS1x3bljA/XV" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.js" integrity="sha384-RdymN7NRJ+XoyeRY4185zXaxq9QWOOx3O7beyyrRK4KQZrPlCDQQpCu95FoCGPAE" crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" 
+    onload="renderMathInElement(document.body);"></script>
+
+    <!-- External JavaScript functions -->
+    <script src="tools.js" defer></script>
+</head>
+<body>
+
+    <h1 class="gradient-text">Phase Space Synth!</h1>
+    <p>Draw the orbit in phase space, then play the piano keys...</p>
+    
+    <div class="row-container">
+        <canvas id="waveCanvas" width="512" height="512"></canvas>
+
+        <div class="slider-container">
+
+            <input type="range" id="xAmp1Slider" class="slider" min="0" max="200" value="100">
+            <div class="readout">Pitch bend: <span id="xAmp1Value">0</span></div>
+
+            <input type="range" id="harmSlider" class="slider" min="1" max="16" value="8">
+            <div class="readout">Harmonics: <span id="harmValue">8</span></div>
+
+            <input type="range" id="rotSlider" class="slider" min="0" max="360" value="0">
+            <div class="readout">Rotation: <span id="rotValue">0</span></div>
+
+            <input type="range" id="yScaleSlider" class="slider" min="1" max="32" value="1">
+            <div class="readout">VScale: <span id="yScaleValue">1</span></div>
+
+            <div class="controls">
+                <button id="clearBtn">Clear Shape</button>
+            </div>
+        </div>
+
+    
+        <div>
+            <p>...or draw your waveform directly!</p>
+            <canvas id="plotCanvas" width="512" height="175"></canvas>
+
+            <div class="slider-container">
+
+                <input type="range" id="waveHarmSlider" class="slider" min="1" max="32" value="4">
+                <div class="readout">Harmonics: <span id="waveHarmValue">4</span></div>
+            </div>
+
+            <div class="label">Fourier amplitudes</div>
+            <p style="font-size:12px; color:#aaa; margin:5px 0 15px 0;">(Shows the level of individual overtones in the above waveform.)</p>
+            <canvas id="fourierCanvas" width="512" height="85"></canvas>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="keyboard">
+        <div id="key-C4" class="key" data-freq="-9">C4</div>
+        <div id="key-C#4" class="black_key" data-freq="-8">C#4</div>
+        <div id="key-D4" class="key" data-freq="-7">D4</div>
+        <div id="key-D#4" class="black_key" data-freq="-6">D#4</div>
+        <div id="key-E4" class="key" data-freq="-5">E4</div>
+        <div id="key-F4" class="key" data-freq="-4">F4</div>
+        <div id="key-F#4" class="black_key" data-freq="-3">F#4</div>
+        <div id="key-G4" class="key" data-freq="-2">G4</div>
+        <div id="key-G#4" class="black_key" data-freq="-1">G#4</div>
+        <div id="key-A4" class="key" data-freq="0">A4</div>
+        <div id="key-A#4" class="black_key" data-freq="1">A#4</div>
+        <div id="key-B4" class="key" data-freq="2">B4</div>
+        <div id="key-C5" class="key" data-freq="3">C5</div>
+    </div>
+
+    <br>
+
+    <div class="spectrogram-label">Live spectrogram</div>
+    <p style="font-size:12px; color:#aaa; margin:5px 0 15px 0;">(Shows frequency content of audio output over time.)</p>
+    <canvas id="specCanvas" width="600" height="250"></canvas>
+
+    <h2>Theory</h2>
+    <div>
+        <p>To second order, we have</p> 
+        $$
+        x_{i+1} = x_i + \delta t_i \dot x_i +\frac{(\delta t_i)^2}{2}\ddot x_i+\dots,
+        $$
+
+        <p>yielding our approximation for time intervals \(\delta t\)</p>
+        $$
+        \delta t_i^{(3)} = 6\left[
+        \frac{x_{i+1}-x_i}{4\dot x_{i+1}+ \dot x_i + \dot x_{i-1}}
+        \right].
+        $$
+    </div>
+
+    <script>
+
+        const freqToKeyMap = ['key-C4','key-C#4','key-D4','key-D#4','key-E4','key-F4','key-F#4','key-G4','key-G#4','key-A4','key-A#4','key-B4','key-C5'];
+
+        // Set up canvases, sliders, etc
+        const waveCanvas = document.getElementById('waveCanvas');
+        const waveCtx = waveCanvas.getContext('2d');
+
+        const plotCanvas = document.getElementById('plotCanvas');
+        const plotCtx = plotCanvas.getContext('2d');
+
+        const fourierCanvas = document.getElementById('fourierCanvas');
+        const fourierCtx = fourierCanvas.getContext('2d');
+
+        const specCanvas = document.getElementById('specCanvas');
+        const specCtx = specCanvas.getContext('2d');
+
+        const clearBtn = document.getElementById('clearBtn');
+
+        const slider = document.getElementById('xAmp1Slider');
+        const output = document.getElementById('xAmp1Value');
+
+        const harmSlider = document.getElementById('harmSlider');
+        const harmValue = document.getElementById('harmValue');
+        const rotSlider = document.getElementById('rotSlider');
+        const rotValue = document.getElementById('rotValue');
+
+        let isDrawing = false;
+        let isDrawingWave = false;
+        // let amplitudeData = new Float32Array(waveCanvas.width);
+        let PSTraj = [];
+        let WaveTraj = [];
+        let outData = [];
+
+        let tlim = 512
+        let numCoefficients = 256;
+        let numHarm = 3;
+        let rotatePS = 0.0;
+        let waveHarm = 4;
+        let yScale = 1;
+
+        let A4 = 440.0;
+        
+        // Set up audio stuff
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let currentOscillator = null;
+        let currentGainNode = null;
+
+        // The analyzer computes the real-time Fourier transform (FFT) of the playing audio
+        const analyzer = audioCtx.createAnalyser();
+        analyzer.fftSize = 4096; 
+        const bufferLength = analyzer.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        // Draw harmonic
+        function drawPureTone(amp) {
+            for (let t=0; t<=tlim; t++) {
+                const arg = 2*Math.PI * t / tlim;  
+                const x = Math.cos(arg);
+                const y = Math.sin(arg);
+                const {tX,tY} = Cartesian2Touch(x,y,scale=amp);
+                waveCtx.fillStyle = '#333';
+                waveCtx.fillRect(tX, tY, 2, 2);
+            } 
+        }
+
+        // Clear phase space canvas
+        function clearWaveCanvas() {
+            waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+            waveCtx.strokeStyle = '#333';
+            waveCtx.beginPath();
+            waveCtx.moveTo(0, waveCanvas.height / 2);
+            waveCtx.lineTo(waveCanvas.width, waveCanvas.height / 2);
+            waveCtx.stroke();
+
+            waveCtx.beginPath();
+            waveCtx.moveTo(waveCanvas.width / 2, 0);
+            waveCtx.lineTo(waveCanvas.width / 2 , waveCanvas.height );
+            waveCtx.stroke();
+
+            drawPureTone(0.75);
+            return;
+        }
+
+        // Clear waveform canvas
+        function clearPlotCanvas() {
+            const w = plotCanvas.width;
+            const h = plotCanvas.height;
+            plotCtx.clearRect(0, 0, w, h);
+
+            plotCtx.strokeStyle = '#333';
+            plotCtx.beginPath();
+            plotCtx.moveTo(0, h / 2);
+            plotCtx.lineTo(w, h / 2);
+            plotCtx.stroke();
+
+            for (let n=1; n<=3; ++n) {
+                for (let t=0; t<=tlim; t++) {
+                    plotCtx.fillStyle = '#333';
+                    plotCtx.fillRect(t/tlim*w, h/2 - Math.sin(2*n*Math.PI*t/tlim)*h/2, 2, 2);
+                    // plotCtx.fillRect(t/tlim*w, t/tlim*h, 2, 2);
+                } 
+            }
+
+            return;
+        }
+
+        // Clear and initialize
+        function initializeCanvas() {
+            clearWaveCanvas()
+            clearPlotCanvas()
+        }
+        initializeCanvas();
+
+        // Event listeners for UI
+        waveCanvas.addEventListener('mousedown', (e) => { isDrawing = true; recordPoint2Canvas(e,waveCanvas,waveCtx,PSTraj); });
+        waveCanvas.addEventListener('mouseup', () => { isDrawing = false; handlePSDraw(); });
+        waveCanvas.addEventListener('mousemove', (e) => { if (isDrawing) recordPoint2Canvas(e,waveCanvas,waveCtx,PSTraj); });
+        waveCanvas.addEventListener('touchstart', (e) => { isDrawing = true; recordPoint2Canvas(e.touches[0],waveCanvas,waveCtx,PSTraj); });
+        waveCanvas.addEventListener('touchend', () => { isDrawing = false; handlePSDraw(); });
+        waveCanvas.addEventListener('touchmove', (e) => { if (isDrawing) recordPoint2Canvas(e.touches[0],waveCanvas,waveCtx,PSTraj); });
+
+        plotCanvas.addEventListener('mousedown', (e) => { isDrawingWave = true; recordPoint2Canvas(e,plotCanvas,plotCtx,WaveTraj); });
+        plotCanvas.addEventListener('mouseup', () => { isDrawingWave = false; handleWaveDraw(); });
+        plotCanvas.addEventListener('mousemove', (e) => { if (isDrawingWave) recordPoint2Canvas(e,plotCanvas,plotCtx,WaveTraj); });
+        plotCanvas.addEventListener('touchstart', (e) => { isDrawingWave = true; recordPoint2Canvas(e.touches[0],plotCanvas,plotCtx,WaveTraj); });
+        plotCanvas.addEventListener('touchend', () => { isDrawingWave = false; handleWaveDraw(); });
+        plotCanvas.addEventListener('touchmove', (e) => { if (isDrawingWave) recordPoint2Canvas(e.touches[0],plotCanvas,plotCtx,WaveTraj); });
+
+        // Plot to waveform canvas
+        function plotWaveform(t,x,fillStyle='#bb007f',clear=true) {
+            
+            if (clear) clearPlotCanvas();
+
+            const w = plotCanvas.width;
+            const h = plotCanvas.height;
+            
+            const tmax = Math.max(...t);
+            lim = t.length;
+            for (let i=0; i<=lim; i++) {
+                plotCtx.fillStyle = fillStyle;
+                // plotCtx.fillRect(t/tlim*w, h/2 - PSTraj[t]?.y*h/2, 2, 2);
+                plotCtx.fillRect(t[i]/tmax*w, h/2 - x[i]*h/2, 2, 2);
+            } 
+        }
+
+        // Plot data phase space canvas
+        function plotPhaseSpace(x,v,fillStyle='#bb007f30',clear=true,xscale=1.,vscale=1.) {
+
+            if (clear) {
+                clearWaveCanvas();
+                plotTraj();
+            }
+            
+            const w = waveCanvas.width;
+            const h = waveCanvas.height;
+            
+            for (let i=0; i<x.length; i++) {
+                waveCtx.fillStyle = fillStyle;
+                waveCtx.fillRect(xscale*x[i]*w/2 + w/2, h/2 - vscale*v[i]*h/2, 3, 3);
+            } 
+
+            return;
+        }
+
+        // Plot user input to phase space canvas
+        function plotTraj() {
+            waveCtx.fillStyle = '#bb007f';
+            for (let i=0; i<PSTraj.length; ++i) {
+                waveCtx.fillRect(PSTraj[i]?.touchX, PSTraj[i]?.touchY - 2, 2, 2);
+            }
+            return;
+        } 
+
+        // Canvas indices to xy
+        function Touch2Cartesian(tX,tY,scale=1) {
+
+            const centerX = waveCanvas.width / 2;
+            const centerY = waveCanvas.height / 2;
+
+            // Convert to Cartesian (Origin at center)
+            const x = (tX - centerX) / centerX / scale;
+            const y = (centerY - tY) / centerY / scale;
+
+            return {x, y};
+        }
+
+        // xy to canvas indices
+        function Cartesian2Touch(x,y,scale=1) {
+
+            const centerX = waveCanvas.width / 2;
+            const centerY = waveCanvas.height / 2;
+
+            // Convert to Cartesian (Origin at center)
+            const tX = scale*centerX * x + centerX;
+            const tY = centerY - scale*centerY * y;
+
+            return {tX, tY}
+        }
+
+        // Draw on given canvas and push points to desired trajectory structure
+        function recordPoint2Canvas(e,canvas=waveCanvas,ctx=waveCtx,traj=PSTraj) {
+            const rect = canvas.getBoundingClientRect();
+            const touchX = Math.floor(e.clientX - rect.left);
+            const touchY = e.clientY - rect.top;
+
+            if (touchX < 0 || touchX >= canvas.width) return;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            // Convert to Cartesian (Origin at center)
+            const x = (touchX - centerX) / centerX;
+            const y = (centerY - touchY) / centerY; // Invert Y because canvas goes down
+
+            traj.push({x,y,touchX,touchY})
+
+            ctx.fillStyle = '#bb007f';
+            ctx.fillRect(touchX, touchY - 2, 2, 2);
+        }
+
+
+        // Display Fourier amplitudes
+        function plotFourierAmplitudes(magnitudes,numCoefficients) {
+            const w = fourierCanvas.width;
+            const h = fourierCanvas.height;
+            fourierCtx.clearRect(0, 0, w, h);
+
+            // Draw horizontal lines
+            fourierCtx.strokeStyle = '#222';
+            fourierCtx.lineWidth = 1;
+            for (let gridY = 0; gridY < h; gridY += 30) {
+                fourierCtx.beginPath();
+                fourierCtx.moveTo(0, gridY);
+                fourierCtx.lineTo(w, gridY);
+                fourierCtx.stroke();
+            }
+
+            // Draw the individual harmonic bars
+            const barWidth = w / (numCoefficients - 1);
+            
+            // Ignore plotting DC component
+            for (let k = 1; k < numCoefficients; k++) {
+                // Set bar heights
+                const barHeight = magnitudes[k] * h * 2.0 ; 
+                const x = (k - 1) * barWidth;
+                const y = h - barHeight - 15;
+
+                // Bar colors 
+                fourierCtx.fillStyle = `hsl(${k * 8}, 100%, 50%)`;
+                fourierCtx.fillRect(x + 1, y, barWidth - 5, barHeight);
+
+                // Print amplitudes
+                let magstr = magnitudes[k].toLocaleString('en-US', { minimumFractionDigits: 2 })
+                fourierCtx.font = "10px Verdana";
+                // fourierCtx.fillText(magstr, x, y-10);
+
+                fourierCtx.fillText(`${k}`, x, h-3);
+            }
+        }
+
+        // Parse user input to phase space canvas
+        function handlePSDraw() {
+
+            // PSTraj = [];
+            // for (let t=0; t<=128; t++) {
+            //     const arg = 2*Math.PI * t / 128;  
+            //     const x = Math.sin(arg)*Math.sin(arg);
+            //     const y = Math.cos(arg)*Math.cos(arg);
+            //     PSTraj.push({x,y});
+            // } 
+
+            let x = PSTraj.map(item => item.x);
+            let v = PSTraj.map(item => item.y);
+
+            const newPS = smoothPhaseSpace(x,v,Nharm=numHarm,N=512*4,rot=rotatePS);
+            x = newPS.x;
+            v = newPS.v;
+
+            const t = XV2TX(x,v);
+            
+            const {newt, newx} = resampleData(t,x,Nint=1024*4);
+
+            // plotWaveform(t,x);
+            plotWaveform(newt,newx);
+
+            plotPhaseSpace(x,v,fillStyle='#00aabf40');
+
+            const dt = newt[1]-newt[0];
+            const newv = dxdt(newx,dt);
+            // plotWaveform(newt,newv);
+            plotPhaseSpace(newx,newv,fillStyle='#00aaaa',clear=false);
+
+            const {real, imag, magnitudes} = DFT(newx,32+1);
+            plotFourierAmplitudes(magnitudes,32+1);
+
+            // outData = {newt,newx};
+            outData.t = newt;
+            outData.x = newx;
+
+        }
+
+        // Parse user input to waveform canvas
+        function handleWaveDraw() {
+
+            let t = WaveTraj.map(item => item.x);
+            let x = WaveTraj.map(item => item.y);
+
+            // Fix time
+            for (let i=0; i<t.length; i++) {
+                t[i] = (t[i]+1)/2;
+            } 
+            t = [...t,t[t.length-1]+t[1]-t[0]];
+            x = [...x,x[0]];
+            
+            const {newt, newx} = resampleData(t,x,Nint=1024*4);
+            const fft = DFT(newx,waveHarm+1);
+
+            const wave = createWaveform(fft.magnitudes,fft.phases,N=512*4);
+
+            plotWaveform(newt,newx);
+            plotWaveform(wave.t,wave.x,fillStyle='#00aabf40');
+
+            const dt = wave.t[1]-wave.t[0];
+            const newv = dxdt(wave.x,dt*2*Math.PI);
+            plotPhaseSpace(wave.x,newv,fillStyle='#00aaaa',clear=true,xscale=0.75,vscale=0.75/yScale);
+
+            const {real, imag, magnitudes} = DFT(wave.x,32+1);
+            plotFourierAmplitudes(magnitudes,32+1);
+
+            outData.t = wave.t;
+            outData.x = wave.x;
+
+            return;
+
+        }
+
+        // Controls audio output
+        function playNote(frequency) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            stopNote();
+
+            // const amps = outData.map(item => item.newx);
+            const {real, imag} = DFT(outData.x,numCoefficients);
+            const customWave = audioCtx.createPeriodicWave(real, imag, {disableNormalization: false});
+            currentOscillator = audioCtx.createOscillator();
+            currentGainNode = audioCtx.createGain();
+
+            currentOscillator.setPeriodicWave(customWave);
+            currentOscillator.frequency.value = frequency;
+
+            currentGainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            currentGainNode.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.02);
+
+            // Connect routing chain: Oscillator -> Gain -> analyzer -> Speakers
+            currentOscillator.connect(currentGainNode);
+            currentGainNode.connect(analyzer);
+            analyzer.connect(audioCtx.destination);
+            
+            currentOscillator.start();
+        }
+
+        // Stop active note
+        function stopNote() {
+            if (currentOscillator && currentGainNode) {
+                const now = audioCtx.currentTime;
+                currentGainNode.gain.cancelScheduledValues(now);
+                currentGainNode.gain.setValueAtTime(currentGainNode.gain.value, now);
+                currentGainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.001);
+                
+                currentOscillator.stop(now + 0.001);
+                currentOscillator = null;
+            }
+        }
+
+        // --- LIVE SPECTROGRAM GRAPH ENGINE ---
+        // Pre-allocate a temporary canvas image data shift buffer to make horizontal scrolling smooth
+        function renderSpectrogram() {
+            requestAnimationFrame(renderSpectrogram);
+
+            const width = specCanvas.width;
+            const height = specCanvas.height;
+
+            // Shift the current spectrogram image data exactly 1 pixel to the left
+            const imgData = specCtx.getImageData(1, 0, width - 1, height);
+            specCtx.putImageData(imgData, 0, 0);
+
+            // Get updated frequency intensity values from the live node
+            analyzer.getByteFrequencyData(dataArray);
+
+            // Draw the newest 1-pixel column on the far right edge of the screen
+            const xOffset = width - 1;
+
+            // We loop from bottom up because lowest frequencies belong at the bottom of the graph
+            for (let y = 0; y < height; y++) {
+                // Focus primarily on audible lower-mid human overtones instead of empty ultrasonic space
+                const percent = y / height;
+                const index = Math.floor(percent * (bufferLength * 0.3)); 
+                const value = dataArray[index];
+
+                // Convert frequency intensity value to a custom heat color string
+                // Silent = Black, Medium = Teal/Green, Max Vol = Bright Orange/White
+                const r = value > 150 ? (value - 150) * 2.5 : 0;
+                const g = value;
+                const b = value < 200 ? value : 255 - value;
+
+                specCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                specCtx.fillRect(xOffset, height - y, 1, 1);
+            }
+        }
+        // Fire up the continuous loop frame execution engine
+        renderSpectrogram();
+
+        // Set triggers for key presses
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('mousedown', () => playNote(A4 * Math.pow(2,parseFloat(key.dataset.freq)/12)));
+            key.addEventListener('mouseup', stopNote);
+            key.addEventListener('mouseleave', stopNote);
+            key.addEventListener('touchstart', (e) => { e.preventDefault(); playNote(A4 * Math.pow(2,parseFloat(key.dataset.freq)/12)); });
+            key.addEventListener('touchend', stopNote);
+        });
+        document.querySelectorAll('.black_key').forEach(key => {
+            key.addEventListener('mousedown', () => playNote(A4 * Math.pow(2,parseFloat(key.dataset.freq)/12)));
+            key.addEventListener('mouseup', stopNote);
+            key.addEventListener('mouseleave', stopNote);
+            key.addEventListener('touchstart', (e) => { e.preventDefault(); playNote(A4 * Math.pow(2,parseFloat(key.dataset.freq)/12)); });
+            key.addEventListener('touchend', stopNote);
+        });
+
+        // document.querySelectorAll('.slider').forEach(slider => {
+        //     slider.addEventListener('input', function() {
+        //         output.textContent = this.value;}
+        // });
+
+        // Update the text layout instantly as the user drags the slider
+        slider.addEventListener('input', function() {
+            output.textContent = parseFloat(this.value)-100;
+            A4 = 440.0 * parseFloat(this.value)/100;
+        });
+
+        harmSlider.addEventListener('input', function() {
+            harmValue.textContent = this.value;
+            numHarm = parseInt(this.value);
+            handlePSDraw();
+        });
+
+        rotSlider.addEventListener('input', function() {
+            rotValue.textContent = this.value;
+            rotatePS = parseFloat(this.value);
+            handlePSDraw();
+        });
+
+        waveHarmSlider.addEventListener('input', function() {
+            waveHarmValue.textContent = this.value;
+            waveHarm = parseFloat(this.value);
+            handleWaveDraw();
+        });
+
+        yScaleSlider.addEventListener('input', function() {
+            yScaleValue.textContent = this.value;
+            yScale = parseInt(this.value);
+            handleWaveDraw();
+        });
+
+        // Listen to the entire document
+        document.addEventListener('keydown', (event) => {
+            // Kill repeat notes
+            if (event.repeat) return;
+
+            let key = null;
+
+            // Check if the pressed key is the 'Enter' key
+            if (event.key === 'Enter') {
+                console.log('Blippity blam!!!');
+            }
+            if (event.key === 'a') {
+            playNote(A4 * Math.pow(2,-10/12));
+            }
+            if (event.key === 'z') {
+            playNote(A4 * Math.pow(2,-9/12));
+            key = document.getElementById('key-C4');
+            }
+            if (event.key === 's') {
+            playNote(A4 * Math.pow(2,-8/12));
+            key = document.getElementById('key-C#4');
+            }
+            if (event.key === 'x') {
+            playNote(A4 * Math.pow(2,-7/12));
+            key = document.getElementById('key-D4');
+            }
+            if (event.key === 'd') {
+            playNote(A4 * Math.pow(2,-6/12));
+            key = document.getElementById('key-D#4');
+            }
+            if (event.key === 'c') {
+            playNote(A4 * Math.pow(2,-5/12));
+            key = document.getElementById('key-E4');
+            }
+            if (event.key === 'v') {
+            playNote(A4 * Math.pow(2,-4/12));
+            key = document.getElementById('key-F4');
+            }
+            if (event.key === 'g') {
+            playNote(A4 * Math.pow(2,-3/12));
+            key = document.getElementById('key-F#4');
+            }
+            if (event.key === 'b') {
+            playNote(A4 * Math.pow(2,-2/12));
+            key = document.getElementById('key-G4');
+            }
+            if (event.key === 'h') {
+            playNote(A4 * Math.pow(2,-1/12));
+            key = document.getElementById('key-G#4');
+            }
+            if (event.key === 'n') {
+            playNote(A4 * Math.pow(2,0/12));
+            key = document.getElementById('key-A4');
+            }
+            if (event.key === 'j') {
+            playNote(A4 * Math.pow(2,1/12));
+            key = document.getElementById('key-A#4');
+            }
+            if (event.key === 'm') {
+            playNote(A4 * Math.pow(2,2/12));
+            key = document.getElementById('key-B4');
+            }
+            if (event.key === ',') {
+            playNote(A4 * Math.pow(2,3/12));
+            key = document.getElementById('key-C5');
+            }
+            if (event.key === 'l') {
+            playNote(A4 * Math.pow(2,4/12));
+            }
+            if (event.key === '.') {
+            playNote(A4 * Math.pow(2,5/12));
+            }
+
+            // Activate chosen key if its a valid option
+            try {
+                key.classList.add('active');
+            }
+            catch {}
+        });
+        // Listen to the entire document
+        document.addEventListener('keyup', (event) => {
+            stopNote();
+            document.querySelectorAll('.key').forEach(key => {key.classList.remove('active');});
+            document.querySelectorAll('.black_key').forEach(key => {key.classList.remove('active');});
+        });
+
+        clearBtn.addEventListener('click', () => {
+            // amplitudeData.fill(0);
+            PSTraj = [];
+            initializeCanvas();
+            stopNote();
+        });
+    </script>
+</body>
+</html>
