@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.E.N.N.Y. Emulator!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00ffcc;
+            --text: #ffffff;
+            --led-on: #ff3333;
+            --led-off: #330c0c;
+            --bus-inactive: #444444;
+        }
+        body {
+            margin: 0; padding: 20px; color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            display: grid; grid-template-columns: 320px 1fr; gap: 20px; height: 95vh;
+            background: linear-gradient(rgba(20, 20, 20, 0.8), rgba(20, 20, 20, 0.8)), url('assets/kennyV5.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        .panel {
+            background: rgba(25, 25, 25, 0.85); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 15px;
+            display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        h2 { margin-top: 0; border-bottom: 2px solid var(--accent); padding-bottom: 6px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        h3 { margin-top: 0; font-size: 0.65rem; letter-spacing: 1px; }
+        textarea { flex-grow: 1; background: rgba(0, 0, 0, 0.6); color: #5cdb95; border: 1px solid #555; padding: 12px; font-family: monospace; font-size: 14px; resize: none; border-radius: 6px; }
+        .btn { background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 8px 12px; margin-top: 10px; cursor: pointer; border-radius: 6px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        .btn:hover { background: var(--accent); color: #111; box-shadow: 0 0 10px var(--accent); }
+        .main-workspace { display: grid; grid-template-rows: auto 1fr; gap: 20px; }
+        .controls { display: flex; flex-direction: row; gap: 20px; align-items: center; }
+        
+        .slider-box { display: flex; flex-direction: column; font-size: 0.8rem; color: #aaa; min-width: 150px; }
+        .slider-box input { cursor: pointer; accent-color: var(--accent); margin-top: 4px; }
+
+        .schematic-canvas { 
+            display: grid; 
+            grid-template-columns: 1fr 140px 1fr; 
+            grid-template-rows: repeat(4, auto) 1fr;
+            gap: 15px; 
+            padding: 15px; 
+        }
+        
+        .central-bus {
+            grid-column: 2;
+            grid-row: 3 / span 3;
+            border-left: 6px dashed var(--bus-inactive);
+            border-right: 6px dashed var(--bus-inactive);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: #777;
+            text-align: center;
+        }
+        
+        .module { background: rgba(10, 10, 10, 0.9); border: 2px solid #3c3c3c; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; }
+        .module.active { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 255, 204, 0.4); }
+        .module-title { font-size: 0.75rem; color: #bbb; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+        
+        .led-display { display: flex; gap: 3px; background: #000; padding: 4px; border-radius: 4px; justify-content: flex-end; align-items: center; }
+        .led { width: 12px; height: 12px; background-color: var(--led-off); border-radius: 50%; }
+        .led.on { background-color: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
+        .hex-val { font-family: monospace; font-size: 13px; color: var(--accent); text-align: right; margin-top: 2px; }
+
+        /* Green LEDs */
+        .led.green-led { background-color: #0c330c; }
+        .led.green-led.on { background-color: #33ff33; box-shadow: 0 0 6px #33ff33; }
+
+        /* Yellow LEDs */
+        .led.yellow-led { background-color: #33260c; }
+        .led.yellow-led.on { background-color: #ffcc00; box-shadow: 0 0 6px #ffcc00; }
+
+        /* Blue LEDs */
+        .led.blue-led { background-color: #0c2033; }
+        .led.blue-led.on { background-color: #0099ff; box-shadow: 0 0 6px #0099ff; }
+
+        /* White LEDs */
+        .led.white-led { background-color: #333333; }
+        .led.white-led.on { background-color: #ffffff; box-shadow: 0 0 6px #0099ff; }
+
+        /* Set module grid alignment */
+        #mod-pc    { grid-column: 1; grid-row: 1; }
+        #mod-mar   { grid-column: 1; grid-row: 2; }
+        #mod-ram   { grid-column: 1; grid-row: 3; }
+        #mod-ir    { grid-column: 1; grid-row: 4; }
+        #mod-mcc   { grid-column: 1; grid-row: 5; }
+        #mod-cword { grid-column: 1; grid-row: 6; }
+
+        #mod-flags { grid-column: 2; grid-row: 2; height: 60px; }
+        #mod-jcond { grid-column: 2; grid-row: 1; height: 60px; }
+        #mod-dec   { grid-column: 1 / span 3; grid-row: 7; }
+
+        #mod-areg  { grid-column: 3; grid-row: 1; }
+        #mod-breg  { grid-column: 3; grid-row: 2; }
+        #mod-adder { grid-column: 3; grid-row: 3; }
+        #mod-nand  { grid-column: 3; grid-row: 4; }
+        #mod-flip  { grid-column: 3; grid-row: 5; }
+        #mod-out   { grid-column: 3; grid-row: 6; }
+
+        /* Big row @ bottom for decoder */
+        #dec-leds {
+            display: flex; justify-content: space-between; background: #000;
+            padding: 8px; border-radius: 4px; gap: 2px; overflow-x: auto;
+        }
+        .led-node { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex: 1; min-width: 24px; text-align: center; }
+        .led-label { font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; color: #888; margin-top: 4px; text-transform: uppercase; line-height: 9px; word-break: break-all; }
+        .led-node.active .led-label { color: var(--accent); text-shadow: 0 0 4px rgba(0, 255, 204, 0.5); }
+
+        /* Canvas box sizing overrides for the 16x2 display layout module */
+        #lcd-canvas {
+            width: 100%;
+            height: 92px;
+            background: #000;
+            border-radius: 1px;
+            display: block;
+        }
+
+        /* Customize links */
+        a { color: var(--accent); text-decoration: none; }
+
+    </style>
+    <!-- Links to external LCD library -->
+    <script src="https://visrealm.github.io/vrEmuLcd/src/vrEmuLcd.js"></script>
+    <script src="https://visrealm.github.io/vrEmuLcd/bin/vrEmuLcdWasm.js"></script>
+</head>
+<body>
+
+    <div class="panel">
+        <h2>Assembly Code</h2>
+        <h3>Need help? See <a href="https://rigzridge.github.io/assets/kennyguide3.pdf">here</a>!</h3>
+        <textarea id="assemblyCode" placeholder="nop&#10;add 0x80&#10;inc 0x80&#10;jmp 0x2&#10;"></textarea>
+        <button class="btn" onclick="assembleCode()">Assemble (Ctrl + Enter)</button>
+    </div>
+
+    <div class="main-workspace">
+        <div class="panel controls">
+            <button class="btn" onclick="clockStep(2)">Step (Ctrl + Up)</button>
+            <button class="btn" onclick="toggleRun()">Run / Pause (Ctrl + Down)</button>
+            <button class="btn" onclick="resetSystem()">Reset (Ctrl + r)</button>
+            
+            <div class="slider-box">
+                <label>Clock Delay: <span id="delay-lbl">200</span>ms</label>
+                <input type="range" id="speedSlider" min="0.1" max="2000" value="200" oninput="updateSpeed(this.value)">
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px;">
+                <span style="font-size: 0.7rem; color: #aaa; text-transform: uppercase; margin-bottom: 2px;">CLK</span>
+                <div id="clock-pulse-led" class="led green-led" style="width: 14px; height: 14px;"></div>
+            </div>
+
+            <div style="margin-left: auto; text-align: right;">
+                <span id="status-mode" style="color: #ffcc00; font-weight: bold;">HALTED</span><br>
+                <!-- <small id="microstep-counter" style="color: #aaa;">Microstep: 0</small> -->
+            </div>
+        </div>
+
+        <div class="panel schematic-canvas">
+            
+            <!-- CENTRAL TRACK OVERLAYS -->
+            <div class="module" id="mod-flags">
+                <div class="module-title" style="text-align: center;">Flags</div>
+                <div class="led-display" id="flags-leds" style="justify-content: center;"></div>
+            </div>
+
+            <div class="module" id="mod-jcond">
+                <div class="module-title" style="text-align: center;">Jump Condition</div>
+                <div class="led-display" id="jcond-leds" style="justify-content: center;"></div>
+                <div class="hex-val" id="jcond-hex">0x00</div>
+            </div>
+
+            <div class="central-bus" id="main-bus">
+                12-BIT BUS
+                <!-- <div class="led-display" id="bus-leds" style="justify-content: center;"></div> -->
+            </div>
+
+            <!-- LEFT INPUT ADDRESSING PIPELINE -->
+            <div class="module" id="mod-pc">
+                <div class="module-title">Program Counter (6-bit)</div>
+                <div class="led-display" id="pc-leds"></div>
+                <div class="hex-val" id="pc-hex">0x00</div>
+            </div>
+            
+            <div class="module" id="mod-mar">
+                <div class="module-title">Memory Address Reg (8-bit)</div>
+                <div class="led-display" id="mar-leds"></div>
+                <div class="hex-val" id="mar-hex">0x00</div>
+            </div>
+
+            <div class="module" id="mod-ram">
+                <div class="module-title">Memory value (16-bit)</div>
+                <div class="led-display" id="ram-leds"></div>
+                <div class="hex-val" id="ram-hex">0x0000</div>
+            </div>
+
+            <div class="module" id="mod-ir">
+                <div class="module-title">Instruction Register (16-bit)</div>
+                <div class="led-display" id="ir-leds"></div>
+                <div class="hex-val" id="ir-hex">0x0000</div>
+            </div>
+
+            <div class="module" id="mod-mcc">
+                <div class="module-title">Microcode Counter (4-bit)</div>
+                <div class="led-display" id="mcc-leds"></div>
+                <div class="hex-val" id="mcc-hex">0x0</div>
+            </div>
+
+            <div class="module" id="mod-cword">
+                <div class="module-title">Control Word (16-bit)</div>
+                <div class="led-display" id="cword-leds"></div>
+                <div class="hex-val" id="cword-hex">0x0000</div>
+            </div>
+            
+            <!-- RIGHT COMPUTATIONAL MATH PIPELINE -->
+            <div class="module" id="mod-areg">
+                <div class="module-title">A Register (12-bit)</div>
+                <div class="led-display" id="areg-leds"></div>
+                <div class="hex-val" id="areg-hex">0x000</div>
+            </div>
+
+            <div class="module" id="mod-breg">
+                <div class="module-title">B Register (12-bit)</div>
+                <div class="led-display" id="breg-leds"></div>
+                <div class="hex-val" id="breg-hex">0x000</div>
+            </div>
+
+            <!-- CONSOLIDATED SIDE-BY-SIDE ALU ROW -->
+            <!-- <div class="module split-alu-row" id="mod-alu"> -->
+            <div class="module" id="mod-adder">
+                <div class="module-title">12-Bit Adder</div>
+                <div class="led-display" id="adder-leds"></div>
+                <div class="hex-val" id="adder-hex">0x000</div>
+            </div>
+            <div class="module" id="mod-nand">
+                <div class="module-title">12-Bit NAND</div>
+                <div class="led-display" id="nand-leds"></div>
+                <div class="hex-val" id="nand-hex">0x000</div>
+            </div>
+            <!-- </div> -->
+
+            <div class="module" id="mod-flip">
+                <div class="module-title">Bit Flipper/Rotator (12-bit)</div>
+                <div class="led-display" id="flip-leds"></div>
+                <div class="hex-val" id="flip-hex">0x000</div>
+            </div>
+
+            <!-- Emulated LCD screen -->
+            <div class="module" id="mod-out">
+                <div class="module-title">16x2 LCD Screen</div>
+                <canvas id="lcd-canvas" width="1200" height="200"></canvas>
+            </div>
+
+            <!-- Input module -->
+            <div class="module" id="mod-input" style="grid-column: 2; grid-row: 6;">
+                <div class="module-title" style="text-align: center;">12-Bit Input Panel (Hex)</div>
+                <input type="text" id="hw-input-val" value="0000" maxlength="4"
+                       style="width: 80%; margin: 4px auto; display: block; background: #000; color: var(--accent); border: 1px solid #444; font-family: monospace; text-align: center; border-radius: 4px; text-transform: uppercase;"
+                       oninput="this.value = this.value.replace(/[^0-9a-fA-F]/g, '')">
+            </div>
+
+            <!-- BOTTOM FULL-WIDTH DECODER EXTENSION -->
+            <div class="module" id="mod-dec">
+                <div class="module-title">Instruction Decoder (21-Bit)</div>
+                <div id="dec-leds"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="microcode.js"></script>
+    <script>
+        const RAM_LIMIT = 256;
+        let memory = new Uint16Array(RAM_LIMIT).fill(0);
+        let clockDelay = 200;
+        
+        let state = { 
+            pc: 0, mar: 0, ir: 0, mcc: 0, aReg: 0, bReg: 0, outReg: 0,
+            adderVal: 0, nandVal: 0, flipVal: 0, flags: 8, jcond: 0, microstep: 0, 
+            running: false, intervalId: null 
+        };
+
+        let bus = 0;
+        let cword = 0b0000000000000000;
+        let decoder  = 0b000000000000000000000;
+
+        const DECODER_LABELS = [
+            "mari", "iri", "romi", "pci",
+            "fo", "iro", "romo", "pco",
+            "ai", "bi", "sum", "nand", "inv", "ci", "fi" ,
+            "flag", "halt", "ce", "irr", 
+            "lcd", "con"
+        ];
+
+        const FLAG_LABELS = [
+            "UC", "O", "OF", "-1"
+        ];
+
+        const JUMP_CONDITIONS = [
+            "Unconditional", "Odd", "Overflow", "0xFFF"
+        ];
+
+        // Controller buffer
+        let conBuffer = 0;
+
+        // Global reference tracking variable for the instantiated library object
+        let lcdDisplayInstance = null;
+        let canvasElement = null;
+        let canvasContext = null;
+
+        function init() {
+            // Set up LCD canvas
+            canvasElement = document.getElementById("lcd-canvas");
+            canvasContext = canvasElement.getContext("2d");
+
+            // Attach asynchronous hook monitoring library module load states
+            if (window.vrEmuLcd && typeof window.vrEmuLcd.setLoadedCallback === "function") {
+                window.vrEmuLcd.setLoadedCallback(function () {
+                    setupLcdDisplay();
+                });
+            } else {
+                // Fallback detection if script loads natively before listener registers
+                setTimeout(setupLcdDisplay, 500);
+            }
+            updateHardwareUI(0,0);
+        }
+
+        function setupLcdDisplay() {
+            if (!window.vrEmuLcd || typeof window.vrEmuLcd.newLCD !== "function") return;
+            
+            // Set up virtual LCD screen
+            lcdDisplayInstance = window.vrEmuLcd.newLCD(16, 2, window.vrEmuLcd.CharacterRom.European);
+
+            if (lcdDisplayInstance) {
+                //  See https://visrealm.github.io/vrEmuLcd/
+                lcdDisplayInstance.colorScheme = window.vrEmuLcd.Schemes.BlackOnBlue;
+                renderLcdScreenView();
+            }
+        }
+
+        function renderLcdScreenView() {
+            if (!lcdDisplayInstance || !canvasContext || !canvasElement) return;
+
+            // Clears backdrop canvas memory maps safely before plotting current matrices
+            canvasContext.fillStyle = "#000000";
+            canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
+            
+            // Scales the layout structure cleanly into target resolution boundaries
+            lcdDisplayInstance.render(canvasContext, 0, 0, canvasElement.width, canvasElement.height);
+        }
+        
+        function updateSpeed(ms) {
+            clockDelay = parseInt(ms);
+            document.getElementById('delay-lbl').innerText = clockDelay/2;
+            if (state.running) {
+                clearInterval(state.intervalId);
+                state.intervalId = setInterval(clockStep, clockDelay/2);
+            }
+        }
+
+        function updateHardwareUI(cword,decoder) {
+
+            // bus leds???
+            // renderLeds('bus-leds', bus, 12);
+
+            renderLeds('pc-leds', state.pc, 6);
+            renderLeds('mar-leds', state.mar, 8);
+            renderLeds('ram-leds', memory[state.mar], 16);
+            renderLeds('ir-leds', state.ir, 16);
+            renderLeds('mcc-leds', state.mcc, 4);
+            renderLeds('cword-leds', cword, 16);
+            renderLeds('flags-leds', state.flags, 4);
+            renderLeds('jcond-leds', state.jcond, 2);
+            renderLeds('areg-leds', state.aReg, 12);
+            renderLeds('breg-leds', state.bReg, 12);
+            renderLeds('adder-leds', state.adderVal, 12);
+            renderLeds('nand-leds', state.nandVal, 12);
+            renderLeds('flip-leds', state.flipVal, 12);
+            renderLeds('dec-leds', decoder, 21);
+
+            document.getElementById('pc-hex').innerText =    '0x' + state.pc.toString(16).toUpperCase().padStart(2, '0');
+            document.getElementById('mcc-hex').innerText =   '0x' + state.mcc.toString(16).toUpperCase().padStart(1, '0');
+            document.getElementById('mar-hex').innerText =   '0x' + state.mar.toString(16).toUpperCase().padStart(2, '0');
+            document.getElementById('ram-hex').innerText =   '0x' + memory[state.mar].toString(16).toUpperCase().padStart(4, '0');
+            document.getElementById('ir-hex').innerText =    '0x' + state.ir.toString(16).toUpperCase().padStart(4, '0');
+            document.getElementById('cword-hex').innerText = '0x' + cword.toString(16).toUpperCase().padStart(4, '0');
+            document.getElementById('areg-hex').innerText =  '0x' + state.aReg.toString(16).toUpperCase().padStart(3, '0');
+            document.getElementById('breg-hex').innerText =  '0x' + state.bReg.toString(16).toUpperCase().padStart(3, '0');
+            document.getElementById('adder-hex').innerText = '0x' + state.adderVal.toString(16).toUpperCase().padStart(3, '0');
+            document.getElementById('nand-hex').innerText =  '0x' + state.nandVal.toString(16).toUpperCase().padStart(3, '0');
+            document.getElementById('flip-hex').innerText =  '0x' + state.flipVal.toString(16).toUpperCase().padStart(3, '0');
+            // document.getElementById('microstep-counter').innerText = 'Microstep: ' + state.microstep;
+        }
+
+        function renderLeds(id, val, bits) {
+            const container = document.getElementById(id);
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let i = bits - 1; i >= 0; i--) {
+                const bitValue = (val >> i) & 1;
+
+                if (id === 'dec-leds' | id === 'flags-leds') {
+                    const node = document.createElement('div');
+                    node.className = bitValue ? 'led-node active' : 'led-node';
+                    const label = document.createElement('div');
+                    label.className = 'led-label';
+                    const led = document.createElement('div');
+                    led.className = bitValue ? 'led yellow-led on' : 'led yellow-led';
+                    label.innerText  = (id === 'flags-leds') ? FLAG_LABELS[bits - 1 - i] : DECODER_LABELS[bits - 1 - i];
+
+                    node.appendChild(led);
+                    node.appendChild(label);
+                    container.appendChild(node);
+                } 
+                else {
+                    const led = document.createElement('div');
+                    led.className = 'led';
+
+                    // Need to do a little work for colors other than red!
+                    if (id === 'pc-leds') {
+                        led.classList.add('blue-led'); 
+                    } 
+                    if (id === 'bus-leds') {
+                        // document.getElementById('-hex').style.textAlign = "center";
+                    } 
+                    else if (id === 'jcond-leds') {
+                        led.classList.add('blue-led'); 
+                        document.getElementById('jcond-hex').innerText = JUMP_CONDITIONS[val];
+                        document.getElementById('jcond-hex').style.textAlign = "center";
+                    } 
+                    else if (id === 'ir-leds') {
+                        if (i>=8 & i<10) led.classList.add('blue-led'); 
+                        else if (i>=10) led.classList.add('yellow-led'); 
+                    } 
+                    else if (id === 'mcc-leds') {
+                        led.classList.add('green-led');  
+                    } 
+                    else if (id === 'cword-leds') {
+                        if (i>=3 & i<=9) led.classList.add('yellow-led'); 
+                        else led.classList.add('white-led');   
+                    }
+                    // Any unassigned id defaults to red
+                    // ---------------------------------
+
+                    if (bitValue) led.classList.add('on');
+                    container.appendChild(led);
+                }
+            }
+        }
+
+        function clockStep(run=1) {
+
+            // High side of pulse... latch registers and let ripple
+            if (state.microstep%2 === 0) {
+                // Turn on LED
+                document.getElementById('clock-pulse-led').classList.add('on');
+
+                // Handle direct bus input
+                let input = parseInt( document.getElementById('hw-input-val').value, 16 ) || 0;
+                if (input) {
+                    bus |= input & 0xFFFF;
+                }
+
+                // Handle jump condition
+                state.jcond = 0;
+                if (decoder & DECODE.pci) {
+                    yesJump = false;
+                    state.jcond = (bus >> 8) & 0x3;
+                    if (state.jcond === 0) yesJump = (state.flags & 0x8) ? 1 : 0; 
+                    else if (state.jcond === 1) yesJump = (state.flags & 0x4) ? 1 : 0; 
+                    else if (state.jcond === 2) yesJump = (state.flags & 0x2) ? 1 : 0; 
+                    else if (state.jcond === 3) yesJump = (state.flags & 0x1) ? 1 : 0; 
+                    if (yesJump) state.pc = bus & 0x3F;
+                }
+
+                // Get data from bus
+                if (decoder & DECODE.mari) state.mar = bus & 0xFF;
+                if (decoder & DECODE.romi) memory[state.mar] = (input & 0xF000) | (bus & 0xFFF) ;
+                if (decoder & DECODE.iri)  state.ir = (memory[state.mar] & 0xF000) | (bus & 0xFFF);
+                if (decoder & DECODE.ai)   state.aReg = bus & 0xFFF;
+                if (decoder & DECODE.bi)   state.bReg = bus & 0xFFF;
+                if (decoder & DECODE.ce)   state.pc = (state.pc + 1) & 0x3F;
+                // Rotate bits
+                if (decoder & DECODE.fi) {
+                    state.flipVal = 0;
+                    let inflip = bus & 0xFFF;
+                    let N = 12;
+                    for (let i=0; i<N; ++i) {
+                        state.flipVal |= ((inflip>>i) & 0x1)<<(N-i-1);
+                    }
+                }  
+
+                // Update ALU
+                // let carryin = (decoder & DECODE.ci) ? 1 : 0;
+                let fullSum = state.aReg + state.bReg; // + carryin;
+                state.adderVal = fullSum & 0xFFF;
+                state.nandVal = (~(state.aReg & state.bReg)) & 0xFFF;
+
+                // LCD stuff
+                if (decoder & DECODE.lcd) { 
+                    if (lcdDisplayInstance) {
+
+                        // Command is lower bytes
+                        let command = state.adderVal & 0xFF; 
+                        // How to process is two lowest bits in upper bytes
+                        let xtra = (state.adderVal >> 8) & 0x3;
+
+                        // See https://cdn.sparkfun.com/assets/9/5/f/7/b/HD44780.pdf
+                        // and https://visrealm.github.io/vrEmuLcd/
+                        
+                        let out = 0;
+                        if (xtra === 0) { // Instruction
+                            lcdDisplayInstance.sendCommand(command);
+                        } else if (xtra === 1) { // Get address
+                            out = lcdDisplayInstance.readAddress(command);
+                            console.log(out);
+                        } else if (xtra === 2) { // Send character
+                            lcdDisplayInstance.writeByte(command);
+                        } else if (xtra === 3) { // Get data @ address
+                            out = lcdDisplayInstance.readByte(command);
+                            console.log(out);
+                        }
+
+                        // Put output into B register
+                        if (out) state.bReg = out & 0xFFF;
+                        renderLcdScreenView();
+                    }
+                }
+            }
+            // Low side of pulse... increment microcode counter and set next control word
+            else {
+                // Turn off LED
+                document.getElementById('clock-pulse-led').classList.remove('on');
+
+                // Clear or increment this dude
+                if (decoder & DECODE.irr) state.mcc = 0;
+                else state.mcc = (state.mcc + 1) & 0xF;
+
+                // Get opcode and xtra bits
+                let op = (state.ir >> 10) & 0x3F; 
+                let xtra = (state.ir >> 8) & 0x3; 
+
+                // Get control word
+                cword = MICROCODE[op][state.mcc] || 0;
+
+                // Clear bus and decoder
+                bus = 0;
+                decoder  = 0;
+
+                // Get unmultiplexed signals
+                decoder |= ((cword>>3) & 0x7F)<<6;
+
+                // Decode remaining signals
+                // "Ins"
+                let insig  = (cword>>13) & 0x7;
+                if (insig === 7)      decoder |= DECODE.mari;
+                else if (insig === 6) decoder |= DECODE.iri;
+                else if (insig === 5) decoder |= DECODE.romi;
+                else if (insig === 4) decoder |= DECODE.pci;
+                // "Outs" 
+                let outsig = (cword>>10) & 0x7;
+                if (outsig === 7)      decoder |= DECODE.fo;
+                else if (outsig === 6) decoder |= DECODE.iro;
+                else if (outsig === 5) decoder |= DECODE.romo;
+                else if (outsig === 4) decoder |= DECODE.pco;
+                // "Clock and I/O"
+                let clksig = cword & 0x7;
+                if (clksig === 7)      decoder |= DECODE.flag;
+                else if (clksig === 6) decoder |= DECODE.halt;
+                else if (clksig === 5) decoder |= DECODE.ce;
+                else if (clksig === 4) decoder |= DECODE.irr;
+                else if (clksig === 1) decoder |= DECODE.lcd;
+                else if (clksig === 2) decoder |= DECODE.con;
+                
+                // Send out to bus
+                if (decoder & DECODE.pco)  bus |= state.pc & 0x3F;
+                if (decoder & DECODE.romo) bus |= memory[state.mar] & 0xFFF;
+                if (decoder & DECODE.iro)  bus |= state.ir & 0xFFF;
+                if (decoder & DECODE.nand) bus |= state.nandVal;
+
+                // Handle carry
+                let carryin = (decoder & DECODE.ci) ? 1 : 0;
+                let fullSum = state.aReg + state.bReg + carryin;
+                if (decoder & DECODE.sum) {
+                    // let add = (decoder & DECODE.ci) ? state.adderVal+1 : state.adderVal;
+                    state.adderVal = fullSum & 0xFFF;
+                    bus |= fullSum & 0xFFF;
+                    // console.log(add)
+                }
+
+                // Handle invert
+                if (decoder & DECODE.fo) {
+                    let flip = (decoder & DECODE.inv) ? ~state.flipVal : state.flipVal;
+                    bus |= flip & 0xFFF;
+                }
+
+                // Detect controller
+                if (decoder & DECODE.con) {
+                    bus |= (conBuffer<<8);
+                    // Kill buffer if input is used
+                    if ((conBuffer | xtra) === 0x3) conBuffer = 0;
+                }
+
+                // Check halt
+                if (decoder & DECODE.halt) {
+                    toggleRun(true); 
+                    document.getElementById('status-mode').innerText = "HALTED"; 
+                }
+
+                // Update flags
+                let oFlag = bus%2 ? 1 : 0;
+                let zFlag = state.adderVal === 0xFFF ? 1 : 0;
+                let cFlag = fullSum > 0xFFF ? 1 : 0;
+                if (decoder & DECODE.flag) state.flags = 0x8 | (oFlag << 2) | (cFlag << 1) | zFlag;
+            }
+
+            // Update lights
+            updateHardwareUI(cword,decoder);
+
+            // Increment half step
+            state.microstep++;
+
+            // If user clicks "Step" we still need to do the back half
+            if (run===2) setTimeout(function() {clockStep();}, clockDelay);
+
+        }
+
+        function toggleRun(halt = false) {
+            if (state.running || halt) { 
+                clearInterval(state.intervalId); 
+                state.running = false; 
+                document.getElementById('status-mode').innerText = "PAUSED"; }
+            else { 
+                state.running = true; 
+                document.getElementById('status-mode').innerText = "RUNNING"; 
+                state.intervalId = setInterval(clockStep, clockDelay); }
+        }
+
+        function assembleCode() {
+
+            // Clear memory
+            memory.fill(0); 
+
+            // Get program input
+            const textLines = document.getElementById('assemblyCode').value.split('\n');
+            
+            // Loop through!
+            let idx = 0;
+            for (let i = 0; i < textLines.length; i++) {
+
+                // Keep only uncommented lines
+                let line = textLines[i];
+                let clean = line.trim().split('%').shift().trim();
+                if (!clean) continue;
+
+                // Remove comments from within line
+                let parts = line.split('%');
+                // Split at any whitespace char, see https://stackoverflow.com/questions/28127794/difference-between-split-s-and-split
+                parts = parts.at(0).split(/\s+/);
+
+                // array.at(n) instead of array[n], see https://www.geeksforgeeks.org/cpp/when-to-use-vector-at-instead-of-vector-subscript-operator/
+
+                // Find instruction
+                let inst = parts.at(0).toUpperCase();
+
+                // Check for trailing spaces
+                Nparts = (parts.at(parts.length-1) === '') ? parts.length-1 : parts.length;
+
+                console.log(parts,Nparts)
+
+                // Check op/xtra
+                let op = 0;
+                let xtra = 0;
+                if (Nparts>1) {
+                    if (Nparts === 3) xtra = parseInt(parts.at(1), 16);
+                    op = parseInt(parts.at(Nparts-1), 16);
+                }
+
+                if (OPCODES[inst] !== undefined) {
+                    memory[idx] = ((OPCODES[inst] << 10) | (xtra << 8) | (op & 0xFF)) & 0xFFFF;
+                    idx++;
+                }
+            }
+
+            console.log(memory)
+            memory[0x80] = 0x000f;
+            // memory[0x81] = 0x0001;
+
+            alert("Loaded!"); 
+            resetSystem();
+            // alert("Hey\ndude\nwhat's\ngood?")
+        }
+
+        function resetSystem() {
+            state.pc = 0; 
+            state.mar = 0; 
+            state.ir = 0; 
+            state.mcc = 0;
+            state.aReg = 0; 
+            state.bReg = 0; 
+            state.outReg = 0; 
+            state.microstep = 0;
+            toggleRun(true); 
+            document.getElementById('status-mode').innerText = "READY"; 
+            updateHardwareUI(0,0);
+        }
+
+        init();
+
+        // Keyboard inputs
+        window.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 'ArrowRight') {
+                conBuffer = 1;
+                event.preventDefault(); // Stop the page from scrolling
+            } else if (event.ctrlKey && event.key === 'ArrowLeft') {
+                conBuffer = 2;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'Enter') {
+                assembleCode();
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'ArrowUp') { 
+                clockStep(2);
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'ArrowDown') { 
+                toggleRun();
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'r') { 
+                state.ir = 0;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'h') { 
+                alert("See https://rigzridge.github.io/assets/kennyguide3.pdf"); 
+                event.preventDefault(); 
+            } else {
+                return; // Ignore all other keys
+            }
+
+        });
+
+    </script>
+</body>
+</html>
+
+
