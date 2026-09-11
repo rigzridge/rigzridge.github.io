@@ -25,16 +25,89 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 15px;
             display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
-        h2 { margin-top: 0; border-bottom: 2px solid var(--accent); padding-bottom: 6px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { margin-top: 0; border-bottom: 2px solid var(--accent); padding-bottom: 6px; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
         h3 { margin-top: 0; font-size: 0.65rem; letter-spacing: 1px; }
         textarea { flex-grow: 1; background: rgba(0, 0, 0, 0.6); color: #5cdb95; border: 1px solid #555; padding: 12px; font-family: monospace; font-size: 14px; resize: none; border-radius: 6px; }
         .btn { background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 8px 12px; margin-top: 10px; cursor: pointer; border-radius: 6px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        .btn.alt-btn { background-color: #0c330c; }
         .btn:hover { background: var(--accent); color: #111; box-shadow: 0 0 10px var(--accent); }
+        .btn.alt-btn:hover::after {
+              content: attr(data-title); /* Grabs the text from HTML */
+              position: absolute;
+/*              bottom: 50%;             */
+              left: 0%;
+              transform: translateY(20%);
+              
+              /* Styling & Formatting */
+              background: #111;
+              color: #fff;
+              padding: 10px;
+              border-radius: 4px;
+              border: 1px solid var(--accent);
+              font-size: 0.9rem;
+              font-weight: normal;
+              text-transform: none;
+              text-align: left;
+              font-family: monospace;
+              
+              /* Crucial lines to prevent text-clipping and keep line breaks */
+              white-space: pre-wrap;     
+              width: max-content;
+              max-width: 300px;          /* Adjust width limit to your liking */
+              z-index: 10;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+          }
+
+            /* 2. Hide the datatip element completely by default */
+            .btn.alt-btn .datatip {
+              display: none;
+              position: absolute;
+/*              bottom: 125%;       */
+/*              left: 50%;*/
+/*              transform: translateX(-50%);*/
+              
+              /* Styling & Formatting */
+              background: #111;
+              color: #fff;
+              padding: 10px;
+              border-radius: 4px;
+              border: 1px solid var(--accent);
+              font-size: 0.8rem;
+              font-weight: normal;
+              text-transform: none;
+              z-index: 10;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+              
+              /* Preserves literal line breaks in the HTML structure */
+              white-space: pre-wrap;     
+              width: max-content;
+              max-width: 320px;          
+              text-align: left;          /* Keeps text cleanly aligned left */
+            }
+
+            /* 3. Reveal the datatip when hovering over the button */
+            .btn.alt-btn:hover .datatip {
+              display: block;
+            }
+
         .main-workspace { display: grid; grid-template-rows: auto 1fr; gap: 20px; }
         .controls { display: flex; flex-direction: row; gap: 20px; align-items: center; }
         
         .slider-box { display: flex; flex-direction: column; font-size: 0.8rem; color: #aaa; min-width: 150px; }
         .slider-box input { cursor: pointer; accent-color: var(--accent); margin-top: 4px; }
+
+        dialog { 
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px; 
+            max-width: 4000 px;
+        }
+
+        dialog img {
+            width: 100%;
+            height: auto;
+        }
 
         .schematic-canvas { 
             display: grid; 
@@ -65,7 +138,7 @@
         .led-display { display: flex; gap: 3px; background: #000; padding: 4px; border-radius: 4px; justify-content: flex-end; align-items: center; }
         .led { width: 12px; height: 12px; background-color: var(--led-off); border-radius: 50%; }
         .led.on { background-color: var(--led-on); box-shadow: 0 0 6px var(--led-on); }
-        .hex-val { font-family: monospace; font-size: 13px; color: var(--accent); text-align: right; margin-top: 2px; }
+        .hex-val { font-family: monospace; font-size: 14px; color: var(--accent); text-align: right; margin-top: 2px; }
 
         /* Green LEDs */
         .led.green-led { background-color: #0c330c; }
@@ -115,6 +188,7 @@
         #lcd-canvas {
             width: 100%;
             height: 92px;
+/*            height: 100%;*/
             background: #000;
             border-radius: 1px;
             display: block;
@@ -122,6 +196,62 @@
 
         /* Customize links */
         a { color: var(--accent); text-decoration: none; }
+
+            /* Styling for the modal backdrop and container */
+        dialog {
+          border: none;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          max-width: 90vw;
+        }
+        /* Smooth fading backdrop background */
+        dialog::backdrop {
+          background: rgba(0, 0, 0, 0.5);
+        }
+        /* Layout inside the modal */
+        .modal-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+        .modal-content img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 4px;
+        }
+        .list-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .list-options button {
+            padding: 10px;
+            text-align: left;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .list-options button:hover {
+            background: #e0e0e0;
+        }
+        .close-btn {
+          padding: 8px 16px;
+          cursor: pointer;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between; /* Spreads buttons evenly across the row */
+            gap: 10px; /* Optional: adds a safe minimum gap between buttons */
+          }
+          
+          .button-row button {
+            flex: 1; /* Forces all buttons to grow and take up equal widths */
+          }
 
     </style>
     <!-- Links to external LCD library -->
@@ -131,10 +261,322 @@
 <body>
 
     <div class="panel">
-        <h2>Assembly Code</h2>
-        <h3>Need help? See <a href="https://rigzridge.github.io/assets/kennyguide3.pdf">here</a>!</h3>
-        <textarea id="assemblyCode" placeholder="nop&#10;add 0x80&#10;inc 0x80&#10;jmp 0x2&#10;"></textarea>
+
+        <!-- The Dialog Element -->
+        <dialog id="listDialog">
+            <h3 style="margin-top: 0;">Try it out!</h3>
+            
+            <!-- form method="dialog" handles closing automatically -->
+            <form method="dialog">
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="super_demo">Meet K.E.N.N.Y.</button>
+                </div>
+                <h3 style="margin-top: 0;">Demo</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="increment">Increment</button>
+                    <button class="btn alt-btn" type="submit" value="fib">Fibonacci</button>
+                    <button class="btn alt-btn" type="submit" value="collatz">Collatz</button>
+                </div>
+                <h3 style="margin-top: 0;">Straightforward</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="kenny" style="bottom: 50%;" 
+                    data-title="Prints name on LCD&#10;">K.E.N.N.Y.</button>
+                    <button class="btn alt-btn" type="submit" value="wave">LCD shift</button>
+                    <button class="btn alt-btn" type="submit" value="count_dec">Decimal</button>
+                    <button class="btn alt-btn" type="submit" value="logo_to_wv">Copyright</button>
+                </div>
+                <h3 style="margin-top: 0;">LCD stuff</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="divide">Divide</button>
+                    <button class="btn alt-btn" type="submit" value="sqrt_iter">Sqrt</button>
+                    <button class="btn alt-btn" type="submit" value="primes_dec_fancy">Primes</button>
+                    <button class="btn alt-btn" type="submit" value="fact_print_lookup">Factorial</button>
+                </div>
+                 <h3 style="margin-top: 0;">Math/recursion</h3>
+
+<!--                 <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="stack_fxn1-1">Function w/ stack</button>
+                </div>
+                <h3 style="margin-top: 0;">Using stack</h3> -->
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="starfox">"Starfox"</button>
+                    <button class="btn alt-btn" type="submit" value="turtle_bridge">Turtle Bridge</button>
+                    <button class="btn alt-btn" type="submit" value="turtle_trace">Looper</button>
+                </div>
+                <h3 style="margin-top: 0;">Games</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="editor">Editor</button>
+                    <button class="btn alt-btn" type="submit" value="plotter">Plotter</button>
+                    <button class="btn alt-btn" type="submit" value="nibble_calc">Calculator</button>
+                </div>
+                <h3 style="margin-top: 0;">Tools</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="plot_lookup">Lookup table</button>
+                    <button class="btn alt-btn" type="submit" value="plot_collatz">Collatz</button>
+                    <button class="btn alt-btn" type="submit" value="plot_rotate">Bit reverse</button>
+                    <button class="btn alt-btn" type="submit" value="plot_mod">Modulo</button>
+                </div>
+                <h3 style="margin-top: 0;">Plots</h3>
+
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="turtle_loop">Loops</button>
+                    <button class="btn alt-btn" type="submit" value="langdons_ant">Langdon's ant</button>
+                </div>
+                <h3 style="margin-top: 0;">Animations/automata</h3>
+
+
+                <button class="btn alt-btn" type="submit" value="none" style="color: #f00">Cancel</button>
+
+            </form>
+        </dialog>
+
+        <!-- Opcodes -->
+        <dialog id="listOpcodes">
+            <h3 style="margin-top: 0;">K.E.N.N.Y. opcodes</h3>
+            
+            <!-- form method="dialog" handles closing automatically -->
+            <form method="dialog">
+                <div class="button-row"> 
+                <button class="btn alt-btn" type="submit" value="none" style="color: #f00"
+                data-title="Return">Cancel</button>
+                <button class="btn alt-btn" type="submit" value="mem 0x[mem] 0x[data]&#10;"
+                data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">MEM</button>
+                </div>
+<!--                 <button class="btn alt-btn" type="submit" value="jmp 0x[cond] 0x[line]">
+                  JMP
+                  <span class="datatip">
+                    <b style="color: #ff5555;">JMP 0x[cond] 0x[line]</b>
+                    Jump PC to 0x[line] if [cond] is satisfied.
+                    <span style="color: #55ff55;">[cond]==0:</span> unconditional
+                    <span style="color: #55ff55;">[cond]==1:</span> odd
+                    <span style="color: #55ff55;">[cond]==2:</span> carry out
+                    <span style="color: #55ff55;">[cond]==3:</span> sum == 0xfff
+                  </span>
+                </button> -->
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="boot&#10;" 
+                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
+                    <button class="btn alt-btn" type="submit" value="boot&#10;" 
+                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
+                    <button class="btn alt-btn" type="submit" value="boot&#10;"
+                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
+                    <button class="btn alt-btn" type="submit" value="boot&#10;"
+                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="add 0x[mem]&#10;"
+                    data-title="ADD 0x[mem]&#10;- - - - - &#10;Saves sum of A and B registers to 0x[mem].&#10;Changes: flags&#10;">ADD</button>
+                    <button class="btn alt-btn" type="submit" value="svp 0x[pointer]"
+                    data-title="SVP 0x[pointer]&#10;- - - - - &#10;Saves 0x[pointer] at stack pointer (0xff)*.&#10;Changes: flip&#10;">SVP</button>
+                    <button class="btn alt-btn" type="submit" value="pxa"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PXA</button>
+                    <button class="btn alt-btn" type="submit" value="ppa"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PPA</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="awc 0x[mem]&#10;"
+                    data-title="AWC 0x[mem]&#10;- - - - - &#10;Saves (A + B + 1) to 0x[mem].&#10;Changes: flags&#10;">AWC</button>
+                    <button class="btn alt-btn" type="submit" value="swp 0x[mem]"
+                    data-title="SWP 0x[mem]&#10;- - - - - &#10;Swaps value at 0x[mem] with value at stackpointer, ie, (0xff)**.&#10;">SWP</button>
+                    <button class="btn alt-btn" type="submit" value="pxs&#10;"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PXS</button>
+                    <button class="btn alt-btn" type="submit" value="ppo"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PPO</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="nan 0x[mem]&#10;"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;Changes: flags&#10;">NAN</button>
+                    <button class="btn alt-btn" type="submit" value="fan"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FAN</button>
+                    <button class="btn alt-btn" type="submit" value="for"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FOR</button>
+                    <button class="btn alt-btn" type="submit" value="fxo"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FXO</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="flp 0x[mem]&#10;"
+                    data-title="FLP 0x[mem]&#10;- - - - - &#10;Invert bits at 0x[mem].&#10;Changes: flip, flags&#10;">FLP</button>
+                    <button class="btn alt-btn" type="submit" value="fad"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FAD</button>
+                    <button class="btn alt-btn" type="submit" value="fin"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FIN</button>
+                    <button class="btn alt-btn" type="submit" value="ftm"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FTM</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="rot 0x[mem]&#10;"
+                    data-title="ROT 0x[mem]&#10;- - - - - &#10;Reverses bits at 0x[mem].&#10;Changes: flip, flags&#10;">ROT</button>
+                    <button class="btn alt-btn" type="submit" value="fsu"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FSU</button>
+                    <button class="btn alt-btn" type="submit" value="fde"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FDE</button>
+                    <button class="btn alt-btn" type="submit" value="fmt"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FMT</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="inc 0x[mem]&#10;"
+                    data-title="INC 0x[mem]&#10;- - - - - &#10;Increments value at 0x[mem].&#10;Changes: a, b&#10;">INC</button>
+                    <button class="btn alt-btn" type="submit" value="cwf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CWF</button>
+                    <button class="btn alt-btn" type="submit" value="cwb"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CWB</button>
+                    <button class="btn alt-btn" type="submit" value="jfm"
+                    data-title="JMP 0x[cond] 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if [cond] is satisfied.&#10;[cond]==0: unconditional&#10;[cond]==1: odd&#10;[cond]==2: carry out&#10;[cond]==3: sum == 0xfff&#10;">JFM</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="jmp 0x[cond] 0x[line]&#10;"
+                    data-title="JMP 0x[cond] 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if [cond] is satisfied.&#10;[cond]==0: unconditional&#10;[cond]==1: odd&#10;[cond]==2: carry out&#10;[cond]==3: sum == 0xfff&#10;">JMP</button>
+                    <button class="btn alt-btn" type="submit" value="jin"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JIN</button>
+                    <button class="btn alt-btn" type="submit" value="jfo"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JFO</button>
+                    <button class="btn alt-btn" type="submit" value="jfc"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JFC</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="lda 0x[mem]&#10;"
+                    data-title="LDA 0x[mem]&#10;- - - - - &#10;Loads data at 0x[mem] into A register.&#10;Changes: a&#10;">LDA</button>
+                    <button class="btn alt-btn" type="submit" value="ldf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LDF</button>
+                    <button class="btn alt-btn" type="submit" value="aff"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">AFF</button>
+                    <button class="btn alt-btn" type="submit" value="sri"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SRI</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="ldb 0x[mem]&#10;"
+                    data-title="LDB 0x[mem]&#10;- - - - - &#10;Loads data at 0x[mem] into B register.&#10;Changes: b&#10;">LDB</button>
+                    <button class="btn alt-btn" type="submit" value="saf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SAF</button>
+                    <button class="btn alt-btn" type="submit" value="bff"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">BFF</button>
+                    <button class="btn alt-btn" type="submit" value="sro"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SRO</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="mxx 0x[mem]&#10;"
+                    data-title="MXX 0x[mem]&#10;- - - - - &#10;Multiplies 0x[mem]* by 2.&#10;Changes: a, b, flip, flags&#10;">MXX</button>
+                    <button class="btn alt-btn" type="submit" value="fmx"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FMX</button>
+                    <button class="btn alt-btn" type="submit" value="gmf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">GMF</button>
+                    <button class="btn alt-btn" type="submit" value="pek"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PEK</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="dxx 0x[mem]&#10;"
+                    data-title="DXX 0x[mem]&#10;- - - - - &#10;Divides 0x[mem]* by 2.&#10;Changes: a, b, flip, flags&#10;">DXX</button>
+                    <button class="btn alt-btn" type="submit" value="fdx"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FDX</button>
+                    <button class="btn alt-btn" type="submit" value="ghf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">GHF</button>
+                    <button class="btn alt-btn" type="submit" value="pek"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PKM</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="lcd 0x[type] 0x[op]&#10;"
+                    data-title="LCD 0x[type] 0x[op]&#10;- - - - - &#10;Perform operation on LCD display; data (if read) sent to B register.&#10;[type]==0: instruction&#10;[type]==1: read address&#10;[type]==2: character&#10;[type]==3: read data @ address&#10;Changes: a, b&#10;">LCD</button>
+                    <button class="btn alt-btn" type="submit" value="lcf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LCF</button>
+                    <button class="btn alt-btn" type="submit" value="lfp"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LFP</button>
+                    <button class="btn alt-btn" type="submit" value="pod"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">POD</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="inp"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">INP</button>
+                    <button class="btn alt-btn" type="submit" value="inf"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">INF</button>
+                    <button class="btn alt-btn" type="submit" value="pop"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">POP</button>
+                    <button class="btn alt-btn" type="submit" value="cpo"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CPO</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="wri"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">WRI</button>
+                    <button class="btn alt-btn" type="submit" value="pud"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PUD</button>
+                    <button class="btn alt-btn" type="submit" value="psh"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PSH</button>
+                    <button class="btn alt-btn" type="submit" value="cpu"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CPU</button>
+                </div>
+                <div class="button-row">
+                    <button class="btn alt-btn" type="submit" value="nop"
+                    data-title="NOP&#10;- - - - - &#10;No operation&#10;">NOP</button>
+                    <button class="btn alt-btn" type="submit" value="cla"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CLA</button>
+                    <button class="btn alt-btn" type="submit" value="clr"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CLR</button>
+                    <button class="btn alt-btn" type="submit" value="hlt"
+                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">HLT</button>
+                </div>
+                <div class="button-row"> 
+                <button class="btn alt-btn" type="submit" value="none" style="color: #f00"
+                data-title="Return">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+
+        <div style="flex-direction: row; ">
+
+            <button class="btn" onclick="goToDocs()" id="openModal">Docs</button>
+
+            <button class="btn" onclick="showModal(document.getElementById('listOpcodes'))">Ops</button>
+
+            <button class="btn" >Hotkeys</button>
+
+            <button class="btn" onclick="showModal(document.getElementById('asciiTable'))" id="openModal">ASCII Table</button>
+              <dialog id="asciiTable">
+                <div class="modal-content">
+                  <img src="assets/ASCII_Table_(suitable_for_printing).svg" alt="ASCII table">
+                  <button class="btn" onclick="closeModal(document.getElementById('asciiTable'))" class="close-btn">Close</button>
+                </div>
+              </dialog>
+
+            <button class="btn" onclick="showModal(document.getElementById('lcdTable'))">LCD codes</button>
+            <dialog id="lcdTable">
+                <div class="modal-content">
+                  <img src="assets/lcd_codes.png" alt="LCD controls">
+                  <button class="btn" onclick="closeModal(document.getElementById('lcdTable'))" >Close</button>
+                </div>
+              </dialog>
+
+              <button class="btn" >k Syntax</button>
+
+              <button class="btn" onclick="showModal(document.getElementById('listDialog'))">Examples</button>
+            <br>
+        </div>
+
+        <br>
+
+        <h2>K.E.N.N.Y. Code Editor</h2>
+        <!-- <h3>Need help? See <a href="https://rigzridge.github.io/assets/kennyguide3.pdf">here</a>!</h3> -->
+        <h3 style="color: #ff0000; font-size: 16px" id="fileName">untitled.k</h3>
+
+        <h3 style="color: #ccff00; font-size: 12px" id="progLines">--</h3>
+
+        <!-- <textarea id="fileName" style="flex-grow: 0;">untitled.k</textarea> -->
+        <textarea id="assemblyCode" placeholder="nop&#10;.loop&#10;inc 0x80&#10;jmp .loop&#10;"></textarea>
+
         <button class="btn" onclick="assembleCode()">Assemble (Ctrl + Enter)</button>
+        <div style="flex-direction: row;">
+            <button class="btn" onclick="selectFile()">Load .k</button>
+            <!-- <button class="btn" onclick="document.getElementById('fileInput').click()">Load .k</button> -->
+            <button class="btn" id="saveCodeText" onclick="saveCode(hex = false)">Save .k</button>
+            <button class="btn" id="saveCodeHex" onclick="saveCode(hex = true)">Save Hex</button>
+        </div>
+        <!-- This is hidden since ctrl+o is cleaner -->
+        <!-- <input class="btn" type="file" id="fileInput" accept=".k" hidden> -->
     </div>
 
     <div class="main-workspace">
@@ -145,7 +587,7 @@
             
             <div class="slider-box">
                 <label>Clock Delay: <span id="delay-lbl">200</span>ms</label>
-                <input type="range" id="speedSlider" min="0.1" max="2000" value="200" oninput="updateSpeed(this.value)">
+                <input type="range" id="speedSlider" min="0.0" max="2000" value="200" oninput="updateSpeed(this.value)">
             </div>
 
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px;">
@@ -154,8 +596,11 @@
             </div>
 
             <div style="margin-left: auto; text-align: right;">
+                <span id="game-mode" style="color: #00cccc; font-weight: bold;"></span><br>
+            </div>
+
+            <div style="margin-left: auto; text-align: right;">
                 <span id="status-mode" style="color: #ffcc00; font-weight: bold;">HALTED</span><br>
-                <!-- <small id="microstep-counter" style="color: #aaa;">Microstep: 0</small> -->
             </div>
         </div>
 
@@ -181,12 +626,15 @@
             <!-- LEFT INPUT ADDRESSING PIPELINE -->
             <div class="module" id="mod-pc">
                 <div class="module-title">Program Counter (6-bit)</div>
+                <div class="hex-val" id="stack-hex" style="text-align: left; color: #aaa; font-size: 12px">Stack pointer: 0x00</div>
                 <div class="led-display" id="pc-leds"></div>
                 <div class="hex-val" id="pc-hex">0x00</div>
             </div>
             
             <div class="module" id="mod-mar">
                 <div class="module-title">Memory Address Reg (8-bit)</div>
+                <!-- <span id="current-op" style="color: #ffcc00; font-size: 12; font-weight: bold;">Stack pointer: </span> -->
+                <!-- <div class="hex-val" id="stack-hex" style="text-align: left">Stack pointer: 0x00</div> -->
                 <div class="led-display" id="mar-leds"></div>
                 <div class="hex-val" id="mar-hex">0x00</div>
             </div>
@@ -199,8 +647,12 @@
 
             <div class="module" id="mod-ir">
                 <div class="module-title">Instruction Register (16-bit)</div>
-                <div class="led-display" id="ir-leds"></div>
+                <div style="flex-direction: row;">
+                    <span id="current-op" style="color: #ffcc00; font-weight: bold;">BOOT</span>
+                    <div class="led-display" id="ir-leds"></div>
+                </div>
                 <div class="hex-val" id="ir-hex">0x0000</div>
+                <!-- <span id="current-op" style="color: #00ccff; font-weight: bold;">BOOT</span><br> -->
             </div>
 
             <div class="module" id="mod-mcc">
@@ -273,6 +725,7 @@
 
     <script src="microcode.js"></script>
     <script>
+
         const RAM_LIMIT = 256;
         let memory = new Uint16Array(RAM_LIMIT).fill(0);
         let clockDelay = 200;
@@ -286,6 +739,10 @@
         let bus = 0;
         let cword = 0b0000000000000000;
         let decoder  = 0b000000000000000000000;
+
+        let showLEDs = true;
+        let gameMode = false;
+        let showBigLCD = false;
 
         const DECODER_LABELS = [
             "mari", "iri", "romi", "pci",
@@ -312,6 +769,7 @@
         let canvasContext = null;
 
         function init() {
+
             // Set up LCD canvas
             canvasElement = document.getElementById("lcd-canvas");
             canvasContext = canvasElement.getContext("2d");
@@ -332,7 +790,7 @@
             if (!window.vrEmuLcd || typeof window.vrEmuLcd.newLCD !== "function") return;
             
             // Set up virtual LCD screen
-            lcdDisplayInstance = window.vrEmuLcd.newLCD(16, 2, window.vrEmuLcd.CharacterRom.European);
+            lcdDisplayInstance = window.vrEmuLcd.newLCD(16, 4, window.vrEmuLcd.CharacterRom.European);
 
             if (lcdDisplayInstance) {
                 //  See https://visrealm.github.io/vrEmuLcd/
@@ -349,7 +807,8 @@
             canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
             
             // Scales the layout structure cleanly into target resolution boundaries
-            lcdDisplayInstance.render(canvasContext, 0, 0, canvasElement.width, canvasElement.height);
+            let screenScale = (showBigLCD) ? 1 : 2; 
+            lcdDisplayInstance.render(canvasContext, 0, 0, canvasElement.width, canvasElement.height*screenScale);
         }
         
         function updateSpeed(ms) {
@@ -366,20 +825,22 @@
             // bus leds???
             // renderLeds('bus-leds', bus, 12);
 
-            renderLeds('pc-leds', state.pc, 6);
-            renderLeds('mar-leds', state.mar, 8);
-            renderLeds('ram-leds', memory[state.mar], 16);
-            renderLeds('ir-leds', state.ir, 16);
-            renderLeds('mcc-leds', state.mcc, 4);
-            renderLeds('cword-leds', cword, 16);
-            renderLeds('flags-leds', state.flags, 4);
-            renderLeds('jcond-leds', state.jcond, 2);
-            renderLeds('areg-leds', state.aReg, 12);
-            renderLeds('breg-leds', state.bReg, 12);
-            renderLeds('adder-leds', state.adderVal, 12);
-            renderLeds('nand-leds', state.nandVal, 12);
-            renderLeds('flip-leds', state.flipVal, 12);
-            renderLeds('dec-leds', decoder, 21);
+            if (showLEDs) {
+                renderLeds('pc-leds', state.pc, 6);
+                renderLeds('mar-leds', state.mar, 8);
+                renderLeds('ram-leds', memory[state.mar], 16);
+                renderLeds('ir-leds', state.ir, 16);
+                renderLeds('mcc-leds', state.mcc, 4);
+                renderLeds('cword-leds', cword, 16);
+                renderLeds('flags-leds', state.flags, 4);
+                renderLeds('jcond-leds', state.jcond, 2);
+                renderLeds('areg-leds', state.aReg, 12);
+                renderLeds('breg-leds', state.bReg, 12);
+                renderLeds('adder-leds', state.adderVal, 12);
+                renderLeds('nand-leds', state.nandVal, 12);
+                renderLeds('flip-leds', state.flipVal, 12);
+                renderLeds('dec-leds', decoder, 21);
+            }
 
             document.getElementById('pc-hex').innerText =    '0x' + state.pc.toString(16).toUpperCase().padStart(2, '0');
             document.getElementById('mcc-hex').innerText =   '0x' + state.mcc.toString(16).toUpperCase().padStart(1, '0');
@@ -393,6 +854,8 @@
             document.getElementById('nand-hex').innerText =  '0x' + state.nandVal.toString(16).toUpperCase().padStart(3, '0');
             document.getElementById('flip-hex').innerText =  '0x' + state.flipVal.toString(16).toUpperCase().padStart(3, '0');
             // document.getElementById('microstep-counter').innerText = 'Microstep: ' + state.microstep;
+
+            document.getElementById('stack-hex').innerText =  'Stack pointer: 0x' + (memory[0xff] & 0xFF).toString(16).toUpperCase().padStart(2, '0') + ' [0x' + (memory[memory[0xff] & 0xFF]).toString(16).toUpperCase().padStart(4, '0') + ']';
         }
 
         function renderLeds(id, val, bits) {
@@ -457,12 +920,16 @@
             // High side of pulse... latch registers and let ripple
             if (state.microstep%2 === 0) {
                 // Turn on LED
-                document.getElementById('clock-pulse-led').classList.add('on');
+                if (showLEDs) document.getElementById('clock-pulse-led').classList.add('on');
 
                 // Handle direct bus input
-                let input = parseInt( document.getElementById('hw-input-val').value, 16 ) || 0;
+                let inputField = document.getElementById('hw-input-val')
+                let input = parseInt( inputField.value, 16 ) || 0;
                 if (input) {
                     bus |= input & 0xFFFF;
+                    // Clear input for convenience
+                    let dum = 0;
+                    inputField.value = dum.toString(16).toUpperCase().padStart(4, '0');
                 }
 
                 // Handle jump condition
@@ -517,12 +984,10 @@
                             lcdDisplayInstance.sendCommand(command);
                         } else if (xtra === 1) { // Get address
                             out = lcdDisplayInstance.readAddress(command);
-                            console.log(out);
                         } else if (xtra === 2) { // Send character
                             lcdDisplayInstance.writeByte(command);
                         } else if (xtra === 3) { // Get data @ address
                             out = lcdDisplayInstance.readByte(command);
-                            console.log(out);
                         }
 
                         // Put output into B register
@@ -534,7 +999,7 @@
             // Low side of pulse... increment microcode counter and set next control word
             else {
                 // Turn off LED
-                document.getElementById('clock-pulse-led').classList.remove('on');
+                if (showLEDs) document.getElementById('clock-pulse-led').classList.remove('on');
 
                 // Clear or increment this dude
                 if (decoder & DECODE.irr) state.mcc = 0;
@@ -543,9 +1008,12 @@
                 // Get opcode and xtra bits
                 let op = (state.ir >> 10) & 0x3F; 
                 let xtra = (state.ir >> 8) & 0x3; 
+                let add = state.ir & 0xFF; 
 
                 // Get control word
                 cword = MICROCODE[op][state.mcc] || 0;
+                if (showLEDs) document.getElementById('current-op').innerText = Object.keys(OPCODES).find(key => OPCODES[key] === op);
+                // document.getElementById('ir-hex').innerText = Object.keys(OPCODES).find(key => OPCODES[key] === op) + ' ' + document.getElementById('ir-hex').innerText;            
 
                 // Clear bus and decoder
                 bus = 0;
@@ -598,11 +1066,19 @@
                     bus |= flip & 0xFFF;
                 }
 
+                // console.log(conBuffer);
+
                 // Detect controller
                 if (decoder & DECODE.con) {
                     bus |= (conBuffer<<8);
                     // Kill buffer if input is used
-                    if ((conBuffer | xtra) === 0x3) conBuffer = 0;
+
+                    if (op===OPCODES.JIN) {
+                        if ((conBuffer | xtra) === 0x3) conBuffer = 0;
+                    } else if (op===OPCODES.CON) {
+                        let chkCond = (memory[add]>>8) & 0x3;
+                        if (conBuffer === chkCond) conBuffer = 0;
+                    }
                 }
 
                 // Check halt
@@ -645,12 +1121,27 @@
             // Clear memory
             memory.fill(0); 
 
+            // Clear input
+            conBuffer = 0;
+
             // Get program input
             const textLines = document.getElementById('assemblyCode').value.split('\n');
             
+            // Jumps
+            let jmpList = {};
+            let jmpNames = [];
+            let jmpLines = [];
+            // Variables
+            let varList = {};
+            let varNames = [];
+            let varLines = [];
+            let baseVar = 0x80;
+            let jfmMem = 0xc0;
             // Loop through!
             let idx = 0;
             for (let i = 0; i < textLines.length; i++) {
+
+                let varDef = false;
 
                 // Keep only uncommented lines
                 let line = textLines[i];
@@ -670,7 +1161,50 @@
                 // Check for trailing spaces
                 Nparts = (parts.at(parts.length-1) === '') ? parts.length-1 : parts.length;
 
-                console.log(parts,Nparts)
+                // Check variable
+                let varInd = parts.findIndex(parts => parts.includes("$"));
+
+                // Check if line indicates a jump block
+                if (parts.at(Nparts-1).includes('.')) {
+                    let jmpname = parts.at(Nparts-1).split('.').pop();
+                    if (Nparts === 1) {
+                        // Set up dictionary object with jump conditions
+                        jmpList[jmpname] = idx;
+                    }
+                    else { // Must be at the end of a line!
+                        // Put name and line in lists
+                        jmpNames.push(jmpname);
+                        jmpLines.push(idx);
+                    }
+
+                    // Now check for JFM mask... Only op with 4 inputs
+                    // jfm 0x3 $mask .line 
+                    if (varInd>-1) {
+                        Nparts--;
+                        let varname = parts.at(varInd).split('$').pop();
+                        // Put var and line in lists
+                        varNames.push(varname);
+                        varLines.push(idx);
+                    }
+
+                } else {
+                    // let varInd = parts.findIndex(parts => parts.includes("$"));
+                    if (varInd>-1) {
+                        let varname = parts.at(varInd).split('$').pop();
+                        // Definition?
+                        if (inst === 'MEM') {
+                            varDef = true;
+                            // Set up dictionary object with variables
+                            varList[varname] = baseVar;
+                            memory[baseVar++] = parseInt(parts.at(Nparts-1), 16);
+                        }
+                        else { // Must be at the end of a line!
+                            // Put var and line in lists
+                            varNames.push(varname);
+                            varLines.push(idx);
+                        }
+                    }
+                }
 
                 // Check op/xtra
                 let op = 0;
@@ -680,20 +1214,118 @@
                     op = parseInt(parts.at(Nparts-1), 16);
                 }
 
+                console.log(parts,Nparts,xtra,op)
+
                 if (OPCODES[inst] !== undefined) {
+                    if ((inst === "JFM") && (jmpLines.at(-1) === idx)) op = jfmMem;
                     memory[idx] = ((OPCODES[inst] << 10) | (xtra << 8) | (op & 0xFF)) & 0xFFFF;
                     idx++;
                 }
+                else if ((inst === "MEM") && !varDef) memory[xtra] = op;
             }
 
-            console.log(memory)
-            memory[0x80] = 0x000f;
-            // memory[0x81] = 0x0001;
+            // Fix lines with jump conditions
+            if (jmpLines.length > 0) {
+                for (let i=0; i<jmpLines.length; ++i) {
+                    let jmpline = jmpLines[i];
+                    let jmpname = jmpNames[i];
+                    memory[jmpline] |= jmpList[jmpname];
+                }
+            }
+            // Fix lines with variables 
+            if (varLines.length > 0) {
+                for (let i=0; i<varLines.length; ++i) {
+                    let varline = varLines[i];
+                    let varname = varNames[i];
+                    if ((memory[varline]>>10) === OPCODES.JFM) {
+                        let jmpMem = memory[varline] & 0xFF;
+                        let jmpMask = memory[varList[varname]];
+                        memory[jmpMem] |= jmpMask;
+                        alert("Warning! Memory 0x" + jmpMem.toString(16).toUpperCase() + " set to " + jmpMask.toString(16).toUpperCase())
+                        varList[varname] = jmpMem;
+                    } else memory[varline] |= varList[varname];
+                }
+            }
 
-            alert("Loaded!"); 
+            console.log(idx,memory,jmpList,varList)
+
+            document.getElementById("progLines").innerText = "Lines: " + idx + " | Jumps: " + Object.keys(jmpList).length + " | Vars: " + Object.keys(varList).length;
+
+            let dum = getMachineCode(idx);
+            alert('Loaded!\n- - - - - - -\n' + dum); 
             resetSystem();
-            // alert("Hey\ndude\nwhat's\ngood?")
         }
+
+        function getMachineCode(N = 64) {
+            // Convert each 16-bit number to a 4-character padded hex string
+            const hexLines = Array.from(memory.subarray(0, N), num => {
+              return num.toString(16).toUpperCase().padStart(4, '0');
+            });
+
+            // Join the hex strings with a newline
+            const textContent = hexLines.join('\n');
+
+            return textContent;
+        }
+
+
+        function saveCode(hex) {
+            // 1. Prompt the user for a filename (default: 'uint16-data')
+            let defalt = document.getElementById('fileName').innerText.split('.').at(0);
+            let fileName = window.prompt("Enter a filename:", defalt);
+
+            // If the user clicks 'Cancel', stop execution completely
+            if (fileName === null) {
+              console.log("Export canceled by user.");
+            } else {
+              // Clean up input or apply fallback if they leave it empty
+              fileName = fileName.trim() || defalt;
+
+              if (hex) assembleCode();
+              let ext = (hex) ? ".txt" : ".k";
+              textContent = (hex) ? getMachineCode() : document.getElementById('assemblyCode').value;
+
+              // Ensure it ends with desired extension
+              if (!fileName.endsWith(ext)) {
+                fileName += ext;
+                }
+
+                // Create the Blob and trigger the download
+                const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                document.getElementById('fileName').innerText = fileName.split('.').at(0) + ".k";
+            }
+        }
+
+
+        async function loadTextFile(prog = "starfox") {
+            try {
+                // const response = await fetch('programs/' + prog + ".k");
+                // const response = await fetch(""https://raw.githubusercontent.com/rigzridge/rigzridge.github.io/refs/heads/main/README.md"");
+                const response = await fetch("https://raw.githubusercontent.com/rigzridge/rigzridge.github.io/refs/heads/main/assets/programs/" + prog + ".k");
+                // const response = await window.prompt("Enter a filename:", "uint16-data");
+                if (!response.ok) throw new Error('File network response failed');
+                
+                const text = await response.text();
+                
+                // Update console
+                document.getElementById('assemblyCode').value = text;
+                document.getElementById('fileName').innerText = prog + ".k";
+            } catch (error) {
+                console.error('Error reading the text file:', error);
+            }
+        }
+
 
         function resetSystem() {
             state.pc = 0; 
@@ -709,14 +1341,23 @@
             updateHardwareUI(0,0);
         }
 
-        init();
-
-        // Keyboard inputs
+        // HOTKEYS!!!
         window.addEventListener('keydown', function(event) {
             if (event.ctrlKey && event.key === 'ArrowRight') {
-                conBuffer = 1;
+                clockDelay *= 1.2;
+                clockDelay = (clockDelay>2000) ? 2000 : clockDelay;
+                document.getElementById("speedSlider").value = clockDelay;
+                updateSpeed(clockDelay);
                 event.preventDefault(); // Stop the page from scrolling
+            } else if (gameMode && event.key === 'ArrowRight') {
+                conBuffer = 1;
+                event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'ArrowLeft') {
+                clockDelay *= 0.5;
+                document.getElementById("speedSlider").value = clockDelay;
+                updateSpeed(clockDelay);
+                event.preventDefault(); 
+            } else if (gameMode && event.key === 'ArrowLeft') {
                 conBuffer = 2;
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'Enter') {
@@ -727,9 +1368,48 @@
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'ArrowDown') { 
                 toggleRun();
+                event.preventDefault();
+            } else if (gameMode && event.key === 'ArrowDown') { 
+                conBuffer = 3;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'e') { 
+                showModal(document.getElementById('listDialog'));
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'r') { 
                 state.ir = 0;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 's') { 
+                saveCode(hex=false);
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'S') { 
+                saveCode(hex=true);
+                event.preventDefault();
+            } else if (event.ctrlKey && event.key === 'o') { 
+                // loadTextFile();
+                // document.getElementById('fileInput').click();
+                selectFile();
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'O') { 
+                showModal(document.getElementById('listOpcodes'))    
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'l') { 
+                showLEDs = !showLEDs;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'k') { 
+                let stackStart = 0xFF;
+                let stackEnd = memory[0xff];
+                dumstr = "Stack: \n"
+                for (let i=stackStart; i>=stackEnd; --i) dumstr += i.toString(16) + ": " + memory[i].toString(16) + "\n";
+                console.log(dumstr);
+                alert(dumstr);
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'm') { 
+                showBigLCD = !showBigLCD;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'g') { 
+                gameMode = !gameMode;
+                gameStr = gameMode ? "GAME MODE" : "";
+                document.getElementById("game-mode").innerText = gameStr;
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'h') { 
                 alert("See https://rigzridge.github.io/assets/kennyguide3.pdf"); 
@@ -739,6 +1419,95 @@
             }
 
         });
+
+        function closeModal(modal) {
+            modal.close();
+        }
+
+        function showModal(modal) {
+            modal.showModal();
+        }
+
+        function goToDocs() {
+            link = document.createElement('a');
+            link.href = "https://rigzridge.github.io/assets/kennyguide3.pdf";
+            link.target = "_blank";
+
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+        }
+
+        // document.getElementById('fileInput').addEventListener('change', (event) => {
+        //     const file = event.target.files[0];
+        //     const reader = new FileReader();
+
+        //     console.log(event)
+            
+        //     reader.onload = (e) => {
+        //       const contents = e.target.result;
+        //       document.getElementById('assemblyCode').value = contents;
+        //       document.getElementById('fileName').innerText = file.name;
+        //       console.log(e)
+
+        //       alert("File loaded!")
+        //     };
+            
+        //     reader.readAsText(file);
+        //     // Reset the input value so the same file can trigger change again
+        //     event.target.value = ''; 
+        //   });
+
+        // https://stackoverflow.com/questions/68231831/reading-a-file-that-changes-using-filereader
+        let fileHandle;
+          async function selectFile() {
+              [fileHandle] = await window.showOpenFilePicker();
+              document.getElementById('fileName').innerText = fileHandle.name;
+              readFile();
+          };
+
+          async function readFile() {
+              const file = await fileHandle.getFile();
+
+              const response = new Response(file);
+              const contents = await response.text();
+              document.getElementById('assemblyCode').value = contents;
+              alert("File loaded!")
+          }
+
+        document.getElementById('listDialog').addEventListener('close', (event) => {
+            // console.log(document.getElementById('listDialog').returnValue);
+            userpick = document.getElementById('listDialog').returnValue;
+                console.log(userpick)
+                loadTextFile(userpick);
+          });
+
+            document.getElementById('listOpcodes').addEventListener('close', (event) => {
+            // console.log(document.getElementById('listDialog').returnValue);
+            userpick = document.getElementById('listOpcodes').returnValue;
+            // if (userpick === "boot") {
+            //     console.log(userpick)
+            // }
+            // alert(userpick)
+            if (userpick !== "none") insertTextAtCursor(userpick);
+          });
+
+            function insertTextAtCursor(textToInsert) {
+              const textarea = document.getElementById('assemblyCode');
+              
+              // Focus on the textarea so the update is visible immediately
+              textarea.focus();
+
+              // Get the current cursor start and end positions
+              const startPos = textarea.selectionStart;
+              const endPos = textarea.selectionEnd;
+
+              // Replace the current range (or insert at cursor if startPos === endPos)
+              textarea.setRangeText(textToInsert, startPos, endPos, 'end');
+            }
+
+        init();
 
     </script>
 </body>

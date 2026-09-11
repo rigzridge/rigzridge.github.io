@@ -91,8 +91,8 @@ const OPCODES = {
     FDX:  0b101101, // flip/2 -> flip
     LCF:  0b110001, // LCD operation from flip
     INF:  0b110101, // bus -> flip
-    // :  0b111001, // 
-    CLR:  0b111101, // clear all registers
+    PUD:  0b111001, // push op to stack, SP--
+    CLA:  0b111101, // clear all registers
     // 
     //  : 0b000010, // boot 
     PXA:  0b000110, // [*0xff]+*op -> [*0xff], ie, add value at op's memory location to pointer location's value (@0xff).
@@ -104,29 +104,32 @@ const OPCODES = {
     JFO:  0b011110, // jump if flip odd
     AFF:  0b100010, // flip+A -> flip
     BFF:  0b100110, // flip+B -> flip
-    FMT:  0b101010, // flip*3 -> flip
-    FMV:  0b101110, // flip*5 -> flip
+    GMF:  0b101010, // flip -> (flip>>4 & op*)
+    GHF:  0b101110, // flip -> flip>>8 
     LFP:  0b110010, // LCD operation from *flip
-    // :  0b110110, // 
-    // :  0b111010, // 
-    // :  0b111110, //
+    POP:  0b110110, // pop (stack pointer)* to op*, SP++
+    PSH:  0b111010, // push op* to (stack pointer)*, SP--
+    CLR:  0b111110, // clear op*
     // 
     //  : 0b000011, // boot 
     PPA:  0b000111, // *0xff+*op -> *0xff, ie, add value at op's memory location to pointer's value (@0xff).
     PPS:  0b001011, // *0xff-*op -> *0xff
     FXO:  0b001111, // flip^*op -> flip
-    AIF:  0b010011, // increments A register, adds to flip register until ...
-    NGF:  0b010111, // !flip+1 -> flip
+    FTM:  0b010011, // flip -> op**
+    CON:  0b010111, // controller test against op*
     JFM:  0b011011, // jumps PC to op if !(flip&*op)+*op == 0xfff
     JFC:  0b011111, // jump if flip msb == 1
     SRI:  0b100011, // PC+1 -> *op
     SRO:  0b100111, // *op -> PC
-    FSS:  0b101011, // ???
-    FSX:  0b101111, // ???
-    // :  0b110011, // 
-    // :  0b110111, // 
-    // :  0b111011, // 
+    PEK:  0b101011, // (stack pointer)* -> op* "peek"
+    PKD:  0b101111, // (stack pointer)** -> op* "indirect peek"
+    POD:  0b110011, // pop (stack pointer)** to op*, SP++
+    CPO:  0b110111, // pop (stack pointer)* to PC, SP++
+    CPU:  0b111011, // push PC+1 to (stack pointer)*, SP--
     HLT:  0b111111, // halt
+
+    // AIF:  0b010011, // increments A register, adds to flip register until ...
+    // NGF:  0b010111, // !flip+1 -> flip
 };
 
 // EEPROM microcode
@@ -135,6 +138,7 @@ const OPCODES = {
 // SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, // Put memory value in instruction register and let PC count
 const MICROCODE = {
 
+    // 0000 00
     [OPCODES.BOOT]: [
         0,
         0,
@@ -154,6 +158,7 @@ const MICROCODE = {
         SIGNALS.romo | SIGNALS.iri
     ],
     
+    // 0001 00
     [OPCODES.ADD]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -163,6 +168,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
     
+    // 0010 00
     [OPCODES.AWC]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -172,6 +178,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0011 00
     [OPCODES.NAN]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -181,6 +188,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0100 00
     [OPCODES.FLP]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -192,6 +200,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0101 00
     [OPCODES.ROT]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -202,6 +211,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0110 00
     [OPCODES.INC]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -213,6 +223,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0111 00
     [OPCODES.JMP]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -221,6 +232,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1000 00
     [OPCODES.LDA]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -230,6 +242,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1001 00
     [OPCODES.LDB]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -239,6 +252,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1010 00
     [OPCODES.MXX]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -249,6 +263,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1011 00
     [OPCODES.DXX]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -261,6 +276,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1100 00
     [OPCODES.LCD]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -271,29 +287,125 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1101 00
     [OPCODES.INP]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
         // 
         SIGNALS.iro | SIGNALS.mari,
         SIGNALS.romi | SIGNALS.halt,
-        SIGNALS.halt,
+        // SIGNALS.halt,
         SIGNALS.irr  
     ],
 
+    // 1110 00
     [OPCODES.WRI]: [
         SIGNALS.mari | SIGNALS.ai | SIGNALS.halt,              
         SIGNALS.romi | SIGNALS.bi | SIGNALS.halt, 
         SIGNALS.irr  
     ],
 
+    // 1111 00
     [OPCODES.NOP]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
         SIGNALS.irr                              
     ],
 
+    // // 0010 01
+    // [OPCODES.SWP]: [
+    //     SIGNALS.pco | SIGNALS.mari,              
+    //     SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+    //     // 
+    //     SIGNALS.ai | SIGNALS.bi | SIGNALS.fi,
+    //     SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+    //     SIGNALS.romo | SIGNALS.mari,
+    //     SIGNALS.romo | SIGNALS.fi,
+    //     SIGNALS.iro | SIGNALS.mari,
+    //     SIGNALS.romo | SIGNALS.ai,
+    //     SIGNALS.fo | SIGNALS.fi,
+    //     SIGNALS.fo | SIGNALS.romi,
+    //     SIGNALS.fi,
+    //     SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+    //     SIGNALS.romo | SIGNALS.mari,
+    //     SIGNALS.sum | SIGNALS.romi,
+    //     SIGNALS.irr  
+    // ],
 
+    // 0010 01
+    [OPCODES.SWP]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.fi,
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.romi,
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.sum | SIGNALS.romi,
+    ],
+
+    // 0011 01
+    [OPCODES.FAN]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0100 01
+    [OPCODES.FAD]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.bi,
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.fi | SIGNALS.flag,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0101 01
+    [OPCODES.FSU]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.ci | SIGNALS.fi | SIGNALS.flag,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0110 01
+    [OPCODES.CWF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.bi,
+        SIGNALS.flag,
+        SIGNALS.irr  
+    ],
+
+    // 0111 01
     [OPCODES.JIN]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -306,6 +418,7 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1000 01
     [OPCODES.LDF]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -316,7 +429,122 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 1001 01
+    [OPCODES.SAF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.fo | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
 
+    // 1010 01
+    [OPCODES.FMX]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.fi |  SIGNALS.flag,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1011 01
+    [OPCODES.FDX]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.fi |  SIGNALS.flag,
+        SIGNALS.irr  
+    ],
+
+    // 1100 01 
+    [OPCODES.LCF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.bi,
+        SIGNALS.lcd | SIGNALS.bi,
+        SIGNALS.irr  
+    ],
+
+    // 1101 01 
+    [OPCODES.INF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fi | SIGNALS.halt,
+        // SIGNALS.halt,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1110 01 
+    [OPCODES.PUD]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.ai | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.romi,
+        SIGNALS.sum | SIGNALS.mari,
+        SIGNALS.iro | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
+    // 1111 01 
+    [OPCODES.CLA]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi | SIGNALS.fi, 
+    ],
+
+    // 0011 10
+    [OPCODES.FOR]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0100 10
+    [OPCODES.FIN]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ci | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0101 10
+    [OPCODES.FDE]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0110 10
     [OPCODES.CWB]: [
         SIGNALS.pco | SIGNALS.mari,              
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
@@ -333,10 +561,325 @@ const MICROCODE = {
         SIGNALS.irr  
     ],
 
+    // 0111 10 [01]
+    [OPCODES.JFO]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.flag,
+        SIGNALS.iro | SIGNALS.pci,
+        SIGNALS.irr  
+    ],
 
+    // 1000 10 
+    [OPCODES.AFF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1001 10 
+    [OPCODES.BFF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1010 10
+    [OPCODES.GMF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1011 10
+    [OPCODES.GHF]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 1100 10 
+    [OPCODES.LFP]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.bi,
+        SIGNALS.lcd | SIGNALS.bi,
+        SIGNALS.irr  
+    ],
+
+    // 1101 10 
+    [OPCODES.POP]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff*
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.iro | SIGNALS.mari,       
+        SIGNALS.sum | SIGNALS.romi, 
+        SIGNALS.ai,
+        SIGNALS.nand | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.ci,
+        SIGNALS.irr  
+    ],
+
+    // 1110 10 
+    [OPCODES.PSH]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.fi,  // 0xff*-- 
+        SIGNALS.iro | SIGNALS.mari,       
+        SIGNALS.romo | SIGNALS.ai,                // store op* in a-reg
+        SIGNALS.bi,
+        SIGNALS.fi | SIGNALS.fo,       
+        SIGNALS.fo | SIGNALS.mari,                
+        SIGNALS.sum | SIGNALS.romi,               // put op* in 0xff**
+        SIGNALS.irr  
+    ],
+
+    // 1111 10 
+    [OPCODES.CLR]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romi,
+        SIGNALS.irr, 
+    ],
+
+    // 0011 11
+    [OPCODES.FXO]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.fo | SIGNALS.ai,
+        SIGNALS.nand | SIGNALS.fi,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.nand | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.irr  
+    ],
+
+    // 0100 11
+    [OPCODES.FTM]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.fo | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
+    // // 0101 11
+    // [OPCODES.COF]: [
+    //     SIGNALS.pco | SIGNALS.mari,              
+    //     SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+    //     // 
+    //     SIGNALS.con | SIGNALS.fi,
+    //     SIGNALS.fo | SIGNALS.fi,
+    //     SIGNALS.iro | SIGNALS.mari,
+    //     SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+    //     SIGNALS.nand | SIGNALS.ai,
+    //     SIGNALS.fo | SIGNALS.bi,
+    //     SIGNALS.flag,
+    //     SIGNALS.irr  
+    // ],
+
+    // 0101 11
+    [OPCODES.CON]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.ai,
+        SIGNALS.con | SIGNALS.bi,
+        SIGNALS.flag,
+        SIGNALS.irr  
+    ],
+
+    // 0110 11 [11]
+    [OPCODES.JFM]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.fo | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.flag,
+        SIGNALS.iro | SIGNALS.pci,
+        SIGNALS.irr  
+    ],
+
+    // 0111 11 [01]
+    [OPCODES.JFC]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.flag,
+        SIGNALS.fo | SIGNALS.fi,
+        SIGNALS.iro | SIGNALS.pci,
+        SIGNALS.irr  
+    ],
+
+    // 1000 11 
+    [OPCODES.SRI]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.pco | SIGNALS.ai,
+        SIGNALS.bi,
+        SIGNALS.sum | SIGNALS.ci | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
+    // 1001 11 
+    [OPCODES.SRO]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.pci,
+        SIGNALS.irr  
+    ],
+
+    // 1010 11
+    [OPCODES.PEK]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff* 
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.iro | SIGNALS.mari,       
+        SIGNALS.sum | SIGNALS.romi, 
+        SIGNALS.irr  
+    ],
+
+    // 1011 11
+    [OPCODES.PKD]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff* 
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff** 
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.iro | SIGNALS.mari,       
+        SIGNALS.sum | SIGNALS.romi, 
+        SIGNALS.irr  
+    ],
+
+    [OPCODES.POD]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff*
+        SIGNALS.romo | SIGNALS.mari, // mar @ 0xff** 
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.iro | SIGNALS.mari,       
+        SIGNALS.sum | SIGNALS.romi, 
+        SIGNALS.ai,
+        SIGNALS.nand | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.ci,
+        SIGNALS.irr  
+    ],
+
+    // 1101 11 
+    [OPCODES.CPO]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.mari,              // mar @ 0xff
+        SIGNALS.romo | SIGNALS.mari | SIGNALS.ai, // mar @ 0xff*
+        SIGNALS.romo | SIGNALS.pci,   
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,       
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.ci,
+        SIGNALS.irr  
+    ],
+
+    // 1110 11 
+    [OPCODES.CPU]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi | SIGNALS.mari, // mar @ 0xff
+        SIGNALS.romo | SIGNALS.ai,                
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.fi,  // 0xff*--       
+        SIGNALS.pco | SIGNALS.ai,                 // store PC in a-reg
+        SIGNALS.iro | SIGNALS.bi,
+        SIGNALS.fi | SIGNALS.fo,       
+        SIGNALS.fo | SIGNALS.mari,                
+        SIGNALS.sum | SIGNALS.romi | SIGNALS.ci,  // put PC+1 in 0xff**
+        SIGNALS.irr  
+    ],
+
+    // 1111 11
     [OPCODES.HLT]: [
         SIGNALS.pco | SIGNALS.mari,             
         SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
         SIGNALS.halt, 
         SIGNALS.irr                            
     ],
