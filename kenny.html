@@ -327,7 +327,7 @@
 
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="turtle_loop">Loops</button>
-                    <button class="btn alt-btn" type="submit" value="langdons_ant">Langdon's ant</button>
+                    <button class="btn alt-btn" type="submit" value="langtons_ant">Langton's ant</button>
                 </div>
                 <h3 style="margin-top: 0;">Animations/automata</h3>
 
@@ -363,12 +363,12 @@
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="boot&#10;" 
                     data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
-                    <button class="btn alt-btn" type="submit" value="boot&#10;" 
+<!--                     <button class="btn alt-btn" type="submit" value="boot&#10;" 
                     data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
                     <button class="btn alt-btn" type="submit" value="boot&#10;"
                     data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
                     <button class="btn alt-btn" type="submit" value="boot&#10;"
-                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button>
+                    data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">BOOT</button> -->
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="add 0x[mem]&#10;"
@@ -558,6 +558,7 @@
         </div>
 
         <br>
+        <br>
 
         <h2>K.E.N.N.Y. Code Editor</h2>
         <!-- <h3>Need help? See <a href="https://rigzridge.github.io/assets/kennyguide3.pdf">here</a>!</h3> -->
@@ -587,7 +588,8 @@
             
             <div class="slider-box">
                 <label>Clock Delay: <span id="delay-lbl">200</span>ms</label>
-                <input type="range" id="speedSlider" min="0.0" max="2000" value="200" oninput="updateSpeed(this.value)">
+                <input type="range" id="speedSlider" min="1" max="1000" value="200" oninput="updateSpeed(this.value)">
+                <label>Clock Freq: <span id="freq-lbl">5</span>Hz x<span id="freq-mult-lbl">1</span>
             </div>
 
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px;">
@@ -733,8 +735,10 @@
         let state = { 
             pc: 0, mar: 0, ir: 0, mcc: 0, aReg: 0, bReg: 0, outReg: 0,
             adderVal: 0, nandVal: 0, flipVal: 0, flags: 8, jcond: 0, microstep: 0, 
-            running: false, intervalId: null 
+            running: false
         };
+
+        let intervalId = [];
 
         let bus = 0;
         let cword = 0b0000000000000000;
@@ -743,6 +747,8 @@
         let showLEDs = true;
         let gameMode = false;
         let showBigLCD = false;
+
+        let getFreq = false;
 
         const DECODER_LABELS = [
             "mari", "iri", "romi", "pci",
@@ -813,10 +819,12 @@
         
         function updateSpeed(ms) {
             clockDelay = parseInt(ms);
-            document.getElementById('delay-lbl').innerText = clockDelay/2;
+            document.getElementById('delay-lbl').innerText = clockDelay;
+            document.getElementById('freq-lbl').innerText = (1000/clockDelay).toString(10).slice(0,4);
             if (state.running) {
-                clearInterval(state.intervalId);
-                state.intervalId = setInterval(clockStep, clockDelay/2);
+                clearAllIntervals();
+                let newInterval = setInterval(clockStep, clockDelay); 
+                intervalId.push(newInterval);
             }
         }
 
@@ -916,6 +924,9 @@
         }
 
         function clockStep(run=1) {
+
+            let endT, startT;
+            if (getFreq) startT = performance.now();
 
             // High side of pulse... latch registers and let ripple
             if (state.microstep%2 === 0) {
@@ -1100,20 +1111,47 @@
             // Increment half step
             state.microstep++;
 
+            if (getFreq) {
+                endT = performance.now();
+                let dt = endT - startT;
+                console.log(`Execution time: ${dt} ms`);
+                alert(1000/dt)
+                getFreq = false;
+            }
+
             // If user clicks "Step" we still need to do the back half
             if (run===2) setTimeout(function() {clockStep();}, clockDelay);
 
+
+        }
+
+        function clearAllIntervals() {
+            for (let i=0; i<intervalId.length; ++i) clearInterval(intervalId[i]); 
+            intervalId = [];
+            document.getElementById('freq-mult-lbl').innerText = 1;
+            console.log('Running interval IDs: ',intervalId)
+        }
+
+        function addInterval() {
+            let newInterval = setInterval(clockStep, clockDelay); 
+            intervalId.push(newInterval);
+            document.getElementById('freq-mult-lbl').innerText = intervalId.length;
+            console.log('Running interval IDs: ',intervalId)
         }
 
         function toggleRun(halt = false) {
             if (state.running || halt) { 
-                clearInterval(state.intervalId); 
+                // clearInterval(state.intervalId); 
+                clearAllIntervals()
                 state.running = false; 
                 document.getElementById('status-mode').innerText = "PAUSED"; }
             else { 
                 state.running = true; 
                 document.getElementById('status-mode').innerText = "RUNNING"; 
-                state.intervalId = setInterval(clockStep, clockDelay); }
+                let newInterval = setInterval(clockStep, clockDelay); 
+                intervalId.push(newInterval); 
+            }
+            console.log('Running interval IDs: ',intervalId)
         }
 
         function assembleCode() {
@@ -1345,7 +1383,7 @@
         window.addEventListener('keydown', function(event) {
             if (event.ctrlKey && event.key === 'ArrowRight') {
                 clockDelay *= 1.2;
-                clockDelay = (clockDelay>2000) ? 2000 : clockDelay;
+                clockDelay = (clockDelay>1000) ? 1000 : clockDelay;
                 document.getElementById("speedSlider").value = clockDelay;
                 updateSpeed(clockDelay);
                 event.preventDefault(); // Stop the page from scrolling
@@ -1378,6 +1416,9 @@
             } else if (event.ctrlKey && event.key === 'r') { 
                 state.ir = 0;
                 event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'q') { 
+                addInterval()
+                event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 's') { 
                 saveCode(hex=false);
                 event.preventDefault(); 
@@ -1394,6 +1435,9 @@
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'l') { 
                 showLEDs = !showLEDs;
+                event.preventDefault(); 
+            } else if (event.ctrlKey && event.key === 'y') { 
+                getFreq = true;
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'k') { 
                 let stackStart = 0xFF;

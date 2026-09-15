@@ -18,6 +18,10 @@
   <link href='https://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+
+    <script src="https://visrealm.github.io/vrEmuLcd/src/vrEmuLcd.js"></script>
+    <script src="https://visrealm.github.io/vrEmuLcd/bin/vrEmuLcdWasm.js"></script>
+    <canvas id="lcd"></canvas>
 </head>
 
 <!-- Navigation -->
@@ -38,6 +42,8 @@
                   <li><a href="index.html">Home</a></li>
                   <li><a href="research.html">Research</a></li>
                   <li><a href="projects.html">Projects</a></li>
+                  <li><a href="kenny.html">K.E.N.N.Y. Emulator</a></li>
+                  <li><a href="phase_space_synth.html">Phase Space Synth</a></li>
                   <li><a href="canvas.html">Sprite Creator</a></li>
                   <li><a href="assets/GRiggs_CV_postdoc_2026.pdf" target="_blank">CV</a></li> 
           </ul>
@@ -46,6 +52,24 @@
     </nav>
 
 <body>
+<!--     <script>
+        var canv = document.getElementById('lcd');
+        var ctx = canv.getContext('2d');
+
+        vrEmuLcd.setLoadedCallback(function () {
+
+          // create a new LCD object
+          var lcd = vrEmuLcd.newLCD(16, 2, vrEmuLcd.CharacterRom.Eurpoean);
+
+          // set up the display
+          lcd.sendCommand(LCD_CMD_DISPLAY | LCD_CMD_DISPLAY_ON);
+
+          lcd.writeString("Fuck a duck!");
+
+          lcd.render(ctx, 0, 0, 300, 200);
+        });
+    </script> -->
+
     <div class="container" style="font-family: 'Montserrat', sans-serif;">
          
         <div class = "col">
@@ -238,6 +262,10 @@
                         event.preventDefault();
                         // Call your function or trigger a button click
                         document.getElementById("submit").click();
+                        
+                        lcd.writeString("Hello, World!");
+                        lcd.render(ctx, 0, 0, 200, 200);
+
                       }
                     });
 
