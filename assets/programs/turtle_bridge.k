@@ -130,8 +130,8 @@ cwb $turt1
 jmp 0x2 .turt1
 cwb $turt2
 jmp 0x2 .turt2
-cwb $turt2
-jmp 0x2 .turt2
+cwb $turt3
+jmp 0x2 .turt3
 jmp .check
 
 .turt1
