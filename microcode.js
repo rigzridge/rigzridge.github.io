@@ -505,6 +505,39 @@ const MICROCODE = {
         SIGNALS.ai | SIGNALS.bi | SIGNALS.fi, 
     ],
 
+    // 0001 10
+    [OPCODES.PXA]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.bi,
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
+    // 0010 10
+    [OPCODES.PXS]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.ci | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
     // 0011 10
     [OPCODES.FOR]: [
         SIGNALS.pco | SIGNALS.mari,              
@@ -686,6 +719,37 @@ const MICROCODE = {
         SIGNALS.iro | SIGNALS.mari,
         SIGNALS.romi,
         SIGNALS.irr, 
+    ],
+
+    // 0001 11
+    [OPCODES.PPA]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.bi,
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.romi,
+        SIGNALS.irr  
+    ],
+
+    // 0010 11
+    [OPCODES.PPS]: [
+        SIGNALS.pco | SIGNALS.mari,              
+        SIGNALS.romo | SIGNALS.iri | SIGNALS.ce, 
+        // 
+        SIGNALS.iro | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai | SIGNALS.bi,
+        SIGNALS.nand | SIGNALS.bi,
+        SIGNALS.fi,
+        SIGNALS.fo | SIGNALS.inv | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.mari,
+        SIGNALS.romo | SIGNALS.ai,
+        SIGNALS.sum | SIGNALS.ci | SIGNALS.romi,
+        SIGNALS.irr  
     ],
 
     // 0011 11
