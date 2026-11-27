@@ -354,7 +354,7 @@
                 <button class="btn alt-btn" type="submit" value="none" style="color: #f00"
                 data-title="Return">Cancel</button>
                 <button class="btn alt-btn" type="submit" value="mem 0x[mem] 0x[data]&#10;"
-                data-title="BOOT&#10;- - - - - &#10;Boots K.E.N.N.Y.&#10;">MEM</button>
+                data-title="MEM 0x[mem] 0x[data]&#10;- - - - - &#10;Save 0x[data] to 0x[mem]*.&#10;">MEM</button>
                 </div>
 <!--                 <button class="btn alt-btn" type="submit" value="jmp 0x[cond] 0x[line]">
                   JMP
@@ -382,150 +382,150 @@
                     data-title="ADD 0x[mem]&#10;- - - - - &#10;Saves sum of A and B registers to 0x[mem].&#10;Changes: flags&#10;">ADD</button>
                     <button class="btn alt-btn" type="submit" value="svp 0x[pointer]"
                     data-title="SVP 0x[pointer]&#10;- - - - - &#10;Saves 0x[pointer] at stack pointer (0xff)*.&#10;Changes: flip&#10;">SVP</button>
-                    <button class="btn alt-btn" type="submit" value="pxa"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PXA</button>
-                    <button class="btn alt-btn" type="submit" value="ppa"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PPA</button>
+                    <button class="btn alt-btn" type="submit" value="pxa 0x[mem]"
+                    data-title="PXA 0x[mem]&#10;- - - - - &#10;Add 0x[mem]* to data at SP**.&#10;Changes: a, b, flip&#10;">PXA</button>
+                    <button class="btn alt-btn" type="submit" value="ppa 0x[mem]"
+                    data-title="PPA 0x[mem]&#10;- - - - - &#10;Add 0x[mem]* to data at SP*.&#10;Changes: a, b, flip&#10;">PPA</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="awc 0x[mem]&#10;"
                     data-title="AWC 0x[mem]&#10;- - - - - &#10;Saves (A + B + 1) to 0x[mem].&#10;Changes: flags&#10;">AWC</button>
                     <button class="btn alt-btn" type="submit" value="swp 0x[mem]"
-                    data-title="SWP 0x[mem]&#10;- - - - - &#10;Swaps value at 0x[mem] with value at stackpointer, ie, (0xff)**.&#10;">SWP</button>
-                    <button class="btn alt-btn" type="submit" value="pxs&#10;"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PXS</button>
-                    <button class="btn alt-btn" type="submit" value="pps"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PPS</button>
+                    data-title="SWP 0x[mem]&#10;- - - - - &#10;Swaps value at 0x[mem] with value at SP**.&#10;Changes: a, b, flip&#10;">SWP</button>
+                    <button class="btn alt-btn" type="submit" value="pxs 0x[mem]&#10;"
+                    data-title="PXS 0x[mem]&#10;- - - - - &#10;Subtracts 0x[mem]* from data at SP**.&#10;Changes: a, b, flip&#10;">PXS</button>
+                    <button class="btn alt-btn" type="submit" value="pps 0x[mem]"
+                    data-title="PPS 0x[mem]&#10;- - - - - &#10;Subtracts 0x[mem]* from data at SP*.&#10;Changes: a, b, flip&#10;">PPS</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="nan 0x[mem]&#10;"
                     data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;Changes: flags&#10;">NAN</button>
-                    <button class="btn alt-btn" type="submit" value="fan"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FAN</button>
-                    <button class="btn alt-btn" type="submit" value="for"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FOR</button>
-                    <button class="btn alt-btn" type="submit" value="fxo"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FXO</button>
+                    <button class="btn alt-btn" type="submit" value="fan 0x[mem]"
+                    data-title="FAN 0x[mem]&#10;- - - - - &#10;And flip w/ 0x[mem]* (F&=0x[mem]*).&#10;Changes: a, b, flip&#10;">FAN</button>
+                    <button class="btn alt-btn" type="submit" value="for 0x[mem]"
+                    data-title="FOR 0x[mem]&#10;- - - - - &#10;Or flip w/ 0x[mem]* (F|=0x[mem]*).&#10;Changes: a, b, flip&#10;">FOR</button>
+                    <button class="btn alt-btn" type="submit" value="fxo 0x[mem]"
+                    data-title="FXO 0x[mem]&#10;- - - - - &#10;Xor flip w/ 0x[mem]* (F^=0x[mem]*).&#10;Changes: a, b, flip&#10;">FXO</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="flp 0x[mem]&#10;"
                     data-title="FLP 0x[mem]&#10;- - - - - &#10;Invert bits at 0x[mem].&#10;Changes: flip, flags&#10;">FLP</button>
-                    <button class="btn alt-btn" type="submit" value="fad"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FAD</button>
+                    <button class="btn alt-btn" type="submit" value="fad 0x[mem]"
+                    data-title="FAD 0x[mem]&#10;- - - - - &#10;Add 0x[mem]* to flip (F+=0x[mem]*).&#10;Changes: a, b, flip, flags&#10;">FAD</button>
                     <button class="btn alt-btn" type="submit" value="fin"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FIN</button>
-                    <button class="btn alt-btn" type="submit" value="ftm"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FTM</button>
+                    data-title="FIN &#10;- - - - - &#10;Increment flip (F++).&#10;Changes: a, b, flip&#10;">FIN</button>
+                    <button class="btn alt-btn" type="submit" value="ftm 0x[mem]"
+                    data-title="FTM 0x[mem]&#10;- - - - - &#10;Saves flip to 0x[mem]*.&#10;">FTM</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="rot 0x[mem]&#10;"
                     data-title="ROT 0x[mem]&#10;- - - - - &#10;Reverses bits at 0x[mem].&#10;Changes: flip, flags&#10;">ROT</button>
-                    <button class="btn alt-btn" type="submit" value="fsu"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FSU</button>
+                    <button class="btn alt-btn" type="submit" value="fsu 0x[mem]"
+                    data-title="FSU 0x[mem]&#10;- - - - - &#10;Subtract 0x[mem]* from flip (F-=0x[mem]*).&#10;Changes: a, b, flip, flags&#10;">FSU</button>
                     <button class="btn alt-btn" type="submit" value="fde"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FDE</button>
-                    <button class="btn alt-btn" type="submit" value="fmt"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FMT</button>
+                    data-title="FDE &#10;- - - - - &#10;Decrement flip (F--).&#10;Changes: a, b, flip&#10;">FDE</button>
+                    <button class="btn alt-btn" type="submit" value="con 0x[mem]"
+                    data-title="CON 0x[mem]&#10;- - - - - &#10;Compare 0x[mem]* w/ controller [input].&#10;[input]==0x[mem]*==0: no input&#10;[input]==0x[mem]*==1: right&#10;[input]==0x[mem]*==2: left&#10;[input]==0x[mem]*==3: both/down&#10;Changes: a, b, flags&#10;">CON</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="inc 0x[mem]&#10;"
                     data-title="INC 0x[mem]&#10;- - - - - &#10;Increments value at 0x[mem].&#10;Changes: a, b&#10;">INC</button>
-                    <button class="btn alt-btn" type="submit" value="cwf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CWF</button>
-                    <button class="btn alt-btn" type="submit" value="cwb"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CWB</button>
-                    <button class="btn alt-btn" type="submit" value="jfm"
-                    data-title="JMP 0x[cond] 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if [cond] is satisfied.&#10;[cond]==0: unconditional&#10;[cond]==1: odd&#10;[cond]==2: carry out&#10;[cond]==3: sum == 0xfff&#10;">JFM</button>
+                    <button class="btn alt-btn" type="submit" value="cwf 0x[mem]"
+                    data-title="CWF 0x[mem]&#10;- - - - - &#10;Compare 0x[mem]* with flip.&#10;Sets the following flags...&#10;0x[mem]*<flip: no flag&#10;0x[mem]*>flip: carry out&#10;0x[mem]*==flip: sum == 0xfff&#10;Changes: a, b, flags&#10;">CWF</button>
+                    <button class="btn alt-btn" type="submit" value="cwb 0x[mem]"
+                    data-title="CWB 0x[mem]&#10;- - - - - &#10;Compare 0x[mem]* with B reg.&#10;Sets the following flags...&#10;0x[mem]*<B: no flag&#10;0x[mem]*>B: carry out&#10;0x[mem]*==B: sum == 0xfff&#10;Changes: a, flags&#10;">CWB</button>
+                    <button class="btn alt-btn" type="submit" value="jfm 0x3 0x[mem]"
+                    data-title="JFM 0x3 0x[mem]&#10;- - - - - &#10;Jumps PC to 0x[mem] if (flip&0x[mem]*).&#10;(Useful to check a single bit in flip register.)&#10;Note that PC receives lowest 6 bits of 0x[mem]!&#10;Looping example: &#10;mem 0x82 0x040&#10;nop&#10;ldf 0x82&#10;jfm 0x3 0x82&#10;hlt&#10;Changes: a, b, flags&#10;">JFM</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="jmp 0x[cond] 0x[line]&#10;"
                     data-title="JMP 0x[cond] 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if [cond] is satisfied.&#10;[cond]==0: unconditional&#10;[cond]==1: odd&#10;[cond]==2: carry out&#10;[cond]==3: sum == 0xfff&#10;">JMP</button>
-                    <button class="btn alt-btn" type="submit" value="jin"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JIN</button>
-                    <button class="btn alt-btn" type="submit" value="jfo"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JFO</button>
-                    <button class="btn alt-btn" type="submit" value="jfc"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">JFC</button>
+                    <button class="btn alt-btn" type="submit" value="jin 0x1 0x[line]"
+                    data-title="JIN 0x[input] 0x[mem]&#10;- - - - - &#10;Jump PC to 0x[line] if controller [input].&#10;[input]==0: unconditional&#10;[input]==1: left&#10;[input]==2: right&#10;Changes: a, b, flags&#10;">JIN</button>
+                    <button class="btn alt-btn" type="submit" value="jfo 0x1 0x[line]"
+                    data-title="JFO 0x1 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if LOW bit of flip == 1.&#10;Changes: flags&#10;">JFO</button>
+                    <button class="btn alt-btn" type="submit" value="jfc 0x1 0x[line]"
+                    data-title="JFC 0x1 0x[line]&#10;- - - - - &#10;Jump PC to 0x[line] if HIGH bit of flip == 1.&#10;Changes: flags&#10;">JFC</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="lda 0x[mem]&#10;"
                     data-title="LDA 0x[mem]&#10;- - - - - &#10;Loads data at 0x[mem] into A register.&#10;Changes: a&#10;">LDA</button>
-                    <button class="btn alt-btn" type="submit" value="ldf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LDF</button>
+                    <button class="btn alt-btn" type="submit" value="ldf 0x[mem]"
+                    data-title="LDF 0x[mem]&#10;- - - - - &#10;Loads data at 0x[mem] into flip register.&#10;Changes: flip&#10;">LDF</button>
                     <button class="btn alt-btn" type="submit" value="aff"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">AFF</button>
-                    <button class="btn alt-btn" type="submit" value="sri"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SRI</button>
+                    data-title="AFF &#10;- - - - - &#10;Add A reg to flip (F+=A).&#10;Changes: b, flip&#10;">AFF</button>
+                    <button class="btn alt-btn" type="submit" value="sri 0x[mem]"
+                    data-title="SRI 0x[mem]&#10;- - - - - &#10;Sets value 0x[mem]* to PC + 1 (for subroutine calls).&#10;Changes: a, b&#10;">SRI</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="ldb 0x[mem]&#10;"
                     data-title="LDB 0x[mem]&#10;- - - - - &#10;Loads data at 0x[mem] into B register.&#10;Changes: b&#10;">LDB</button>
-                    <button class="btn alt-btn" type="submit" value="saf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SAF</button>
+                    <button class="btn alt-btn" type="submit" value="saf 0x[mem]"
+                    data-title="SAF 0x[mem]&#10;- - - - - &#10;Saves flip to 0x[mem]*.&#10;">SAF</button>
                     <button class="btn alt-btn" type="submit" value="bff"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">BFF</button>
-                    <button class="btn alt-btn" type="submit" value="sro"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">SRO</button>
+                    data-title="BFF &#10;- - - - - &#10;Add B reg to flip (F+=B).&#10;Changes: a, flip&#10;&#10;">BFF</button>
+                    <button class="btn alt-btn" type="submit" value="sro 0x[mem]"
+                    data-title="SRO 0x[mem]&#10;- - - - - &#10;Sets PC to 0x[mem]* (for subroutine return).&#10;">SRO</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="mxx 0x[mem]&#10;"
                     data-title="MXX 0x[mem]&#10;- - - - - &#10;Multiplies 0x[mem]* by 2.&#10;Changes: a, b, flip, flags&#10;">MXX</button>
                     <button class="btn alt-btn" type="submit" value="fmx"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FMX</button>
-                    <button class="btn alt-btn" type="submit" value="gmf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">GMF</button>
-                    <button class="btn alt-btn" type="submit" value="pek"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PEK</button>
+                    data-title="FMX &#10;- - - - - &#10;Multiplies flip by 2 (F*=2).&#10;Changes: a, b, flip, flags&#10;">FMX</button>
+                    <button class="btn alt-btn" type="submit" value="gmf 0x[mask]"
+                    data-title="GMF 0x[mask]&#10;- - - - - &#10;Shift flip right by 4 and mask w/ 0x[mask]* (F=(F>>4)&0x[mask]*).&#10;(Extracts middle byte of flip.)&#10;Changes: a, b, flip&#10;">GMF</button>
+                    <button class="btn alt-btn" type="submit" value="pek 0x[mem]"
+                    data-title="PEK 0x[mem]&#10;- - - - - &#10;Save SP* to 0x[mem]*, ie, peek at stack.&#10;Changes: a, b&#10;">PEK</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="dxx 0x[mem]&#10;"
                     data-title="DXX 0x[mem]&#10;- - - - - &#10;Divides 0x[mem]* by 2.&#10;Changes: a, b, flip, flags&#10;">DXX</button>
                     <button class="btn alt-btn" type="submit" value="fdx"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">FDX</button>
+                    data-title="FDX &#10;- - - - - &#10;Divides flip by 2 (F/=2).&#10;Changes: a, b, flip, flags&#10;&#10;">FDX</button>
                     <button class="btn alt-btn" type="submit" value="ghf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">GHF</button>
-                    <button class="btn alt-btn" type="submit" value="pek"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PKM</button>
+                    data-title="GHF &#10;- - - - - &#10;Shift flip right by 8 (F>>=8).&#10;(Extracts high byte of flip.)&#10;Changes: a, b, flip&#10;">GHF</button>
+                    <button class="btn alt-btn" type="submit" value="pkd 0x[mem]"
+                    data-title="PKD 0x[mem]&#10;- - - - - &#10;Save SP** to 0x[mem]*, ie, peek at stack*.&#10;Changes: a, b&#10;">PKD</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="lcd 0x[type] 0x[op]&#10;"
                     data-title="LCD 0x[type] 0x[op]&#10;- - - - - &#10;Perform operation on LCD display; data (if read) sent to B register.&#10;[type]==0: instruction&#10;[type]==1: read address&#10;[type]==2: character&#10;[type]==3: read data @ address&#10;Changes: a, b&#10;">LCD</button>
                     <button class="btn alt-btn" type="submit" value="lcf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LCF</button>
+                    data-title="LCF &#10;- - - - - &#10;Use flip value as LCD op.&#10;Changes: a, b&#10;">LCF</button>
                     <button class="btn alt-btn" type="submit" value="lfp"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">LFP</button>
-                    <button class="btn alt-btn" type="submit" value="pod"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">POD</button>
+                    data-title="LFP &#10;- - - - - &#10;Use flip value as pointer to address for LCD op.&#10;Changes: a, b&#10;">LFP</button>
+                    <button class="btn alt-btn" type="submit" value="pod 0x[mem]"
+                    data-title="POD 0x[mem]&#10;- - - - - &#10;Save SP** to 0x[mem]*, ie, pop stack*.&#10;Changes: a, b&#10;">POD</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="inp"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">INP</button>
+                    data-title="INP 0x[mem]&#10;- - - - - &#10;Save bus value to 0x[mem].&#10;">INP</button>
                     <button class="btn alt-btn" type="submit" value="inf"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">INF</button>
-                    <button class="btn alt-btn" type="submit" value="pop"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">POP</button>
+                    data-title="INF &#10;- - - - - &#10;Save bus value to flip.&#10;">INF</button>
+                    <button class="btn alt-btn" type="submit" value="pop 0x[mem]"
+                    data-title="POP 0x[mem]&#10;- - - - - &#10;Save SP* to 0x[mem]*, ie, pop stack.&#10;Changes: a, b&#10;">POP</button>
                     <button class="btn alt-btn" type="submit" value="cpo"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CPO</button>
+                    data-title="CPO&#10;- - - - - &#10;Save SP* to PC, ie, pop stack to counter.&#10;Changes: a, b, flip&#10;">CPO</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="wri"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">WRI</button>
-                    <button class="btn alt-btn" type="submit" value="pud"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PUD</button>
-                    <button class="btn alt-btn" type="submit" value="psh"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">PSH</button>
-                    <button class="btn alt-btn" type="submit" value="cpu"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CPU</button>
+                    data-title="WRI &#10;- - - - - &#10;Write data to memory.&#10;WARNING!!! This operation has NO FETCH CYCLE, the instruction register must be reset to move forward!&#10;Workflow proceeds as follows:&#10;1 -- Input bus to memory address&#10;2 -- Input bus to memory&#10;3 -- Repeat!&#10;">WRI</button>
+                    <button class="btn alt-btn" type="submit" value="pud 0x[data]"
+                    data-title="PUD 0x[data]&#10;- - - - - &#10;Save 0x[data] to SP*, ie, push to stack.&#10;Changes: a, b&#10;">PUD</button>
+                    <button class="btn alt-btn" type="submit" value="psh 0x[mem]"
+                    data-title="PSH 0x[mem]&#10;- - - - - &#10;Save 0x[mem]* to SP*, ie, push to stack.&#10;Changes: a, b, flip&#10;">PSH</button>
+                    <button class="btn alt-btn" type="submit" value="cpu 0x[jump]"
+                    data-title="CPU 0x[jump]&#10;- - - - - &#10;Save (PC + 1 + 0x[jump]) to SP*, ie, push counter to stack.&#10;Changes: a, b, flip&#10;">CPU</button>
                 </div>
                 <div class="button-row">
                     <button class="btn alt-btn" type="submit" value="nop"
-                    data-title="NOP&#10;- - - - - &#10;No operation&#10;">NOP</button>
+                    data-title="NOP &#10;- - - - - &#10;No operation&#10;">NOP</button>
                     <button class="btn alt-btn" type="submit" value="cla"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CLA</button>
-                    <button class="btn alt-btn" type="submit" value="clr"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">CLR</button>
+                    data-title="CLA &#10;- - - - - &#10;Clear A, B, and flip registers.&#10;">CLA</button>
+                    <button class="btn alt-btn" type="submit" value="clr 0x[mem]"
+                    data-title="CLR 0x[mem]&#10;- - - - - &#10;Set 0x[mem]* to zero.&#10;">CLR</button>
                     <button class="btn alt-btn" type="submit" value="hlt"
-                    data-title="NAN 0x[mem]&#10;- - - - - &#10;Saves !(A & B) to 0x[mem].&#10;">HLT</button>
+                    data-title="HLT &#10;- - - - - &#10;Halt execution.&#10;">HLT</button>
                 </div>
                 <div class="button-row"> 
                 <button class="btn alt-btn" type="submit" value="none" style="color: #f00"
@@ -1463,7 +1463,8 @@
                 document.getElementById("game-mode").innerText = gameStr;
                 event.preventDefault(); 
             } else if (event.ctrlKey && event.key === 'h') { 
-                alert("See https://rigzridge.github.io/assets/kennyguide3.pdf"); 
+                // alert("See https://rigzridge.github.io/assets/kennyguide3.pdf");
+                alert("See https://rigzridge.github.io/assets/kennyguide_v2026.pdf"); 
                 event.preventDefault(); 
             } else {
                 return; // Ignore all other keys
@@ -1481,7 +1482,8 @@
 
         function goToDocs() {
             link = document.createElement('a');
-            link.href = "https://rigzridge.github.io/assets/kennyguide3.pdf";
+            // link.href = "https://rigzridge.github.io/assets/kennyguide3.pdf";
+            link.href = "https://rigzridge.github.io/assets/kennyguide_v2026.pdf";
             link.target = "_blank";
 
             document.body.appendChild(link);
